@@ -39,6 +39,7 @@ namespace VisualNunitRunner
             StringBuilder builder = new StringBuilder();
             new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
             Console.WriteLine(builder.ToString());
+            System.Environment.Exit(0);
         }
 
         public void TestOutput(TestOutput testOutput)

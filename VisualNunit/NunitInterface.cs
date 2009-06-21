@@ -69,7 +69,6 @@ namespace BubbleCloudorg.VisualNunit
                 startInfo.Arguments = "run " + fileName;
                 startInfo.RedirectStandardInput = true;
                 startInfo.RedirectStandardOutput = true;
-                startInfo.RedirectStandardError = true;
                 startInfo.UseShellExecute = false;
                 startInfo.CreateNoWindow = true;
                 System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
@@ -87,7 +86,9 @@ namespace BubbleCloudorg.VisualNunit
                 }
 
                 process.StandardInput.WriteLine(testInformation.TestName);
+                string line = null;
 
+                //char[] buffer = new char[1024];
                 while (!process.HasExited)
                 {
                     bool isDebugged = false;
@@ -105,20 +106,46 @@ namespace BubbleCloudorg.VisualNunit
                         testInformation.Time = "";
                         return;
                     }
-                    System.Threading.Thread.Sleep(100);
-                }
 
-                string line = "";
-                while ((line = process.StandardOutput.ReadLine()) != null)
-                {
-                    if (line == "end-of-test-output")
+
+                    /*int readCount=process.StandardOutput.Read(buffer, 0, buffer.Length);
+                    line = new string(buffer, 0, readCount);
+                    if (line.Length != 0)
                     {
-                        break;
+                        if (line == "end-of-test-output")
+                        {
+                            break;
+                        }
+                        Console.WriteLine(line);
+                    }*/
+
+                    if (!process.StandardOutput.EndOfStream && line != "end-of-test-output")
+                    {
+                        line = process.StandardOutput.ReadLine();
+                        if (line != null)
+                        {
+                            if (line != "end-of-test-output")
+                            {
+                                Console.WriteLine(line);
+                            }
+                        }
                     }
-                    Console.WriteLine(line);
+
+                    System.Threading.Thread.Sleep(1);
                 }
 
-                string errors = process.StandardError.ReadToEnd();
+                if (line != "end-of-test-output")
+                {
+                    while ((line = process.StandardOutput.ReadLine()) != null)
+                    {
+                        if (line == "end-of-test-output")
+                        {
+                            break;
+                        }
+                        Console.WriteLine(line);
+                    }
+                }
+
                 string output = process.StandardOutput.ReadToEnd();
                 XmlDocument result = new XmlDocument();
                 result.LoadXml(output);
