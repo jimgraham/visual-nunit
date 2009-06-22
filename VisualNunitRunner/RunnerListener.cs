@@ -35,7 +35,7 @@ namespace VisualNunitRunner
 
         public void TestFinished(TestResult result)
         {
-            Console.WriteLine("end-of-test-output");
+            Console.WriteLine("beginning-of-test-result-xml");
             StringBuilder builder = new StringBuilder();
             new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
             Console.WriteLine(builder.ToString());

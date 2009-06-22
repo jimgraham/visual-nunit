@@ -13,37 +13,47 @@ namespace BubbleCloudorg.VisualNunit
 {
     public static class NunitManager
     {
+
+        /// <summary>
+        /// Synchronously lists test case full names from an assembly with separate NunitRunner process.
+        /// </summary>
+        /// <param name="assemblyPath">Path to assembly to list test cases from.</param>
+        /// <returns></returns>
         public static IList<string> ListTestCases(string assemblyPath)
         {
             try
             {
+                // Parse the directory and file information from path.
                 string directory = Path.GetDirectoryName(assemblyPath).ToString();
                 string fileName = Path.GetFileName(assemblyPath);
+
+                // Starting a new NunitRunner process.
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
                 startInfo.WorkingDirectory = directory;
                 startInfo.Arguments = "list " + fileName;
                 startInfo.RedirectStandardOutput = true;
                 startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;
-                
+                startInfo.CreateNoWindow = true;                
                 System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
 
+                // Read the test case names from project output while process is running.
                 IList<string> testCases = new List<string>();
                 string line = null;
-
                 while (!process.HasExited)
                 {
-                    line = process.StandardOutput.ReadLine();
-                    if (line != null)
+                    if (!process.StandardOutput.EndOfStream)
                     {
+                        line = process.StandardOutput.ReadLine();
                         testCases.Add(line);
                     }
-                    System.Threading.Thread.Sleep(1);
+                    System.Threading.Thread.Sleep(10);
                 }
 
-                while ((line = process.StandardOutput.ReadLine()) != null)
+                // Read rest of the test cases from the standard output.
+                while(!process.StandardOutput.EndOfStream)
                 {
+                    line = process.StandardOutput.ReadLine();
                     testCases.Add(line);
                 }
 
@@ -56,13 +66,20 @@ namespace BubbleCloudorg.VisualNunit
             }
         }
 
+        /// <summary>
+        /// Runs a single test case in separate NunitRunner process synchronously.
+        /// </summary>
+        /// <param name="testInformation">Information identifying the test case and containing place holders for result information.</param>
         public static void RunTestCase(TestInformation testInformation)
         {
 
             try
             {
+                // Parse the directory and file information from path.
                 string directory = Path.GetDirectoryName(testInformation.AssemblyPath).ToString();
                 string fileName = Path.GetFileName(testInformation.AssemblyPath);
+
+                // Starting a new NunitRunner process.
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
                 startInfo.WorkingDirectory = directory;
@@ -73,8 +90,8 @@ namespace BubbleCloudorg.VisualNunit
                 startInfo.CreateNoWindow = true;
                 System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
 
+                // Binding the NunitRunner process to debugger.
                 DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-
                 foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
                 {
                     if (localProcess.ProcessID == process.Id)
@@ -85,21 +102,25 @@ namespace BubbleCloudorg.VisualNunit
                     }
                 }
 
+                // Requesting the NunitRunner process to start executing the test.
                 process.StandardInput.WriteLine(testInformation.TestName);
-                string line = null;
 
-                //char[] buffer = new char[1024];
+                // Monitoring for debug stop and reading standard output as long as 
+                // the NunitRunner process is alive.
+                string line = null;
+                string resultXmlString = "";
+                bool resultXmlStarted = false;
                 while (!process.HasExited)
                 {
-                    bool isDebugged = false;
+                    bool isProcessStillDebugged = false;
                     foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
                     {
                         if (localProcess.ProcessID == process.Id)
                         {
-                            isDebugged = true;
+                            isProcessStillDebugged = true;
                         }
                     }
-                    if (!isDebugged)
+                    if (!isProcessStillDebugged)
                     {
                         process.Kill();
                         testInformation.Success = "Aborted";
@@ -107,50 +128,56 @@ namespace BubbleCloudorg.VisualNunit
                         return;
                     }
 
-
-                    /*int readCount=process.StandardOutput.Read(buffer, 0, buffer.Length);
-                    line = new string(buffer, 0, readCount);
-                    if (line.Length != 0)
-                    {
-                        if (line == "end-of-test-output")
-                        {
-                            break;
-                        }
-                        Console.WriteLine(line);
-                    }*/
-
-                    if (!process.StandardOutput.EndOfStream && line != "end-of-test-output")
+                    if (!process.StandardOutput.EndOfStream)
                     {
                         line = process.StandardOutput.ReadLine();
-                        if (line != null)
+                        if (line == "beginning-of-test-result-xml")
                         {
-                            if (line != "end-of-test-output")
+                            resultXmlStarted = true;
+                        }
+                        else
+                        {
+                            if (!resultXmlStarted)
                             {
                                 Console.WriteLine(line);
+                            }
+                            else
+                            {
+                                resultXmlString += line;
                             }
                         }
                     }
 
-                    System.Threading.Thread.Sleep(1);
+                    System.Threading.Thread.Sleep(10);
                 }
 
-                if (line != "end-of-test-output")
+                // Reading rest of the standard output from NunitRunner process.
+                while (!process.StandardOutput.EndOfStream)
                 {
-                    while ((line = process.StandardOutput.ReadLine()) != null)
+                    line = process.StandardOutput.ReadLine();
+                    if (line == "beginning-of-test-result-xml")
                     {
-                        if (line == "end-of-test-output")
+                        resultXmlStarted = true;
+                    }
+                    else
+                    {
+                        if (!resultXmlStarted)
                         {
-                            break;
+                            Console.WriteLine(line);
                         }
-                        Console.WriteLine(line);
+                        else
+                        {
+                            resultXmlString += line;
+                        }
                     }
                 }
 
-                string output = process.StandardOutput.ReadToEnd();
+                // Parsing a result XML received from NunitRunner standard output.
                 XmlDocument result = new XmlDocument();
-                result.LoadXml(output);
-                XmlNode caseNode=result.GetElementsByTagName("test-case").Item(0);
-                
+                result.LoadXml(resultXmlString);
+
+                // Filling in the TestInformation from result.
+                XmlNode caseNode=result.GetElementsByTagName("test-case").Item(0);                
                 foreach(XmlAttribute attribute in caseNode.Attributes)
                 {
                     if (attribute.Name == "time")
@@ -162,7 +189,6 @@ namespace BubbleCloudorg.VisualNunit
                         testInformation.Success = attribute.Value;
                     }
                 }
-
                 foreach (XmlNode failureNode in caseNode.ChildNodes)
                 {
                     if (failureNode.LocalName == "failure")
@@ -190,5 +216,6 @@ namespace BubbleCloudorg.VisualNunit
                 Trace.TraceError(ex.ToString());
             }
         }
+
     }
 }
