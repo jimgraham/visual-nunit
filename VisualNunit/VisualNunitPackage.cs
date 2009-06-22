@@ -43,7 +43,7 @@ namespace BubbleCloudorg.VisualNunit
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource(1000, 1)]
     // This attribute registers a tool window exposed by this package.
-    [ProvideToolWindow(typeof(MyToolWindow),
+    [ProvideToolWindow(typeof(NunitToolWindow),
         Style = Microsoft.VisualStudio.Shell.VsDockStyle.Tabbed,
         Window = "3ae79031-e1bc-11d0-8f78-00a0c9110057")]
     [Guid(GuidList.guidVisualNunitPkgString)]
@@ -71,7 +71,7 @@ namespace BubbleCloudorg.VisualNunit
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.FindToolWindow(typeof(MyToolWindow), 0, true);
+            ToolWindowPane window = this.FindToolWindow(typeof(NunitToolWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);

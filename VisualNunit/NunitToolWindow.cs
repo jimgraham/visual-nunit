@@ -20,18 +20,18 @@ namespace BubbleCloudorg.VisualNunit
     /// implementation of the IVsWindowPane interface.
     /// </summary>
     [Guid("de16a11b-c6ec-4ee7-91d9-018efb193249")]
-    public class MyToolWindow : ToolWindowPane
+    public class NunitToolWindow : ToolWindowPane
     {
         // This is the user control hosted by the tool window; it is exposed to the base class 
         // using the Window property. Note that, even if this class implements IDispose, we are
         // not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
         // the object returned by the Window property.
-        private MyControl control;
+        private NuniView control;
 
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>
-        public MyToolWindow() :
+        public NunitToolWindow() :
             base(null)
         {
             // Set the window title reading it from the resources.
@@ -45,7 +45,7 @@ namespace BubbleCloudorg.VisualNunit
             this.BitmapIndex = 1;
 
 
-            control = new MyControl();
+            control = new NuniView();
         }
 
         /// <summary>

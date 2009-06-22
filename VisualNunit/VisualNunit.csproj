@@ -53,15 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyControl.cs">
+    <Compile Include="NunitView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MyControl.Designer.cs">
-      <DependentUpon>MyControl.cs</DependentUpon>
+    <Compile Include="NunitView.Designer.cs">
+      <DependentUpon>NunitView.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyToolWindow.cs" />
+    <Compile Include="NunitToolWindow.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="NunitInterface.cs" />
+    <Compile Include="NunitManager.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,8 +74,8 @@
     <Compile Include="VisualTestResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MyControl.resx">
-      <DependentUpon>MyControl.cs</DependentUpon>
+    <EmbeddedResource Include="NunitView.resx">
+      <DependentUpon>NunitView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -97,7 +97,7 @@
     <None Include="Resources\Images_24bit.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
+    <Content Include="Readme.txt" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>

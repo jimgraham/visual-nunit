@@ -17,9 +17,9 @@ namespace BubbleCloudorg.VisualNunit
     /// <summary>
     /// Summary description for MyControl.
     /// </summary>
-    public partial class MyControl : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
+    public partial class NuniView : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
     {
-        public MyControl()
+        public NuniView()
         {
             InitializeComponent();
 
@@ -125,7 +125,7 @@ namespace BubbleCloudorg.VisualNunit
 
                     if (File.Exists(assemblyPath))
                     {
-                        IList<string> testCases = NunitInterface.ListTestCases(assemblyPath);
+                        IList<string> testCases = NunitManager.ListTestCases(assemblyPath);
 
                         foreach (string testCase in testCases)
                         {
@@ -194,7 +194,7 @@ namespace BubbleCloudorg.VisualNunit
         {
             backgroundWorker1.ReportProgress(0);
 
-            NunitInterface.RunTestCase(testToRun);
+            NunitManager.RunTestCase(testToRun);
 
             backgroundWorker1.ReportProgress(100);
 

@@ -12,7 +12,7 @@ namespace VisualNunitRunner
     /// </summary>
     public class TestBuilder
     {
-        static Logger log = InternalTrace.GetLogger("TestAssemblyBuilder");
+        static Logger log = InternalTrace.GetLogger("TestBuilder");
 
         #region Instance Fields
         /// <summary>

@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace BubbleCloudorg.VisualNunit
 {
-    public static class NunitInterface
+    public static class NunitManager
     {
         public static IList<string> ListTestCases(string assemblyPath)
         {
