@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Visual Nunit Integration Package")]
 [assembly: AssemblyDescription("NUnit integration for Visual Studio 2008.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Bubble Cloud Community")]
+[assembly: AssemblyCompany("Bubble Cloud")]
 [assembly: AssemblyProduct("Visual Nunit")]
 [assembly: AssemblyCopyright("Apache 2.0")]
 [assembly: AssemblyTrademark("Visual Nunit")]
@@ -29,8 +29,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("0.8.1.0")]
-[assembly: AssemblyFileVersion("0.8.1.0")]
+[assembly: AssemblyVersion("0.8.2.0")]
+[assembly: AssemblyFileVersion("0.8.2.0")]
 
 
 

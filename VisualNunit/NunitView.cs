@@ -265,6 +265,14 @@ namespace BubbleCloudorg.VisualNunit
                     backgroundWorker1.RunWorkerAsync();
                 }
             }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Stacktrace")
+            {
+                TestDetailsForm testDetailsForm = new TestDetailsForm();
+                DataRow row = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
+                TestInformation testInformation = (TestInformation)row["TestInformation"];
+                testDetailsForm.SetTestInformation(testInformation);
+                testDetailsForm.ShowDialog();
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]

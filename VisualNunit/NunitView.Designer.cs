@@ -48,7 +48,7 @@ namespace BubbleCloudorg.VisualNunit
             this.Test = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StackTraceButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Stacktrace = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Debug = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -94,7 +94,7 @@ namespace BubbleCloudorg.VisualNunit
             this.Test,
             this.Time,
             this.Message,
-            this.StackTraceButton,
+            this.Stacktrace,
             this.Debug});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 32);
@@ -246,16 +246,17 @@ namespace BubbleCloudorg.VisualNunit
             this.Message.Name = "Message";
             this.Message.ReadOnly = true;
             // 
-            // StackTraceButton
+            // Stacktrace
             // 
-            this.StackTraceButton.DataPropertyName = "TestInformation";
-            this.StackTraceButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.StackTraceButton.HeaderText = "";
-            this.StackTraceButton.Name = "StackTraceButton";
-            this.StackTraceButton.ReadOnly = true;
-            this.StackTraceButton.Text = "...";
-            this.StackTraceButton.UseColumnTextForButtonValue = true;
-            this.StackTraceButton.Width = 30;
+            this.Stacktrace.DataPropertyName = "TestInformation";
+            this.Stacktrace.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Stacktrace.HeaderText = "";
+            this.Stacktrace.Name = "Stacktrace";
+            this.Stacktrace.ReadOnly = true;
+            this.Stacktrace.Text = "...";
+            this.Stacktrace.ToolTipText = "Stacktrace";
+            this.Stacktrace.UseColumnTextForButtonValue = true;
+            this.Stacktrace.Width = 30;
             // 
             // Debug
             // 
@@ -301,7 +302,7 @@ namespace BubbleCloudorg.VisualNunit
         private System.Windows.Forms.DataGridViewTextBoxColumn Test;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
-        private System.Windows.Forms.DataGridViewButtonColumn StackTraceButton;
+        private System.Windows.Forms.DataGridViewButtonColumn Stacktrace;
         private System.Windows.Forms.DataGridViewButtonColumn Debug;
 
     }

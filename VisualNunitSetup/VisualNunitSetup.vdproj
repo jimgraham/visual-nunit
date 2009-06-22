@@ -39,20 +39,56 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2EB0F1CC5558CC909496863D0CF1AABA"
+        "OwnerKey" = "8:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2EB0F1CC5558CC909496863D0CF1AABA"
+        "OwnerKey" = "8:_CD8E5BD3F24D8F155209676E91955945"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2EB0F1CC5558CC909496863D0CF1AABA"
+        "OwnerKey" = "8:_363E2A0602E96920FA3147D986828C91"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2EB0F1CC5558CC909496863D0CF1AABA"
+        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_363E2A0602E96920FA3147D986828C91"
+        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_363E2A0602E96920FA3147D986828C91"
+        "OwnerKey" = "8:_CD8E5BD3F24D8F155209676E91955945"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_400A190F2B2EAC5679D2C5D6AEB3C0D2"
         "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4E745C2C01F0D8B383F14D8AF9F4B396"
+        "MsmKey" = "8:_4F93EED8655CBA07A7E45F71CA94950B"
         "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4E745C2C01F0D8B383F14D8AF9F4B396"
-        "OwnerKey" = "8:_B64A7724B1BC7A6503F8570204CF345D"
+        "MsmKey" = "8:_4F93EED8655CBA07A7E45F71CA94950B"
+        "OwnerKey" = "8:_400A190F2B2EAC5679D2C5D6AEB3C0D2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -71,18 +107,6 @@
         {
         "MsmKey" = "8:_5677B8F31C89298A152A579C81595434"
         "OwnerKey" = "8:_F5705D44D96D14572BCC43A2FC0560D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_82CAC2B0C423D9C7777DF40C7FEA89BE"
-        "OwnerKey" = "8:_400A190F2B2EAC5679D2C5D6AEB3C0D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_82CAC2B0C423D9C7777DF40C7FEA89BE"
-        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -159,6 +183,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+        "OwnerKey" = "8:_CD8E5BD3F24D8F155209676E91955945"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+        "OwnerKey" = "8:_363E2A0602E96920FA3147D986828C91"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AEFB9BBC89DCABAF296FEB7A97561C46"
         "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
         "MsmSig" = "8:_UNDEFINED"
@@ -171,32 +213,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B64A7724B1BC7A6503F8570204CF345D"
-        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B80E98A1D6526368E0B10C9B7CBDE881"
-        "OwnerKey" = "8:_82CAC2B0C423D9C7777DF40C7FEA89BE"
+        "OwnerKey" = "8:_4F93EED8655CBA07A7E45F71CA94950B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B842AA0A838EECD10EA2C64D2007D740"
+        "MsmKey" = "8:_CD8E5BD3F24D8F155209676E91955945"
         "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B842AA0A838EECD10EA2C64D2007D740"
-        "OwnerKey" = "8:_B64A7724B1BC7A6503F8570204CF345D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B842AA0A838EECD10EA2C64D2007D740"
-        "OwnerKey" = "8:_4E745C2C01F0D8B383F14D8AF9F4B396"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -261,30 +285,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F5E4C0EEC243DF819DDBFC7B58E381BE"
-        "OwnerKey" = "8:_B842AA0A838EECD10EA2C64D2007D740"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F5E4C0EEC243DF819DDBFC7B58E381BE"
-        "OwnerKey" = "8:_B64A7724B1BC7A6503F8570204CF345D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F5E4C0EEC243DF819DDBFC7B58E381BE"
-        "OwnerKey" = "8:_4E745C2C01F0D8B383F14D8AF9F4B396"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F5E4C0EEC243DF819DDBFC7B58E381BE"
-        "OwnerKey" = "8:_28085AE21B9A49B8B31AB16927D6E500"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AEFB9BBC89DCABAF296FEB7A97561C46"
         "MsmSig" = "8:_UNDEFINED"
@@ -305,12 +305,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_400A190F2B2EAC5679D2C5D6AEB3C0D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_82CAC2B0C423D9C7777DF40C7FEA89BE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -358,25 +352,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B64A7724B1BC7A6503F8570204CF345D"
+        "OwnerKey" = "8:_4F93EED8655CBA07A7E45F71CA94950B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4E745C2C01F0D8B383F14D8AF9F4B396"
+        "OwnerKey" = "8:_CD8E5BD3F24D8F155209676E91955945"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B842AA0A838EECD10EA2C64D2007D740"
+        "OwnerKey" = "8:_363E2A0602E96920FA3147D986828C91"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F5E4C0EEC243DF819DDBFC7B58E381BE"
+        "OwnerKey" = "8:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2EB0F1CC5558CC909496863D0CF1AABA"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -529,6 +529,68 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2EB0F1CC5558CC909496863D0CF1AABA"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:nunit.core.interfaces, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_2EB0F1CC5558CC909496863D0CF1AABA"
+                    {
+                    "Name" = "8:nunit.core.interfaces.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:nunit.core.interfaces.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_363E2A0602E96920FA3147D986828C91"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_363E2A0602E96920FA3147D986828C91"
+                    {
+                    "Name" = "8:nunit.util.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:nunit.util.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_400A190F2B2EAC5679D2C5D6AEB3C0D2"
             {
             "AssemblyRegister" = "3:1"
@@ -560,51 +622,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4E745C2C01F0D8B383F14D8AF9F4B396"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4F93EED8655CBA07A7E45F71CA94950B"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_4E745C2C01F0D8B383F14D8AF9F4B396"
+                    "_4F93EED8655CBA07A7E45F71CA94950B"
                     {
-                    "Name" = "8:nunit.util.dll"
+                    "Name" = "8:EnvDTE.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:nunit.util.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5677B8F31C89298A152A579C81595434"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_5677B8F31C89298A152A579C81595434"
-                    {
-                    "Name" = "8:Microsoft.VisualStudio.Shell.Interop.8.0.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.VisualStudio.Shell.Interop.8.0.dll"
+            "SourcePath" = "8:EnvDTE.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
@@ -622,20 +653,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_82CAC2B0C423D9C7777DF40C7FEA89BE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5677B8F31C89298A152A579C81595434"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+            "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_82CAC2B0C423D9C7777DF40C7FEA89BE"
+                    "_5677B8F31C89298A152A579C81595434"
                     {
-                    "Name" = "8:EnvDTE.dll"
+                    "Name" = "8:Microsoft.VisualStudio.Shell.Interop.8.0.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:EnvDTE.dll"
+            "SourcePath" = "8:Microsoft.VisualStudio.Shell.Interop.8.0.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
@@ -715,6 +746,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AD8DDC7543C065C0E1D6C3F42D7EB360"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_AD8DDC7543C065C0E1D6C3F42D7EB360"
+                    {
+                    "Name" = "8:nunit.core.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:nunit.core.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AEFB9BBC89DCABAF296FEB7A97561C46"
             {
             "AssemblyRegister" = "3:1"
@@ -746,37 +808,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B64A7724B1BC7A6503F8570204CF345D"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:VisualNunitRunner, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_B64A7724B1BC7A6503F8570204CF345D"
-                    {
-                    "Name" = "8:VisualNunitRunner.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:VisualNunitRunner.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B80E98A1D6526368E0B10C9B7CBDE881"
             {
             "SourcePath" = "8:dte80a.olb"
@@ -797,20 +828,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B842AA0A838EECD10EA2C64D2007D740"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CD8E5BD3F24D8F155209676E91955945"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:VisualNunitRunner, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B842AA0A838EECD10EA2C64D2007D740"
+                    "_CD8E5BD3F24D8F155209676E91955945"
                     {
-                    "Name" = "8:nunit.core.dll"
+                    "Name" = "8:VisualNunitRunner.exe"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:nunit.core.dll"
+            "SourcePath" = "8:VisualNunitRunner.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
@@ -921,37 +952,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F5E4C0EEC243DF819DDBFC7B58E381BE"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core.interfaces, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_F5E4C0EEC243DF819DDBFC7B58E381BE"
-                    {
-                    "Name" = "8:nunit.core.interfaces.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:nunit.core.interfaces.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B12D2DCD1F1D4522AECA753AAE3D9BAB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -1009,7 +1009,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Visual Nunit"
         "ProductCode" = "8:{1832D0E7-1D56-40F9-976F-DFC2AAB74B31}"
-        "PackageCode" = "8:{BB4D4A89-5467-43ED-AB9B-87024278A0CB}"
+        "PackageCode" = "8:{13C66FCF-7BD3-4634-A213-6DC798192B60}"
         "UpgradeCode" = "8:{A432E8AD-00FF-458F-9A6E-389E9F02EC4E}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1111,13 +1111,13 @@
                                                                 }
                                                                 "Values"
                                                                 {
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_2842BEDD4EA34DF9886015609A681283"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_20CDB6F13CAA48F3B7BBF3E95D3090B8"
                                                                     {
-                                                                    "Name" = "8:Name"
+                                                                    "Name" = "8:Style"
                                                                     "Condition" = "8:"
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
-                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.MyToolWindow"
+                                                                    "Value" = "8:Tabbed"
                                                                     }
                                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_4953D0389AC2473D8311B7E8605F69AC"
                                                                     {
@@ -1127,7 +1127,7 @@
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:{10d0dacc-0283-49e8-97e3-78a5bb87645f}"
                                                                     }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_6EC19C8972584AADAB8E30FC9D820046"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_73AB0E58814A41DABC4671A40A52FB00"
                                                                     {
                                                                     "Name" = "8:Window"
                                                                     "Condition" = "8:"
@@ -1135,13 +1135,13 @@
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
                                                                     }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_7313DCCDCF244B26BCD53D404205538D"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_968C9536C4FB4FE38F94731B06ACB556"
                                                                     {
-                                                                    "Name" = "8:Style"
+                                                                    "Name" = "8:Name"
                                                                     "Condition" = "8:"
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
-                                                                    "Value" = "8:Tabbed"
+                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.NunitToolWindow"
                                                                     }
                                                                 }
                                                             }
@@ -1171,14 +1171,6 @@
                                                                 }
                                                                 "Values"
                                                                 {
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_2DD4B8A629D349C79CF51E7A1D73F148"
-                                                                    {
-                                                                    "Name" = "8:ProductDetails"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:##112"
-                                                                    }
                                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_41D6D517369E43DBB18B606ED55A2D11"
                                                                     {
                                                                     "Name" = "8:PID"
@@ -1186,14 +1178,6 @@
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:1.0"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_71937130121F45DEBDD5764CB9685D88"
-                                                                    {
-                                                                    "Name" = "8:LogoID"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:##400"
                                                                     }
                                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_AD8033423824461CB884BFD12A065AF4"
                                                                     {
@@ -1203,6 +1187,14 @@
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:##110"
                                                                     }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_BAF183F1488C4AA189B49C810D9467BA"
+                                                                    {
+                                                                    "Name" = "8:ProductDetails"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:##112"
+                                                                    }
                                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_D9B93F91398648A19FD56D45F8668C77"
                                                                     {
                                                                     "Name" = "8:Package"
@@ -1210,6 +1202,14 @@
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:{10d0dacc-0283-49e8-97e3-78a5bb87645f}"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_E10000843AD7445B9F0B2A53C39C213C"
+                                                                    {
+                                                                    "Name" = "8:LogoID"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:##400"
                                                                     }
                                                                 }
                                                             }
@@ -1239,39 +1239,7 @@
                                                                 }
                                                                 "Values"
                                                                 {
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_0F5E3BCF6BB04464A92E8486F2A2134E"
-                                                                    {
-                                                                    "Name" = "8:Class"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.VisualNunitPackage"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_41D7D6390E7C49BCA1746D76C4A03AD0"
-                                                                    {
-                                                                    "Name" = "8:CompanyName"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:BubbleCloud.org"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_4656750A8D334500AB29E493C4828BA6"
-                                                                    {
-                                                                    "Name" = "8:ProductName"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:VisualNunit"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_4968029572CF4314B50DE1248E71532E"
-                                                                    {
-                                                                    "Name" = "8:"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:1"
-                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.VisualNunitPackage, VisualNunit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_7F6CBD72654641DA8783B1262EF5DD15"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_0FC78AD7811F487380B4D24CE49B3485"
                                                                     {
                                                                     "Name" = "8:ProductVersion"
                                                                     "Condition" = "8:"
@@ -1279,7 +1247,23 @@
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:1.0"
                                                                     }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_B636978ABA2E4C75A8C85144A0FF91B0"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_44AB4D2C1EAF421799C69A1AD9DEC8D9"
+                                                                    {
+                                                                    "Name" = "8:ProductName"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Visual Nunit"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_4968029572CF4314B50DE1248E71532E"
+                                                                    {
+                                                                    "Name" = "8:"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.VisualNunitPackage, VisualNunit, Version=0.8.2.0, Culture=neutral, PublicKeyToken=null"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_4A808A28A0E54B0CB4586F0579225756"
                                                                     {
                                                                     "Name" = "8:InprocServer32"
                                                                     "Condition" = "8:"
@@ -1287,29 +1271,45 @@
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:[SystemFolder]mscoree.dll"
                                                                     }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_C489D28E1A644B0CACE37A97BF0E360F"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_7C5B6DBD45B14F79B724F1A1141E6329"
                                                                     {
-                                                                    "Name" = "8:ID"
-                                                                    "Condition" = "8:"
-                                                                    "Transitive" = "11:FALSE"
-                                                                    "ValueTypes" = "3:3"
-                                                                    "Value" = "3:1"
-                                                                    }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_D8F54EFC0F404D859A7CD2BF40D573EE"
-                                                                    {
-                                                                    "Name" = "8:MinEdition"
+                                                                    "Name" = "8:Class"
                                                                     "Condition" = "8:"
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
-                                                                    "Value" = "8:Standard"
+                                                                    "Value" = "8:BubbleCloudorg.VisualNunit.VisualNunitPackage"
                                                                     }
-                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_E4116A1ACFF9477CB7D3A8DF13E63C43"
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_8F6CB23DACBD4FDA99132FCB116642B4"
                                                                     {
                                                                     "Name" = "8:CodeBase"
                                                                     "Condition" = "8:"
                                                                     "Transitive" = "11:FALSE"
                                                                     "ValueTypes" = "3:1"
                                                                     "Value" = "8:[TARGETDIR]VisualNunit.dll"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_A5C90E4BAA60475D85DF32B38FED4C3D"
+                                                                    {
+                                                                    "Name" = "8:CompanyName"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Bubble Cloud"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_BA49E034B3DF43028E056B21DDE71517"
+                                                                    {
+                                                                    "Name" = "8:ID"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:3"
+                                                                    "Value" = "3:113"
+                                                                    }
+                                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_D38F31813D7045699E1B6282FF41643D"
+                                                                    {
+                                                                    "Name" = "8:MinEdition"
+                                                                    "Condition" = "8:"
+                                                                    "Transitive" = "11:FALSE"
+                                                                    "ValueTypes" = "3:1"
+                                                                    "Value" = "8:Standard"
                                                                     }
                                                                 }
                                                             }

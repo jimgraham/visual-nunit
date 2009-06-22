@@ -7,21 +7,21 @@ REGEDIT4
 "PID"="1.0"
 "LogoID"="#400"
 [HKEY_LOCAL_MACHINE\Software\Microsoft\VisualStudio\9.0\Packages\{10d0dacc-0283-49e8-97e3-78a5bb87645f}]
-@="BubbleCloudorg.VisualNunit.VisualNunitPackage, VisualNunit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+@="BubbleCloudorg.VisualNunit.VisualNunitPackage, VisualNunit, Version=0.8.2.0, Culture=neutral, PublicKeyToken=null"
 "InprocServer32"="C:\\Windows\\system32\\mscoree.dll"
 "Class"="BubbleCloudorg.VisualNunit.VisualNunitPackage"
-"CodeBase"="C:\\Development\\VisualNunit\\VisualNunit\\bin\\Debug\\VisualNunit.dll"
+"CodeBase"="C:\\Development\\VisualStudio\\VisualNunit\\VisualNunit\\bin\\Debug\\VisualNunit.dll"
 [HKEY_LOCAL_MACHINE\Software\Microsoft\VisualStudio\9.0\Packages\{10d0dacc-0283-49e8-97e3-78a5bb87645f}]
-"ID"=dword:00000001
+"ID"=dword:00000071
 "MinEdition"="Standard"
 "ProductVersion"="1.0"
-"ProductName"="VisualNunit"
-"CompanyName"="BubbleCloud.org"
+"ProductName"="Visual Nunit"
+"CompanyName"="Bubble Cloud"
 [HKEY_LOCAL_MACHINE\Software\Microsoft\VisualStudio\9.0\Menus]
 "{10d0dacc-0283-49e8-97e3-78a5bb87645f}"=", 1000, 1"
 [HKEY_LOCAL_MACHINE\Software\Microsoft\VisualStudio\9.0\ToolWindows\{de16a11b-c6ec-4ee7-91d9-018efb193249}]
 @="{10d0dacc-0283-49e8-97e3-78a5bb87645f}"
-"Name"="BubbleCloudorg.VisualNunit.MyToolWindow"
+"Name"="BubbleCloudorg.VisualNunit.NunitToolWindow"
 "Style"="Tabbed"
 "Window"="{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
 
