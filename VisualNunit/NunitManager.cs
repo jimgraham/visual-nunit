@@ -158,7 +158,7 @@ namespace BubbleCloudorg.VisualNunit
                         {
                             if (!resultXmlStarted)
                             {
-                                Console.WriteLine(line);
+                                Trace.WriteLine(line);
                             }
                             else
                             {
@@ -167,7 +167,7 @@ namespace BubbleCloudorg.VisualNunit
                         }
                     }
 
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(1);
                 }
 
                 // Reading rest of the standard output from NunitRunner process.
@@ -182,7 +182,7 @@ namespace BubbleCloudorg.VisualNunit
                     {
                         if (!resultXmlStarted)
                         {
-                            Console.WriteLine(line);
+                            Trace.WriteLine(line);
                         }
                         else
                         {
@@ -217,12 +217,12 @@ namespace BubbleCloudorg.VisualNunit
                             if (informationNode.LocalName == "message")
                             {
                                 testInformation.FailureMessage = informationNode.InnerText;
-                                Trace.TraceInformation(testInformation.TestName + " failure message: " + testInformation.FailureMessage);
+                                Trace.WriteLine(testInformation.TestName + " failure message: " + testInformation.FailureMessage);
                             }
                             if (informationNode.LocalName == "stack-trace")
                             {
                                 testInformation.FailureStackTrace = informationNode.InnerText;
-                                Trace.TraceInformation(testInformation.FailureStackTrace);
+                                Trace.WriteLine(testInformation.FailureStackTrace);
                             }
                         }
                     }

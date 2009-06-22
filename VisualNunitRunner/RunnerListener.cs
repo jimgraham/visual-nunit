@@ -35,6 +35,10 @@ namespace VisualNunitRunner
 
         public void TestFinished(TestResult result)
         {
+            if (result.StackTrace != null && result.StackTrace.Length > 0)
+            {
+                Trace.TraceError(result.StackTrace);
+            }
             Console.WriteLine("beginning-of-test-result-xml");
             StringBuilder builder = new StringBuilder();
             new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);

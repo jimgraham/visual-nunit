@@ -82,6 +82,7 @@
   <ItemGroup>
     <EmbeddedResource Include="NunitView.resx">
       <DependentUpon>NunitView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -109,6 +110,7 @@
   <ItemGroup>
     <Content Include="Readme.txt" />
     <Content Include="Resources\Package.ico" />
+    <None Include="Resources\runTestsButton.Image.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VisualNunitRunner\VisualNunitRunner.csproj">

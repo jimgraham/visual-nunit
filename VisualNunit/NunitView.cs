@@ -239,7 +239,7 @@ namespace BubbleCloudorg.VisualNunit
                 {
                     testsToRunStartCount = testsToRun.Count;
                     currentTest = testsToRun.Dequeue();
-                    runTests.Text = "Stop";
+                    runTestsButton.Text = "Stop";
                     backgroundWorker1.RunWorkerAsync();
                 }
             }
@@ -261,7 +261,7 @@ namespace BubbleCloudorg.VisualNunit
                     currentTest = (TestInformation)row["TestInformation"];
                     currentTest.Debug = true;
                     testsToRunStartCount = 1;
-                    runTests.Text = "Stop";
+                    runTestsButton.Text = "Stop";
                     backgroundWorker1.RunWorkerAsync();
                 }
             }
@@ -327,7 +327,7 @@ namespace BubbleCloudorg.VisualNunit
             else
             {
                 currentTest = null;
-                runTests.Text = "Run";
+                runTestsButton.Text = "Run";
             }
         }
 
@@ -424,13 +424,7 @@ namespace BubbleCloudorg.VisualNunit
 
         private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            namespaceComboBox.Items.Clear();
-            namespaceComboBox.SelectedItem = null;
-            namespaceComboBox.Text = null;
-            caseComboBox.Items.Clear();
-            caseComboBox.SelectedItem = null;
-            caseComboBox.Text = null;
-            RefreshView();
+
         }
 
         private void namespaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -446,6 +440,18 @@ namespace BubbleCloudorg.VisualNunit
             RefreshView();
         }
 
+        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            /*for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
+            {
+                DataGridViewButtonCell buttonCell = (DataGridViewButtonCell)dataGridView1.Rows[i].Cells["Debug"];
+            }*/
+        }
 
 
     }
