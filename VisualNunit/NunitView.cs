@@ -424,7 +424,13 @@ namespace BubbleCloudorg.VisualNunit
 
         private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            namespaceComboBox.Items.Clear();
+            namespaceComboBox.SelectedItem = null;
+            namespaceComboBox.Text = null;
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
+            RefreshView();
         }
 
         private void namespaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
