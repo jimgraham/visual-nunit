@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace BubbleCloudorg.VisualNunit
 {
@@ -13,5 +14,8 @@ namespace BubbleCloudorg.VisualNunit
         public string Success;
         public string FailureMessage;
         public string FailureStackTrace;
+        public DataRow DataRow;
+        public bool Debug;
+        public bool Stop;
     }
 }

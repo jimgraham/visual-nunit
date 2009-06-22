@@ -71,7 +71,7 @@
     <Compile Include="VisualNunitPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
-    <Compile Include="VisualTestResult.cs" />
+    <Compile Include="TestInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NunitView.resx">

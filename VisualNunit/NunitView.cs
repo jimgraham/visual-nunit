@@ -11,6 +11,7 @@ using System.Reflection;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 
 namespace BubbleCloudorg.VisualNunit
 {
@@ -34,7 +35,7 @@ namespace BubbleCloudorg.VisualNunit
             result=buildService.AdviseUpdateSolutionEvents(this, out cookie);
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Added build service event listener: {0}", result));
 
-            RefreshTreeView();
+            RefreshView();
 
         }
 
@@ -63,10 +64,18 @@ namespace BubbleCloudorg.VisualNunit
             }
         }
 
-        public void RefreshTreeView()
+        public void RefreshView()
         {
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            treeView1.Nodes.Clear();
+
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("Success", typeof(bool)));
+            table.Columns.Add(new DataColumn("Namespace", typeof(string)));
+            table.Columns.Add(new DataColumn("Case", typeof(string)));
+            table.Columns.Add(new DataColumn("Test", typeof(string)));
+            table.Columns.Add(new DataColumn("Time", typeof(string)));
+            table.Columns.Add(new DataColumn("Message", typeof(string)));
+            table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
 
             foreach (Project project in dte.Solution.Projects)
             {
@@ -120,8 +129,18 @@ namespace BubbleCloudorg.VisualNunit
                     Trace.WriteLine("Project.OutputPath=" + outputPath);
                     Trace.WriteLine("Project.OutputFileName=" + outputFileName);*/
 
+
+                    if (!projectComboBox.Items.Contains(project.Name))
+                    {
+                        projectComboBox.Items.Add(project.Name);
+                    }
+
+                    if (projectComboBox.SelectedIndex!=-1&&!project.Name.Equals(projectComboBox.SelectedItem))
+                    {
+                        continue;
+                    }
+
                     String assemblyPath = localPath + outputPath + outputFileName;
-                    TreeNode assemblyNode = new TreeNode(project.Name);
 
                     if (File.Exists(assemblyPath))
                     {
@@ -129,44 +148,124 @@ namespace BubbleCloudorg.VisualNunit
 
                         foreach (string testCase in testCases)
                         {
-                            TreeNode testNode = new TreeNode(testCase);
-
                             TestInformation testInformation = new TestInformation();
                             testInformation.AssemblyPath = assemblyPath;
                             testInformation.TestName = testCase;
 
-                            testNode.Tag = testInformation;
-                            assemblyNode.Nodes.Add(testNode);
+                            string[] nameParts = testCase.Split('.');
+
+                            string testName = nameParts[nameParts.Length - 1];
+                            string caseName = nameParts[nameParts.Length - 2];
+                            string testNamespace = testCase.Substring(0, testCase.Length-(caseName.Length + testName.Length + 2));
+
+                            if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
+                            {
+                                continue;
+                            }
+
+                            if (caseComboBox.SelectedIndex != -1 && !caseName.Equals(caseComboBox.SelectedItem))
+                            {
+                                continue;
+                            }
+
+                            if (!namespaceComboBox.Items.Contains(testNamespace))
+                            {
+                                namespaceComboBox.Items.Add(testNamespace);
+                            }
+
+                            if (!caseComboBox.Items.Contains(caseName))
+                            {
+                                caseComboBox.Items.Add(caseName);
+                            }
+
+
+                            DataRow row=table.Rows.Add(new Object[] {
+                                "True".Equals(testInformation.Success), 
+                                testNamespace,
+                                caseName,
+                                testName,
+                                testInformation.Time,
+                                testInformation.FailureMessage,
+                                testInformation
+                            });
+
+                            testInformation.DataRow = row;
                         }
 
                     }
-                    assemblyNode.Expand();
-                    treeView1.Nodes.Add(assemblyNode);
 
                 }
 
             }
+
+            dataGridView1.DataSource = table;
+            dataGridView1.ClearSelection();
         }
 
-        private TestInformation testToRun = null;
-        private void treeView1_DoubleClick(object sender, EventArgs e)
+        private Queue<TestInformation> testsToRun = new Queue<TestInformation>();
+        private TestInformation currentTest = null;
+        private int testsToRunStartCount = 1;
+
+        private void runTests_Click(object sender, EventArgs e)
         {
-            treeView1.Enabled = false;
-
-            if (treeView1.SelectedNode != null)
+            if (currentTest == null)
             {
-                TreeNode node = treeView1.SelectedNode;
-
-                if (node.Tag != null)
+                if (dataGridView1.SelectedRows.Count == 0)
                 {
-                    testToRun = (TestInformation)node.Tag;
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
+                        TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
+                        testInformation.Debug = false;
+                        testsToRun.Enqueue(testInformation);
+                    }
+                }
+                else
+                {
+                    List<DataRow> dataRows=new List<DataRow>();
+                    foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+                    {
+                        dataRows.Add(((DataRowView)row.DataBoundItem).Row);
+                    }
+                    dataRows.Reverse();
+                    foreach(DataRow dataRow in dataRows)
+                    {
+                        TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
+                        testInformation.Debug = false;
+                        testsToRun.Enqueue(testInformation);
+                    }
+                }
+                if (testsToRun.Count > 0)
+                {
+                    testsToRunStartCount = testsToRun.Count;
+                    currentTest = testsToRun.Dequeue();
+                    runTests.Text = "Stop";
                     backgroundWorker1.RunWorkerAsync();
                 }
-
             }
-
+            else
+            {
+                testsToRun.Clear();
+                testsToRunStartCount = 1;
+                currentTest.Stop = true;
+            }
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Debug")
+            {
+                if (currentTest == null)
+                {
+                    DataRow row = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
+                    currentTest = (TestInformation)row["TestInformation"];
+                    currentTest.Debug = true;
+                    testsToRunStartCount = 1;
+                    runTests.Text = "Stop";
+                    backgroundWorker1.RunWorkerAsync();
+                }
+            }
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
         private void button1_Click(object sender, System.EventArgs e)
@@ -192,11 +291,11 @@ namespace BubbleCloudorg.VisualNunit
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            backgroundWorker1.ReportProgress(0);
+            backgroundWorker1.ReportProgress(100*(testsToRunStartCount-testsToRun.Count)/(testsToRunStartCount+1));
 
-            NunitManager.RunTestCase(testToRun);
+            NunitManager.RunTestCase(currentTest);
 
-            backgroundWorker1.ReportProgress(100);
+            backgroundWorker1.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count + 1) /(testsToRunStartCount+1));
 
         }
 
@@ -207,15 +306,21 @@ namespace BubbleCloudorg.VisualNunit
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            if (testToRun.Time.Length > 0)
+            DataRow dataRow = currentTest.DataRow;
+            dataRow["Success"] = "True".Equals(currentTest.Success);
+            dataRow["Time"] = currentTest.Time;
+            dataRow["Message"] = currentTest.FailureMessage;
+
+            if (testsToRun.Count > 0)
             {
-                treeView1.SelectedNode.Text = testToRun.TestName + " " + testToRun.Success + " (" + testToRun.Time + "s)";
+                currentTest = testsToRun.Dequeue();
+                backgroundWorker1.RunWorkerAsync();
             }
             else
             {
-                treeView1.SelectedNode.Text = testToRun.TestName + " " + testToRun.Success;
+                currentTest = null;
+                runTests.Text = "Run";
             }
-            treeView1.Enabled = true;
         }
 
         #endregion
@@ -224,20 +329,20 @@ namespace BubbleCloudorg.VisualNunit
 
         public int OnAfterCloseSolution(object pUnkReserved)
         {
-            RefreshTreeView();
+            RefreshView();
             return VSConstants.S_OK;
         }
 
         public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy)
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Project loaded: {0}", pRealHierarchy));
-            RefreshTreeView();
+            RefreshView();
             return VSConstants.S_OK;
         }
 
         public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
         {
-            RefreshTreeView();
+            RefreshView();
             return VSConstants.S_OK;
         }
 
@@ -298,7 +403,7 @@ namespace BubbleCloudorg.VisualNunit
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
-            RefreshTreeView();
+            RefreshView();
             return VSConstants.S_OK;
         }
 
@@ -308,6 +413,32 @@ namespace BubbleCloudorg.VisualNunit
         }
 
         #endregion
+
+        private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            namespaceComboBox.Items.Clear();
+            namespaceComboBox.SelectedItem = null;
+            namespaceComboBox.Text = null;
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
+            RefreshView();
+        }
+
+        private void namespaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
+            RefreshView();
+        }
+
+        private void caseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshView();
+        }
+
+
 
     }
 }

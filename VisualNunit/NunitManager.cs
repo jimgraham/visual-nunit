@@ -70,11 +70,13 @@ namespace BubbleCloudorg.VisualNunit
         /// Runs a single test case in separate NunitRunner process synchronously.
         /// </summary>
         /// <param name="testInformation">Information identifying the test case and containing place holders for result information.</param>
+        /// <param name="debug">Set to true to enable debug mode.</param>
         public static void RunTestCase(TestInformation testInformation)
         {
 
             try
             {
+                testInformation.Stop = false;
                 // Parse the directory and file information from path.
                 string directory = Path.GetDirectoryName(testInformation.AssemblyPath).ToString();
                 string fileName = Path.GetFileName(testInformation.AssemblyPath);
@@ -92,13 +94,17 @@ namespace BubbleCloudorg.VisualNunit
 
                 // Binding the NunitRunner process to debugger.
                 DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-                foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
+
+                if (testInformation.Debug)
                 {
-                    if (localProcess.ProcessID == process.Id)
+                    foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
                     {
-                        int processId = process.Id;
-                        string localProcessName = localProcess.Name;
-                        localProcess.Attach();
+                        if (localProcess.ProcessID == process.Id)
+                        {
+                            int processId = process.Id;
+                            string localProcessName = localProcess.Name;
+                            localProcess.Attach();
+                        }
                     }
                 }
 
@@ -112,18 +118,31 @@ namespace BubbleCloudorg.VisualNunit
                 bool resultXmlStarted = false;
                 while (!process.HasExited)
                 {
-                    bool isProcessStillDebugged = false;
-                    foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
+                    if (testInformation.Debug)
                     {
-                        if (localProcess.ProcessID == process.Id)
+                        bool isProcessStillDebugged = false;
+                        foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
                         {
-                            isProcessStillDebugged = true;
+                            if (localProcess.ProcessID == process.Id)
+                            {
+                                isProcessStillDebugged = true;
+                            }
+                        }
+                        if (!isProcessStillDebugged)
+                        {
+                            process.Kill();
+                            testInformation.Success = "False";
+                            testInformation.FailureMessage = "Aborted";
+                            testInformation.Time = "";
+                            return;
                         }
                     }
-                    if (!isProcessStillDebugged)
+
+                    if (testInformation.Stop)
                     {
                         process.Kill();
-                        testInformation.Success = "Aborted";
+                        testInformation.Success = "False";
+                        testInformation.FailureMessage = "Aborted";
                         testInformation.Time = "";
                         return;
                     }
