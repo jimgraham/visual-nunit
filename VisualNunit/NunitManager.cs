@@ -208,6 +208,8 @@ namespace BubbleCloudorg.VisualNunit
                         testInformation.Success = attribute.Value;
                     }
                 }
+                testInformation.FailureMessage = "";
+                testInformation.FailureStackTrace = "";
                 foreach (XmlNode failureNode in caseNode.ChildNodes)
                 {
                     if (failureNode.LocalName == "failure")

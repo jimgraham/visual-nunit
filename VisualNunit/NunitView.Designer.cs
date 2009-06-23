@@ -32,7 +32,15 @@ namespace BubbleCloudorg.VisualNunit
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NuniView));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.Debug = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Success = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Namespace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Case = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Test = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stacktrace = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.testRunWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runTestsButton = new System.Windows.Forms.ToolStripButton();
@@ -44,14 +52,7 @@ namespace BubbleCloudorg.VisualNunit
             this.namespaceComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.caseComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.Debug = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Success = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Namespace = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Case = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Test = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stacktrace = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.testListWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -84,114 +85,8 @@ namespace BubbleCloudorg.VisualNunit
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(686, 463);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
+            this.dataGridView1.VisibleChanged += new System.EventHandler(this.dataGridView1_VisibleChanged);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            // 
-            // toolStripContainer1
-            // 
-            // 
-            // toolStripContainer1.BottomToolStripPanel
-            // 
-            this.toolStripContainer1.BottomToolStripPanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(686, 463);
-            this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(686, 488);
-            this.toolStripContainer1.TabIndex = 1;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Window;
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runTestsButton,
-            this.progressBar1,
-            this.toolStripSeparator1,
-            this.toolStripLabel1,
-            this.projectComboBox,
-            this.toolStripLabel2,
-            this.namespaceComboBox,
-            this.toolStripLabel3,
-            this.caseComboBox});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(631, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // runTestsButton
-            // 
-            this.runTestsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.runTestsButton.Image = ((System.Drawing.Image)(resources.GetObject("runTestsButton.Image")));
-            this.runTestsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.runTestsButton.Name = "runTestsButton";
-            this.runTestsButton.Size = new System.Drawing.Size(23, 22);
-            this.runTestsButton.Text = "toolStripButton1";
-            this.runTestsButton.Click += new System.EventHandler(this.runTests_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(50, 22);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(44, 22);
-            this.toolStripLabel1.Text = "Project";
-            // 
-            // projectComboBox
-            // 
-            this.projectComboBox.Name = "projectComboBox";
-            this.projectComboBox.Size = new System.Drawing.Size(121, 25);
-            this.projectComboBox.SelectedIndexChanged += new System.EventHandler(this.projectComboBox_SelectedIndexChanged);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(69, 22);
-            this.toolStripLabel2.Text = "Namespace";
-            // 
-            // namespaceComboBox
-            // 
-            this.namespaceComboBox.Name = "namespaceComboBox";
-            this.namespaceComboBox.Size = new System.Drawing.Size(121, 25);
-            this.namespaceComboBox.SelectedIndexChanged += new System.EventHandler(this.namespaceComboBox_SelectedIndexChanged);
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(32, 22);
-            this.toolStripLabel3.Text = "Case";
-            // 
-            // caseComboBox
-            // 
-            this.caseComboBox.Name = "caseComboBox";
-            this.caseComboBox.Size = new System.Drawing.Size(121, 25);
-            this.caseComboBox.SelectedIndexChanged += new System.EventHandler(this.caseComboBox_SelectedIndexChanged);
             // 
             // Debug
             // 
@@ -266,6 +161,117 @@ namespace BubbleCloudorg.VisualNunit
             this.Stacktrace.UseColumnTextForButtonValue = true;
             this.Stacktrace.Width = 30;
             // 
+            // testRunWorker
+            // 
+            this.testRunWorker.WorkerReportsProgress = true;
+            this.testRunWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testRunWorker_DoWork);
+            this.testRunWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testRunWorker_RunWorkerCompleted);
+            this.testRunWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.testRunWorker_ProgressChanged);
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            this.toolStripContainer1.BottomToolStripPanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView1);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(686, 463);
+            this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(686, 488);
+            this.toolStripContainer1.TabIndex = 1;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runTestsButton,
+            this.progressBar1,
+            this.toolStripSeparator1,
+            this.toolStripLabel1,
+            this.projectComboBox,
+            this.toolStripLabel2,
+            this.namespaceComboBox,
+            this.toolStripLabel3,
+            this.caseComboBox});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(598, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // runTestsButton
+            // 
+            this.runTestsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.runTestsButton.Image = ((System.Drawing.Image)(resources.GetObject("runTestsButton.Image")));
+            this.runTestsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.runTestsButton.Name = "runTestsButton";
+            this.runTestsButton.Size = new System.Drawing.Size(23, 22);
+            this.runTestsButton.Text = "toolStripButton1";
+            this.runTestsButton.Click += new System.EventHandler(this.runTests_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(50, 22);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(44, 22);
+            this.toolStripLabel1.Text = "Project";
+            // 
+            // projectComboBox
+            // 
+            this.projectComboBox.Name = "projectComboBox";
+            this.projectComboBox.Size = new System.Drawing.Size(121, 25);
+            this.projectComboBox.SelectedIndexChanged += new System.EventHandler(this.projectComboBox_SelectedIndexChanged);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(69, 22);
+            this.toolStripLabel2.Text = "Namespace";
+            // 
+            // namespaceComboBox
+            // 
+            this.namespaceComboBox.Name = "namespaceComboBox";
+            this.namespaceComboBox.Size = new System.Drawing.Size(121, 25);
+            this.namespaceComboBox.SelectedIndexChanged += new System.EventHandler(this.namespaceComboBox_SelectedIndexChanged);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(32, 22);
+            this.toolStripLabel3.Text = "Case";
+            // 
+            // caseComboBox
+            // 
+            this.caseComboBox.Name = "caseComboBox";
+            this.caseComboBox.Size = new System.Drawing.Size(121, 25);
+            this.caseComboBox.SelectedIndexChanged += new System.EventHandler(this.caseComboBox_SelectedIndexChanged);
+            // 
+            // testListWorker
+            // 
+            this.testListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testListWorker_DoWork);
+            this.testListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testListWorker_RunWorkerCompleted);
+            // 
             // NuniView
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -285,7 +291,7 @@ namespace BubbleCloudorg.VisualNunit
         }
         #endregion
 
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker testRunWorker;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -306,6 +312,7 @@ namespace BubbleCloudorg.VisualNunit
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
         private System.Windows.Forms.DataGridViewButtonColumn Stacktrace;
+        private System.ComponentModel.BackgroundWorker testListWorker;
 
     }
 }

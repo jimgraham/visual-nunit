@@ -64,132 +64,177 @@ namespace BubbleCloudorg.VisualNunit
             }
         }
 
+        #region NUnit View Refresh
+
+        private Queue<ProjectInformation> projectsToLoad = new Queue<ProjectInformation>();
+        private ProjectInformation currentlyLoadingProject = null;
+        private IList<string> loadedTestCases = null;
+
         public void RefreshView()
         {
+            if (!dataGridView1.Visible)
+            {
+                return;
+            }
 
+            Trace.TraceInformation("Refreshing NUnit View.");
 
-                DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
+            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
-                DataTable table = new DataTable();
-                table.Columns.Add(new DataColumn("Success", typeof(bool)));
-                table.Columns.Add(new DataColumn("Namespace", typeof(string)));
-                table.Columns.Add(new DataColumn("Case", typeof(string)));
-                table.Columns.Add(new DataColumn("Test", typeof(string)));
-                table.Columns.Add(new DataColumn("Time", typeof(string)));
-                table.Columns.Add(new DataColumn("Message", typeof(string)));
-                table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("Success", typeof(bool)));
+            table.Columns.Add(new DataColumn("Namespace", typeof(string)));
+            table.Columns.Add(new DataColumn("Case", typeof(string)));
+            table.Columns.Add(new DataColumn("Test", typeof(string)));
+            table.Columns.Add(new DataColumn("Time", typeof(string)));
+            table.Columns.Add(new DataColumn("Message", typeof(string)));
+            table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
 
-                foreach (Project project in dte.Solution.Projects)
+            foreach (Project project in dte.Solution.Projects)
+            {
+                try
                 {
-                    try
+
+                    if (project.ConfigurationManager == null)
+                    {
+                        continue;
+                    }
+                    Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
+
+
+                    if (configuration.IsBuildable)
                     {
 
-                        if (project.ConfigurationManager == null)
+                        String localPath = "";
+                        String outputPath = "";
+                        String outputFileName = "";
+
+                        foreach (Property property in project.Properties)
+                        {
+                            try
+                            {
+                                if ("LocalPath".Equals(property.Name))
+                                {
+                                    localPath = (string)property.Value;
+                                }
+                                if ("OutputFileName".Equals(property.Name))
+                                {
+                                    outputFileName = (string)property.Value;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Trace.WriteLine(ex);
+                            }
+                        }
+
+                        foreach (Property property in configuration.Properties)
+                        {
+                            try
+                            {
+                                if ("OutputPath".Equals(property.Name))
+                                {
+                                    outputPath = (string)property.Value;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Trace.WriteLine(ex);
+                            }
+                        }
+
+                        if (!projectComboBox.Items.Contains(project.Name))
+                        {
+                            projectComboBox.Items.Add(project.Name);
+                        }
+
+                        if (projectComboBox.SelectedIndex != -1 && !project.Name.Equals(projectComboBox.SelectedItem))
                         {
                             continue;
                         }
-                        Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
 
+                        String assemblyPath = localPath + outputPath + outputFileName;
 
-                        if (configuration.IsBuildable)
+                        if (File.Exists(assemblyPath))
                         {
+                            ProjectInformation projectInformation=new ProjectInformation();
+                            projectInformation.Name=project.Name;
+                            projectInformation.AssemblyPath=assemblyPath;
+                            projectsToLoad.Enqueue(projectInformation);                           
+                        }
 
-                            String localPath = "";
-                            String outputPath = "";
-                            String outputFileName = "";
+                    }
 
-                            foreach (Property property in project.Properties)
-                            {
-                                try
-                                {
-                                    if ("LocalPath".Equals(property.Name))
-                                    {
-                                        localPath = (string)property.Value;
-                                    }
-                                    if ("OutputFileName".Equals(property.Name))
-                                    {
-                                        outputFileName = (string)property.Value;
-                                    }
-                                    //Trace.WriteLine("Project Property: " + property.Name + "=" + property.Value);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Trace.WriteLine(ex);
-                                }
-                            }
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError("Error refreshing NUnit view: " + ex.ToString());
+                }
+            }
 
-                            foreach (Property property in configuration.Properties)
-                            {
-                                try
-                                {
-                                    if ("OutputPath".Equals(property.Name))
-                                    {
-                                        outputPath = (string)property.Value;
-                                    }
-                                    //Trace.WriteLine("Configuration Property: " + property.Name + "=" + property.Value);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Trace.WriteLine(ex);
-                                }
-                            }
+            dataGridView1.DataSource = table;
+            dataGridView1.ClearSelection();
 
-                            /*Trace.WriteLine("Project.Kind=" + project.Kind);
-                            Trace.WriteLine("Project.LocalPath=" + localPath);
-                            Trace.WriteLine("Project.OutputPath=" + outputPath);
-                            Trace.WriteLine("Project.OutputFileName=" + outputFileName);*/
+            if (projectsToLoad.Count > 0&&!testListWorker.IsBusy)
+            {
+                currentlyLoadingProject = projectsToLoad.Dequeue();
+                testListWorker.RunWorkerAsync();
+            }
+        }
 
+        private void testListWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            try
+            {
+                loadedTestCases = NunitManager.ListTestCases(currentlyLoadingProject.AssemblyPath);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error loading test cases for project " + currentlyLoadingProject.Name+": "+ex.ToString());
+            }
+        }
 
-                            if (!projectComboBox.Items.Contains(project.Name))
-                            {
-                                projectComboBox.Items.Add(project.Name);
-                            }
+        private void testListWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            string assemblyPath = currentlyLoadingProject.AssemblyPath;
+            DataTable dataTable = (DataTable)dataGridView1.DataSource;
 
-                            if (projectComboBox.SelectedIndex != -1 && !project.Name.Equals(projectComboBox.SelectedItem))
-                            {
-                                continue;
-                            }
+            if (loadedTestCases != null)
+            {
+                foreach (string testCase in loadedTestCases)
+                {
+                    TestInformation testInformation = new TestInformation();
+                    testInformation.AssemblyPath = assemblyPath;
+                    testInformation.TestName = testCase;
 
-                            String assemblyPath = localPath + outputPath + outputFileName;
+                    string[] nameParts = testCase.Split('.');
 
-                            if (File.Exists(assemblyPath))
-                            {
-                                IList<string> testCases = NunitManager.ListTestCases(assemblyPath);
+                    string testName = nameParts[nameParts.Length - 1];
+                    string caseName = nameParts[nameParts.Length - 2];
+                    string testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
 
-                                foreach (string testCase in testCases)
-                                {
-                                    TestInformation testInformation = new TestInformation();
-                                    testInformation.AssemblyPath = assemblyPath;
-                                    testInformation.TestName = testCase;
+                    if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
+                    {
+                        continue;
+                    }
 
-                                    string[] nameParts = testCase.Split('.');
+                    if (caseComboBox.SelectedIndex != -1 && !caseName.Equals(caseComboBox.SelectedItem))
+                    {
+                        continue;
+                    }
 
-                                    string testName = nameParts[nameParts.Length - 1];
-                                    string caseName = nameParts[nameParts.Length - 2];
-                                    string testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
+                    if (!namespaceComboBox.Items.Contains(testNamespace))
+                    {
+                        namespaceComboBox.Items.Add(testNamespace);
+                    }
 
-                                    if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (caseComboBox.SelectedIndex != -1 && !caseName.Equals(caseComboBox.SelectedItem))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (!namespaceComboBox.Items.Contains(testNamespace))
-                                    {
-                                        namespaceComboBox.Items.Add(testNamespace);
-                                    }
-
-                                    if (!caseComboBox.Items.Contains(caseName))
-                                    {
-                                        caseComboBox.Items.Add(caseName);
-                                    }
+                    if (!caseComboBox.Items.Contains(caseName))
+                    {
+                        caseComboBox.Items.Add(caseName);
+                    }
 
 
-                                    DataRow row = table.Rows.Add(new Object[] {
+                    DataRow row = dataTable.Rows.Add(new Object[] {
                                         "True".Equals(testInformation.Success), 
                                         testNamespace,
                                         caseName,
@@ -199,24 +244,58 @@ namespace BubbleCloudorg.VisualNunit
                                         testInformation
                                     });
 
-                                    testInformation.DataRow = row;
-                                }
-
-                            }
-
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.TraceError("Error refreshing NUnit view: " + ex.ToString());
-                    }
+                    testInformation.DataRow = row;
                 }
+            }
 
-                dataGridView1.DataSource = table;
-                dataGridView1.ClearSelection();
+            if (projectsToLoad.Count > 0&&!testListWorker.IsBusy)
+            {
+                currentlyLoadingProject = projectsToLoad.Dequeue();
+                testListWorker.RunWorkerAsync();
+            }
+        }
+
+        #endregion
+
+        #region NUnit View Events
+
+        private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            namespaceComboBox.Items.Clear();
+            namespaceComboBox.SelectedItem = null;
+            namespaceComboBox.Text = null;
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
+            RefreshView();
+        }
+
+        private void namespaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
+            RefreshView();
+        }
+
+        private void caseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshView();
+        }
+
+        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+        {
 
         }
+
+        private void dataGridView1_VisibleChanged(object sender, EventArgs e)
+        {
+            Trace.WriteLine("Visible changed.");
+        }
+
+        #endregion
+
+        #region Test Runs
 
         private Queue<TestInformation> testsToRun = new Queue<TestInformation>();
         private TestInformation currentTest = null;
@@ -256,7 +335,7 @@ namespace BubbleCloudorg.VisualNunit
                     testsToRunStartCount = testsToRun.Count;
                     currentTest = testsToRun.Dequeue();
                     runTestsButton.Text = "Stop";
-                    backgroundWorker1.RunWorkerAsync();
+                    testRunWorker.RunWorkerAsync();
                 }
             }
             else
@@ -278,7 +357,7 @@ namespace BubbleCloudorg.VisualNunit
                     currentTest.Debug = true;
                     testsToRunStartCount = 1;
                     runTestsButton.Text = "Stop";
-                    backgroundWorker1.RunWorkerAsync();
+                    testRunWorker.RunWorkerAsync();
                 }
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Stacktrace")
@@ -291,44 +370,22 @@ namespace BubbleCloudorg.VisualNunit
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
-        private void button1_Click(object sender, System.EventArgs e)
+        private void testRunWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            MessageBox.Show(this,
-                            string.Format(System.Globalization.CultureInfo.CurrentUICulture, "We are inside {0}.button1_Click()", this.ToString()),
-                            "NUnit View");
-        }
-
-        private void treeView1_VisibleChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void treeView1_EnabledChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void treeView1_Enter(object sender, EventArgs e)
-        {
-        }
-
-        #region BackgrounWorker Events
-
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            backgroundWorker1.ReportProgress(100*(testsToRunStartCount-testsToRun.Count)/(testsToRunStartCount+1));
+            testRunWorker.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count) / (testsToRunStartCount + 1));
 
             NunitManager.RunTestCase(currentTest);
 
-            backgroundWorker1.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count + 1) /(testsToRunStartCount+1));
+            testRunWorker.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count + 1) / (testsToRunStartCount + 1));
 
         }
 
-        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private void testRunWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void testRunWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             DataRow dataRow = currentTest.DataRow;
             dataRow["Success"] = "True".Equals(currentTest.Success);
@@ -338,7 +395,7 @@ namespace BubbleCloudorg.VisualNunit
             if (testsToRun.Count > 0)
             {
                 currentTest = testsToRun.Dequeue();
-                backgroundWorker1.RunWorkerAsync();
+                testRunWorker.RunWorkerAsync();
             }
             else
             {
@@ -349,7 +406,7 @@ namespace BubbleCloudorg.VisualNunit
 
         #endregion
 
-        #region IVsSolutionEvents Members
+        #region Solution Events
 
         public int OnAfterCloseSolution(object pUnkReserved)
         {
@@ -366,7 +423,7 @@ namespace BubbleCloudorg.VisualNunit
 
         public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
         {
-            RefreshView();
+            //RefreshView();
             return VSConstants.S_OK;
         }
 
@@ -383,6 +440,7 @@ namespace BubbleCloudorg.VisualNunit
 
         public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
+            RefreshView();
             return VSConstants.S_OK;
         }
 
@@ -405,10 +463,6 @@ namespace BubbleCloudorg.VisualNunit
         {
             return VSConstants.S_OK;
         }
-
-        #endregion
-
-        #region IVsUpdateSolutionEvents Members
 
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
         {
@@ -437,44 +491,6 @@ namespace BubbleCloudorg.VisualNunit
         }
 
         #endregion
-
-        private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            namespaceComboBox.Items.Clear();
-            namespaceComboBox.SelectedItem = null;
-            namespaceComboBox.Text = null;
-            caseComboBox.Items.Clear();
-            caseComboBox.SelectedItem = null;
-            caseComboBox.Text = null;
-            RefreshView();
-        }
-
-        private void namespaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            caseComboBox.Items.Clear();
-            caseComboBox.SelectedItem = null;
-            caseComboBox.Text = null;
-            RefreshView();
-        }
-
-        private void caseComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshView();
-        }
-
-        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            /*for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
-            {
-                DataGridViewButtonCell buttonCell = (DataGridViewButtonCell)dataGridView1.Rows[i].Cells["Debug"];
-            }*/
-        }
-
 
     }
 }
