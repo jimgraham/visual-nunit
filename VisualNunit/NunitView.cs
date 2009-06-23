@@ -66,140 +66,156 @@ namespace BubbleCloudorg.VisualNunit
 
         public void RefreshView()
         {
-            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
-            DataTable table = new DataTable();
-            table.Columns.Add(new DataColumn("Success", typeof(bool)));
-            table.Columns.Add(new DataColumn("Namespace", typeof(string)));
-            table.Columns.Add(new DataColumn("Case", typeof(string)));
-            table.Columns.Add(new DataColumn("Test", typeof(string)));
-            table.Columns.Add(new DataColumn("Time", typeof(string)));
-            table.Columns.Add(new DataColumn("Message", typeof(string)));
-            table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
 
-            foreach (Project project in dte.Solution.Projects)
-            {
-                Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
+                DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
-                if (configuration.IsBuildable)
+                DataTable table = new DataTable();
+                table.Columns.Add(new DataColumn("Success", typeof(bool)));
+                table.Columns.Add(new DataColumn("Namespace", typeof(string)));
+                table.Columns.Add(new DataColumn("Case", typeof(string)));
+                table.Columns.Add(new DataColumn("Test", typeof(string)));
+                table.Columns.Add(new DataColumn("Time", typeof(string)));
+                table.Columns.Add(new DataColumn("Message", typeof(string)));
+                table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
+
+                foreach (Project project in dte.Solution.Projects)
                 {
-
-                    String localPath = "";
-                    String outputPath = "";
-                    String outputFileName = "";
-
-                    foreach (Property property in project.Properties)
+                    try
                     {
-                        try
+
+                        if (project.ConfigurationManager == null)
                         {
-                            if ("LocalPath".Equals(property.Name))
+                            continue;
+                        }
+                        Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
+
+
+                        if (configuration.IsBuildable)
+                        {
+
+                            String localPath = "";
+                            String outputPath = "";
+                            String outputFileName = "";
+
+                            foreach (Property property in project.Properties)
                             {
-                                localPath = (string)property.Value;
+                                try
+                                {
+                                    if ("LocalPath".Equals(property.Name))
+                                    {
+                                        localPath = (string)property.Value;
+                                    }
+                                    if ("OutputFileName".Equals(property.Name))
+                                    {
+                                        outputFileName = (string)property.Value;
+                                    }
+                                    //Trace.WriteLine("Project Property: " + property.Name + "=" + property.Value);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Trace.WriteLine(ex);
+                                }
                             }
-                            if ("OutputFileName".Equals(property.Name))
+
+                            foreach (Property property in configuration.Properties)
                             {
-                                outputFileName = (string)property.Value;
+                                try
+                                {
+                                    if ("OutputPath".Equals(property.Name))
+                                    {
+                                        outputPath = (string)property.Value;
+                                    }
+                                    //Trace.WriteLine("Configuration Property: " + property.Name + "=" + property.Value);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Trace.WriteLine(ex);
+                                }
                             }
-                            //Trace.WriteLine("Project Property: " + property.Name + "=" + property.Value);
-                        }
-                        catch (Exception ex)
-                        {
-                            Trace.WriteLine(ex);
-                        }
-                    }
 
-                    foreach (Property property in configuration.Properties)
-                    {
-                        try
-                        {
-                            if ("OutputPath".Equals(property.Name))
+                            /*Trace.WriteLine("Project.Kind=" + project.Kind);
+                            Trace.WriteLine("Project.LocalPath=" + localPath);
+                            Trace.WriteLine("Project.OutputPath=" + outputPath);
+                            Trace.WriteLine("Project.OutputFileName=" + outputFileName);*/
+
+
+                            if (!projectComboBox.Items.Contains(project.Name))
                             {
-                                outputPath = (string)property.Value;
+                                projectComboBox.Items.Add(project.Name);
                             }
-                            //Trace.WriteLine("Configuration Property: " + property.Name + "=" + property.Value);
-                        }
-                        catch (Exception ex)
-                        {
-                            Trace.WriteLine(ex);
-                        }
-                    }
 
-                    /*Trace.WriteLine("Project.Kind=" + project.Kind);
-                    Trace.WriteLine("Project.LocalPath=" + localPath);
-                    Trace.WriteLine("Project.OutputPath=" + outputPath);
-                    Trace.WriteLine("Project.OutputFileName=" + outputFileName);*/
-
-
-                    if (!projectComboBox.Items.Contains(project.Name))
-                    {
-                        projectComboBox.Items.Add(project.Name);
-                    }
-
-                    if (projectComboBox.SelectedIndex!=-1&&!project.Name.Equals(projectComboBox.SelectedItem))
-                    {
-                        continue;
-                    }
-
-                    String assemblyPath = localPath + outputPath + outputFileName;
-
-                    if (File.Exists(assemblyPath))
-                    {
-                        IList<string> testCases = NunitManager.ListTestCases(assemblyPath);
-
-                        foreach (string testCase in testCases)
-                        {
-                            TestInformation testInformation = new TestInformation();
-                            testInformation.AssemblyPath = assemblyPath;
-                            testInformation.TestName = testCase;
-
-                            string[] nameParts = testCase.Split('.');
-
-                            string testName = nameParts[nameParts.Length - 1];
-                            string caseName = nameParts[nameParts.Length - 2];
-                            string testNamespace = testCase.Substring(0, testCase.Length-(caseName.Length + testName.Length + 2));
-
-                            if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
+                            if (projectComboBox.SelectedIndex != -1 && !project.Name.Equals(projectComboBox.SelectedItem))
                             {
                                 continue;
                             }
 
-                            if (caseComboBox.SelectedIndex != -1 && !caseName.Equals(caseComboBox.SelectedItem))
+                            String assemblyPath = localPath + outputPath + outputFileName;
+
+                            if (File.Exists(assemblyPath))
                             {
-                                continue;
+                                IList<string> testCases = NunitManager.ListTestCases(assemblyPath);
+
+                                foreach (string testCase in testCases)
+                                {
+                                    TestInformation testInformation = new TestInformation();
+                                    testInformation.AssemblyPath = assemblyPath;
+                                    testInformation.TestName = testCase;
+
+                                    string[] nameParts = testCase.Split('.');
+
+                                    string testName = nameParts[nameParts.Length - 1];
+                                    string caseName = nameParts[nameParts.Length - 2];
+                                    string testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
+
+                                    if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (caseComboBox.SelectedIndex != -1 && !caseName.Equals(caseComboBox.SelectedItem))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (!namespaceComboBox.Items.Contains(testNamespace))
+                                    {
+                                        namespaceComboBox.Items.Add(testNamespace);
+                                    }
+
+                                    if (!caseComboBox.Items.Contains(caseName))
+                                    {
+                                        caseComboBox.Items.Add(caseName);
+                                    }
+
+
+                                    DataRow row = table.Rows.Add(new Object[] {
+                                        "True".Equals(testInformation.Success), 
+                                        testNamespace,
+                                        caseName,
+                                        testName,
+                                        testInformation.Time,
+                                        testInformation.FailureMessage,
+                                        testInformation
+                                    });
+
+                                    testInformation.DataRow = row;
+                                }
+
                             }
 
-                            if (!namespaceComboBox.Items.Contains(testNamespace))
-                            {
-                                namespaceComboBox.Items.Add(testNamespace);
-                            }
-
-                            if (!caseComboBox.Items.Contains(caseName))
-                            {
-                                caseComboBox.Items.Add(caseName);
-                            }
-
-
-                            DataRow row=table.Rows.Add(new Object[] {
-                                "True".Equals(testInformation.Success), 
-                                testNamespace,
-                                caseName,
-                                testName,
-                                testInformation.Time,
-                                testInformation.FailureMessage,
-                                testInformation
-                            });
-
-                            testInformation.DataRow = row;
                         }
 
                     }
-
+                    catch (Exception ex)
+                    {
+                        Trace.TraceError("Error refreshing NUnit view: " + ex.ToString());
+                    }
                 }
 
-            }
+                dataGridView1.DataSource = table;
+                dataGridView1.ClearSelection();
 
-            dataGridView1.DataSource = table;
-            dataGridView1.ClearSelection();
         }
 
         private Queue<TestInformation> testsToRun = new Queue<TestInformation>();
