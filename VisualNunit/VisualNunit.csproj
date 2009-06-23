@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
+    <Content Include="Resources\Images_32bit.png" />
     <Content Include="Resources\Package.ico" />
     <None Include="Resources\runTestsButton.Image.png" />
   </ItemGroup>

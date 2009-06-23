@@ -65,6 +65,7 @@
           These values for FLAGS can be or'ed together, e.g. "DEFAULTINVISIBLE | DYNAMICVISIBILITY" 
           If you do not want an image next to your command, set the image to "guidOfficeIcon:msotcidNoIcon" -->
 
+      <!--
       <Button guid="guidVisualNunitCmdSet" id="cmdidDebugNunitTests" priority="0x0100" type="Button">
         <Parent guid="guidVisualNunitCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
@@ -73,7 +74,7 @@
           <ButtonText>Debug Nunit Tests</ButtonText>
         </Strings>
       </Button>
-
+      -->
 
       <Button guid="guidVisualNunitCmdSet" id="cmdidNUnitView" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
@@ -94,7 +95,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used 
             inside a button definition. An important aspect of this declaration is that the element id 
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\Images_32bit.bmp" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+      <Bitmap guid="guidImages" href="Resources\Images_32bit.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
 
     </Bitmaps>
  
