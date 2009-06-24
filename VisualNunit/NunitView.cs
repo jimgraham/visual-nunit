@@ -12,6 +12,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 
 namespace BubbleCloudorg.VisualNunit
 {
@@ -20,9 +21,31 @@ namespace BubbleCloudorg.VisualNunit
     /// </summary>
     public partial class NuniView : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
     {
+        private Bitmap successIcon = null;
+        private Bitmap failureIcon = null;
+        private Bitmap abortedIcon = null;
+        private Bitmap emptyIcon = null;
+        private Bitmap runIcon = null;
+        private Bitmap debugIcon = null;
+        private Bitmap stopIcon = null;
+
         public NuniView()
         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            emptyIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Empty.png"));
+            successIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Success.png"));
+            failureIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Failure.png"));
+            abortedIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Aborted.png"));
+            runIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Run.png"));
+            debugIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Debug.png"));
+            stopIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Stop.png"));
+
             InitializeComponent();
+
+            dataGridView1.AutoGenerateColumns = false;
+
+            runTestsButton.Image = runIcon;
+            statusButton.Image = emptyIcon;
 
             uint cookie;
             int result = 0;
@@ -82,7 +105,7 @@ namespace BubbleCloudorg.VisualNunit
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
             DataTable table = new DataTable();
-            table.Columns.Add(new DataColumn("Success", typeof(bool)));
+            table.Columns.Add(new DataColumn("Success", typeof(string)));
             table.Columns.Add(new DataColumn("Namespace", typeof(string)));
             table.Columns.Add(new DataColumn("Case", typeof(string)));
             table.Columns.Add(new DataColumn("Test", typeof(string)));
@@ -173,7 +196,6 @@ namespace BubbleCloudorg.VisualNunit
             }
 
             dataGridView1.DataSource = table;
-            dataGridView1.ClearSelection();
 
             if (projectsToLoad.Count > 0&&!testListWorker.IsBusy)
             {
@@ -235,7 +257,7 @@ namespace BubbleCloudorg.VisualNunit
 
 
                     DataRow row = dataTable.Rows.Add(new Object[] {
-                                        "True".Equals(testInformation.Success), 
+                                        "", 
                                         testNamespace,
                                         caseName,
                                         testName,
@@ -247,6 +269,8 @@ namespace BubbleCloudorg.VisualNunit
                     testInformation.DataRow = row;
                 }
             }
+
+            dataGridView1.ClearSelection();
 
             if (projectsToLoad.Count > 0&&!testListWorker.IsBusy)
             {
@@ -293,6 +317,53 @@ namespace BubbleCloudorg.VisualNunit
             Trace.WriteLine("Visible changed.");
         }
 
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            DataRow dataRow = ((DataRowView)dataGridView1.Rows[e.RowIndex].DataBoundItem).Row;
+            DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells["Success"];
+            string success = (string)dataRow["Success"];
+            if ("True".Equals(success))
+            {
+                if (cell.Value != successIcon)
+                {
+                    cell.Value = successIcon;
+                }
+            }
+            else if ("False".Equals(success))
+            {
+                if (cell.Value != failureIcon)
+                {
+                    cell.Value = failureIcon;
+                }
+            }
+            else if ("Aborted".Equals(success))
+            {
+                if (cell.Value != abortedIcon)
+                {
+                    cell.Value = abortedIcon;
+                }
+            }
+            else
+            {
+                if (cell.Value != emptyIcon)
+                {
+                    cell.Value = emptyIcon;
+                }
+            }
+
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            dataGridView1.Rows[e.RowIndex].Cells["Debug"].Value = debugIcon;
+            dataGridView1.Rows[e.RowIndex].Cells["Success"].Value = emptyIcon;
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Test Runs
@@ -335,6 +406,7 @@ namespace BubbleCloudorg.VisualNunit
                     testsToRunStartCount = testsToRun.Count;
                     currentTest = testsToRun.Dequeue();
                     runTestsButton.Text = "Stop";
+                    runTestsButton.Image = stopIcon;
                     testRunWorker.RunWorkerAsync();
                 }
             }
@@ -357,6 +429,7 @@ namespace BubbleCloudorg.VisualNunit
                     currentTest.Debug = true;
                     testsToRunStartCount = 1;
                     runTestsButton.Text = "Stop";
+                    runTestsButton.Image = stopIcon;
                     testRunWorker.RunWorkerAsync();
                 }
             }
@@ -387,10 +460,12 @@ namespace BubbleCloudorg.VisualNunit
 
         private void testRunWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            DataRow dataRow = currentTest.DataRow;
-            dataRow["Success"] = "True".Equals(currentTest.Success);
-            dataRow["Time"] = currentTest.Time;
-            dataRow["Message"] = currentTest.FailureMessage;
+            {
+                DataRow dataRow = currentTest.DataRow;
+                dataRow["Success"] = currentTest.Success;
+                dataRow["Time"] = currentTest.Time;
+                dataRow["Message"] = currentTest.FailureMessage;
+            }
 
             if (testsToRun.Count > 0)
             {
@@ -401,6 +476,47 @@ namespace BubbleCloudorg.VisualNunit
             {
                 currentTest = null;
                 runTestsButton.Text = "Run";
+                runTestsButton.Image = runIcon;
+
+                int successes=0;
+                int failures=0;
+                int aborts=0;
+                int unknowns=0;
+                int total=dataGridView1.Rows.Count;
+
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
+                    if("True".Equals(dataRow["Success"]))
+                    {
+                        successes++;
+                    }
+                    else if("False".Equals(dataRow["Success"]))
+                    {
+                        failures++;
+                    }
+                    else if("Aborted".Equals(dataRow["Success"]))
+                    {
+                        aborts++;
+                    }
+                    else
+                    {
+                        unknowns++;
+                    }
+                }
+
+                statusButton.Image=emptyIcon;
+                if(successes==total)
+                {
+                    statusButton.Image=successIcon;
+                }
+                if(failures!=0)
+                {
+                    statusButton.Image=failureIcon;
+                }
+
+                statusLabel.Text="Total tests run: "+(successes+failures)+" Failures: "+failures+" ("+(100*failures/(successes+failures))+"%)";
+
             }
         }
 

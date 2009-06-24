@@ -32,8 +32,8 @@ namespace BubbleCloudorg.VisualNunit
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NuniView));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Debug = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Success = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Debug = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Success = new System.Windows.Forms.DataGridViewImageColumn();
             this.Namespace = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Case = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Test = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,6 +42,8 @@ namespace BubbleCloudorg.VisualNunit
             this.Stacktrace = new System.Windows.Forms.DataGridViewButtonColumn();
             this.testRunWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runTestsButton = new System.Windows.Forms.ToolStripButton();
             this.progressBar1 = new System.Windows.Forms.ToolStripProgressBar();
@@ -53,10 +55,13 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.caseComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.testListWorker = new System.ComponentModel.BackgroundWorker();
+            this.statusButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,32 +88,27 @@ namespace BubbleCloudorg.VisualNunit
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 20;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(686, 463);
+            this.dataGridView1.Size = new System.Drawing.Size(686, 438);
             this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.VisibleChanged += new System.EventHandler(this.dataGridView1_VisibleChanged);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Debug
             // 
-            this.Debug.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.Debug.HeaderText = "";
             this.Debug.Name = "Debug";
             this.Debug.ReadOnly = true;
-            this.Debug.Text = ">";
-            this.Debug.UseColumnTextForButtonValue = true;
-            this.Debug.Width = 20;
+            this.Debug.Width = 22;
             // 
             // Success
             // 
-            this.Success.DataPropertyName = "Success";
             this.Success.HeaderText = "";
-            this.Success.MinimumWidth = 20;
             this.Success.Name = "Success";
             this.Success.ReadOnly = true;
-            this.Success.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Success.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Success.ToolTipText = "Success";
-            this.Success.Width = 20;
+            this.Success.Width = 22;
             // 
             // Namespace
             // 
@@ -173,12 +173,13 @@ namespace BubbleCloudorg.VisualNunit
             // 
             // toolStripContainer1.BottomToolStripPanel
             // 
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.toolStrip2);
             this.toolStripContainer1.BottomToolStripPanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             // 
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(686, 463);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(686, 438);
             this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -191,6 +192,24 @@ namespace BubbleCloudorg.VisualNunit
             // 
             this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Window;
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusButton,
+            this.statusLabel});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolStrip2.Size = new System.Drawing.Size(26, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(0, 22);
             // 
             // toolStrip1
             // 
@@ -272,6 +291,16 @@ namespace BubbleCloudorg.VisualNunit
             this.testListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testListWorker_DoWork);
             this.testListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testListWorker_RunWorkerCompleted);
             // 
+            // statusButton
+            // 
+            this.statusButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.statusButton.Image = ((System.Drawing.Image)(resources.GetObject("statusButton.Image")));
+            this.statusButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.statusButton.Name = "statusButton";
+            this.statusButton.Size = new System.Drawing.Size(23, 22);
+            this.statusButton.Text = "toolStripButton1";
+            this.statusButton.Click += new System.EventHandler(this.runTests_Click);
+            // 
             // NuniView
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -279,11 +308,15 @@ namespace BubbleCloudorg.VisualNunit
             this.Name = "NuniView";
             this.Size = new System.Drawing.Size(686, 488);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -304,15 +337,18 @@ namespace BubbleCloudorg.VisualNunit
         private System.Windows.Forms.ToolStripComboBox caseComboBox;
         private System.Windows.Forms.ToolStripProgressBar progressBar1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.DataGridViewButtonColumn Debug;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Success;
+        private System.ComponentModel.BackgroundWorker testListWorker;
+        private System.Windows.Forms.DataGridViewImageColumn Debug;
+        private System.Windows.Forms.DataGridViewImageColumn Success;
         private System.Windows.Forms.DataGridViewTextBoxColumn Namespace;
         private System.Windows.Forms.DataGridViewTextBoxColumn Case;
         private System.Windows.Forms.DataGridViewTextBoxColumn Test;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
         private System.Windows.Forms.DataGridViewButtonColumn Stacktrace;
-        private System.ComponentModel.BackgroundWorker testListWorker;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripLabel statusLabel;
+        private System.Windows.Forms.ToolStripButton statusButton;
 
     }
 }

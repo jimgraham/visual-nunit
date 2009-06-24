@@ -131,8 +131,8 @@ namespace BubbleCloudorg.VisualNunit
                         if (!isProcessStillDebugged)
                         {
                             process.Kill();
-                            testInformation.Success = "False";
-                            testInformation.FailureMessage = "Aborted";
+                            testInformation.Success = "Aborted";
+                            testInformation.FailureMessage = "User aborted.";
                             testInformation.Time = "";
                             return;
                         }
@@ -141,8 +141,8 @@ namespace BubbleCloudorg.VisualNunit
                     if (testInformation.Stop)
                     {
                         process.Kill();
-                        testInformation.Success = "False";
-                        testInformation.FailureMessage = "Aborted";
+                        testInformation.Success = "Aborted";
+                        testInformation.FailureMessage = "User aborted.";
                         testInformation.Time = "";
                         return;
                     }
@@ -206,9 +206,17 @@ namespace BubbleCloudorg.VisualNunit
                     if (attribute.Name == "success")
                     {
                         testInformation.Success = attribute.Value;
+                        if ("True".Equals(testInformation.Success))
+                        {
+                            testInformation.FailureMessage = "Success";
+                        }
+                        else
+                        {
+                            testInformation.FailureMessage = "Failure: ";
+                        }
                     }
                 }
-                testInformation.FailureMessage = "";
+
                 testInformation.FailureStackTrace = "";
                 foreach (XmlNode failureNode in caseNode.ChildNodes)
                 {
@@ -218,8 +226,8 @@ namespace BubbleCloudorg.VisualNunit
                         {
                             if (informationNode.LocalName == "message")
                             {
-                                testInformation.FailureMessage = informationNode.InnerText;
-                                Trace.WriteLine(testInformation.TestName + " failure message: " + testInformation.FailureMessage);
+                                testInformation.FailureMessage += informationNode.InnerText;
+                                Trace.WriteLine(testInformation.TestName + " " + testInformation.FailureMessage);
                             }
                             if (informationNode.LocalName == "stack-trace")
                             {

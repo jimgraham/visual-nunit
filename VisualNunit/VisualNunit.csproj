@@ -109,6 +109,15 @@
     <None Include="Resources\Images_24bit.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Icons\Aborted.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icons\Debug.png" />
+    <EmbeddedResource Include="Icons\Failure.png" />
+    <EmbeddedResource Include="Icons\Run.png" />
+    <EmbeddedResource Include="Icons\Success.png" />
+    <EmbeddedResource Include="Icons\Empty.png" />
+    <Content Include="Icons\IconLicense.txt" />
+    <EmbeddedResource Include="Icons\Stop.png" />
     <Content Include="Readme.txt" />
     <Content Include="Resources\Images_32bit.png" />
     <Content Include="Resources\Package.ico" />
