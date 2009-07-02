@@ -231,9 +231,22 @@ namespace BubbleCloudorg.VisualNunit
 
                     string[] nameParts = testCase.Split('.');
 
-                    string testName = nameParts[nameParts.Length - 1];
-                    string caseName = nameParts[nameParts.Length - 2];
-                    string testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
+                    string testName;
+                    string caseName;
+                    string testNamespace;
+
+                    if (nameParts.Length > 2)
+                    {
+                        testName = nameParts[nameParts.Length - 1];
+                        caseName = nameParts[nameParts.Length - 2];
+                        testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
+                    }
+                    else
+                    {
+                        testName = nameParts[nameParts.Length - 1];
+                        caseName = nameParts[nameParts.Length - 2];
+                        testNamespace = "";
+                    }
 
                     if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))
                     {
