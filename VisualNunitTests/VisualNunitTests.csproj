@@ -53,6 +53,12 @@
     <Compile Include="ExampleTestOne.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VisualNunitRunner\VisualNunitRunner.csproj">
+      <Project>{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}</Project>
+      <Name>VisualNunitRunner</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

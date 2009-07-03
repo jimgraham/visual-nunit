@@ -57,14 +57,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunnerClient.cs" />
     <Compile Include="RunnerListener.cs" />
+    <Compile Include="RunnerServer.cs" />
     <Compile Include="TestBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VisualNunitTests\VisualNunitTests.csproj">
-      <Project>{02549BC2-3BC0-4982-AF75-39E8BD9FB9A1}</Project>
-      <Name>VisualNunitTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
