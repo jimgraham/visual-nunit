@@ -9,6 +9,7 @@ using System.IO;
 using NUnit.Core.Builders;
 using NUnit.Core.Filters;
 using VisualNunitLogic;
+using System.Threading;
 
 namespace VisualNunitRunner
 {
@@ -45,12 +46,21 @@ namespace VisualNunitRunner
                     TestResult result = testSuite.Run(runnerListener, testFilter);
 
                 }
+                if (args.Length == 2 && args[0] == "serve")
+                {
+                    RunnerServer runnerServer = new RunnerServer(assemblyName);
+                    while(runnerServer.IsAlive)
+                    {
+                        Thread.Sleep(10);
+                    }
+                    System.Environment.Exit(0);
+                }
                 else if (args.Length == 2 && args[0] == "list")
                 {
                     TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
                     Queue<ITest> testQueue = new Queue<ITest>();
                     testQueue.Enqueue(testSuite);
-                    while (testQueue.Count>0)
+                    while (testQueue.Count > 0)
                     {
                         ITest test = testQueue.Dequeue();
                         if (test.Tests != null)

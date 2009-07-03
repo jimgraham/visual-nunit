@@ -65,8 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProjectInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunnerClient.cs" />
+    <Compile Include="RunnerInformation.cs" />
     <Compile Include="RunnerServer.cs" />
     <Compile Include="TestBuilder.cs" />
     <Compile Include="TestInformation.cs" />

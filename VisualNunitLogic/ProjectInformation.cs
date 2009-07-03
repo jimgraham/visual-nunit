@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BubbleCloudorg.VisualNunit
+namespace VisualNunitLogic
 {
     public class ProjectInformation
     {

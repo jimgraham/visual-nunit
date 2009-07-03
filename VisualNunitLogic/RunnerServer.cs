@@ -28,6 +28,22 @@ namespace VisualNunitLogic
 
         private byte[] readBuffer = new byte[65344];
 
+        public bool IsConnected
+        {
+            get
+            {
+                return pipe.IsConnected;
+            }
+        }
+
+        public bool IsAlive
+        {
+            get
+            {
+                return thread.IsAlive;
+            }
+        }
+
         /// <summary>
         /// Constructs pipe, waits for client connection and writes list of test names.
         /// </summary>
@@ -37,7 +53,7 @@ namespace VisualNunitLogic
             this.assemblyName = assemblyName;
             this.pipeName="VisualNunitRunner-"+Process.GetCurrentProcess().Id;
 
-            pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.WriteThrough, 65344, 65344);
+            pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.None);
             thread = new Thread(Run);
 
             thread.Start();
@@ -76,7 +92,7 @@ namespace VisualNunitLogic
             TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
             Queue<ITest> testQueue = new Queue<ITest>();
             testQueue.Enqueue(testSuite);
-            String testNames = "";
+            String testNames = "Tests:";
             while (testQueue.Count > 0)
             {
                 ITest test = testQueue.Dequeue();
@@ -98,6 +114,7 @@ namespace VisualNunitLogic
             }
             byte[] testNameBytes = Encoding.UTF8.GetBytes(testNames);
             pipe.Write(testNameBytes, 0, testNameBytes.Length);
+            pipe.Flush();
         }
 
         /// <summary>
@@ -149,6 +166,7 @@ namespace VisualNunitLogic
         {
             byte[] resultBytes = Encoding.UTF8.GetBytes(result.ToString());
             pipe.Write(resultBytes, 0, resultBytes.Length);
+            pipe.Flush();
         }
 
         #region EventListener Members

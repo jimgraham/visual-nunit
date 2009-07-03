@@ -19,12 +19,12 @@ namespace VisualNunitLogic
 
         public RunnerClient(Process serverProcess)
         {
-            this.pipeName = "VisualNunitRunner-" + Process.GetCurrentProcess().Id;
-            this.pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut, PipeOptions.WriteThrough);
-            this.pipe.Connect(50);
+            this.pipeName = "VisualNunitRunner-" + serverProcess.Id;
+            this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.None);
+            this.pipe.Connect(2000);
             this.pipe.ReadMode = PipeTransmissionMode.Message;
-            
-            string testCaseNames="";
+
+            string testCaseNames = "";
             while (true)
             {
                 int readByteCount = this.pipe.Read(readBuffer, 0, readBuffer.Length);
@@ -36,9 +36,9 @@ namespace VisualNunitLogic
             }
 
             string[] testCaseNameArray = testCaseNames.Split('\n');
-            foreach (string testCaseName in testCaseNameArray)
+            for(int i=1;i<testCaseNameArray.Length;i++)
             {
-                TestCases.Add(testCaseName);
+                TestCases.Add(testCaseNameArray[i]);
             }
         }
 
@@ -52,6 +52,7 @@ namespace VisualNunitLogic
         {
             byte[] testNameBytes = Encoding.UTF8.GetBytes(testInformation.TestName);
             pipe.Write(testNameBytes, 0, testNameBytes.Length);
+            pipe.Flush();
 
             string resultXml = "";
             while (true)

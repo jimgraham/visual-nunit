@@ -8,11 +8,13 @@ using System.IO;
 using EnvDTE;
 using System.Xml;
 using Microsoft.VisualStudio.Shell;
+using VisualNunitLogic;
 
 namespace BubbleCloudorg.VisualNunit
 {
     public static class NunitManager
     {
+        private static IDictionary<string, RunnerInformation> testRunners = new Dictionary<string, RunnerInformation>();
 
         /// <summary>
         /// Synchronously lists test case full names from an assembly with separate NunitRunner process.
@@ -21,6 +23,37 @@ namespace BubbleCloudorg.VisualNunit
         /// <returns></returns>
         public static IList<string> ListTestCases(string assemblyPath)
         {
+            // If runner already exists then shutdown the existing runner.
+            if (testRunners.ContainsKey(assemblyPath))
+            {
+                RunnerInformation runnerInformation = testRunners[assemblyPath];
+                try
+                {
+                    runnerInformation.Client.Dispose();
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    runnerInformation.Process.WaitForExit(200);
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    if (!runnerInformation.Process.HasExited)
+                    {
+                        runnerInformation.Process.Kill();
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                testRunners.Remove(assemblyPath);
+            }
+
             try
             {
                 // Parse the directory and file information from path.
@@ -31,39 +64,26 @@ namespace BubbleCloudorg.VisualNunit
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
                 startInfo.WorkingDirectory = directory;
-                startInfo.Arguments = "list " + fileName;
-                startInfo.RedirectStandardOutput = true;
+                startInfo.Arguments = "serve " + fileName;
+                startInfo.RedirectStandardOutput = false;
+                startInfo.RedirectStandardInput = false;
                 startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;                
-                System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
+                startInfo.CreateNoWindow = true;
 
-                // Read the test case names from project output while process is running.
-                IList<string> testCases = new List<string>();
-                string line = null;
-                while (!process.HasExited)
-                {
-                    if (!process.StandardOutput.EndOfStream)
-                    {
-                        line = process.StandardOutput.ReadLine();
-                        testCases.Add(line);
-                    }
-                    System.Threading.Thread.Sleep(10);
-                }
+                RunnerInformation runnerInformation = new RunnerInformation();
+                runnerInformation.Process = System.Diagnostics.Process.Start(startInfo);
+                runnerInformation.Client = new RunnerClient(runnerInformation.Process);
 
-                // Read rest of the test cases from the standard output.
-                while(!process.StandardOutput.EndOfStream)
-                {
-                    line = process.StandardOutput.ReadLine();
-                    testCases.Add(line);
-                }
+                testRunners.Add(assemblyPath, runnerInformation);
 
-                return testCases;
+                return runnerInformation.Client.TestCases;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Trace.TraceError(ex.ToString());
+                Trace.TraceError("Failed to list tests for " + assemblyPath + ": " + e.ToString());
                 return new List<string>();
             }
+
         }
 
         /// <summary>
