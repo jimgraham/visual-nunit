@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace VisualNunitLogic
 {
-    public class RunnerClient : IDisposable
+    public class RunnerClient
     {
         private string pipeName;
         private NamedPipeClientStream pipe;
@@ -20,7 +20,7 @@ namespace VisualNunitLogic
         public RunnerClient(Process serverProcess)
         {
             this.pipeName = "VisualNunitRunner-" + serverProcess.Id;
-            this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.None);
+            this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
             this.pipe.Connect(5000);
             this.pipe.ReadMode = PipeTransmissionMode.Message;
 
@@ -42,10 +42,12 @@ namespace VisualNunitLogic
             }
         }
 
-        public void Dispose()
+        public void Disconnect()
         {
-            pipe.Dispose();
-            pipe = null;
+            lock (this)
+            {
+                pipe.Close();
+            }
         }
 
         public void RunTest(TestInformation testInformation)
@@ -55,62 +57,81 @@ namespace VisualNunitLogic
             pipe.Flush();
 
             string resultXml = "";
-            while (true)
+            while(true)
             {
                 int readByteCount = pipe.Read(readBuffer, 0, readBuffer.Length);
                 resultXml += Encoding.UTF8.GetString(readBuffer, 0, readByteCount);
-                if (pipe.IsMessageComplete)
-                {
-                    break;
-                }
-            }
 
-            // Parsing a result XML received from NunitRunner standard output.
-            XmlDocument result = new XmlDocument();
-            result.LoadXml(resultXml);
-
-            // Filling in the TestInformation from result.
-            XmlNode caseNode = result.GetElementsByTagName("test-case").Item(0);
-            foreach (XmlAttribute attribute in caseNode.Attributes)
-            {
-                if (attribute.Name == "time")
+                lock (this)
                 {
-                    testInformation.Time = attribute.Value;
-                }
-                if (attribute.Name == "success")
-                {
-                    testInformation.Success = attribute.Value;
-                    if ("True".Equals(testInformation.Success))
+                    if(!pipe.IsConnected) 
                     {
-                        testInformation.FailureMessage = "Success";
+                        break;
                     }
-                    else
+                    if(pipe.IsMessageComplete)
                     {
-                        testInformation.FailureMessage = "Failure: ";
+                        break;
                     }
                 }
             }
 
-            testInformation.FailureStackTrace = "";
-            foreach (XmlNode failureNode in caseNode.ChildNodes)
+            if (testInformation.Stop)
             {
-                if (failureNode.LocalName == "failure")
+
+                testInformation.Success = "Aborted";
+                testInformation.FailureMessage = "User aborted.";
+                testInformation.Time = "";
+
+            }
+            else
+            {
+                // Parsing a result XML received from NunitRunner standard output.
+                XmlDocument result = new XmlDocument();
+                result.LoadXml(resultXml);
+
+                // Filling in the TestInformation from result.
+                XmlNode caseNode = result.GetElementsByTagName("test-case").Item(0);
+                foreach (XmlAttribute attribute in caseNode.Attributes)
                 {
-                    foreach (XmlNode informationNode in failureNode)
+                    if (attribute.Name == "time")
                     {
-                        if (informationNode.LocalName == "message")
+                        testInformation.Time = attribute.Value;
+                    }
+                    if (attribute.Name == "success")
+                    {
+                        testInformation.Success = attribute.Value;
+                        if ("True".Equals(testInformation.Success))
                         {
-                            testInformation.FailureMessage += informationNode.InnerText;
+                            testInformation.FailureMessage = "Success";
                         }
-                        if (informationNode.LocalName == "stack-trace")
+                        else
                         {
-                            testInformation.FailureStackTrace = informationNode.InnerText;
+                            testInformation.FailureMessage = "Failure: ";
                         }
                     }
                 }
+
+                testInformation.FailureStackTrace = "";
+                foreach (XmlNode failureNode in caseNode.ChildNodes)
+                {
+                    if (failureNode.LocalName == "failure")
+                    {
+                        foreach (XmlNode informationNode in failureNode)
+                        {
+                            if (informationNode.LocalName == "message")
+                            {
+                                testInformation.FailureMessage += informationNode.InnerText;
+                            }
+                            if (informationNode.LocalName == "stack-trace")
+                            {
+                                testInformation.FailureStackTrace = informationNode.InnerText;
+                            }
+                        }
+                    }
+                }
+
             }
 
         }
-
     }
 }

@@ -428,7 +428,7 @@ namespace BubbleCloudorg.VisualNunit
             {
                 testsToRun.Clear();
                 testsToRunStartCount = 1;
-                currentTest.Stop = true;
+                NunitManager.AbortTestCase(currentTest);
             }
         }
 
@@ -529,7 +529,7 @@ namespace BubbleCloudorg.VisualNunit
                     statusButton.Image=failureIcon;
                 }
 
-                statusLabel.Text="Total tests run: "+(successes+failures)+" Failures: "+failures+" ("+(100*failures/(successes+failures))+"%)";
+                statusLabel.Text="Total tests run: "+(successes+failures)+" Failures: "+failures+" "+(successes+failures!=0?"("+(100*failures/(successes+failures))+"%)":"");
 
             }
         }

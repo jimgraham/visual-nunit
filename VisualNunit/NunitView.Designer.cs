@@ -43,6 +43,7 @@ namespace BubbleCloudorg.VisualNunit
             this.testRunWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.statusButton = new System.Windows.Forms.ToolStripButton();
             this.statusLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runTestsButton = new System.Windows.Forms.ToolStripButton();
@@ -55,7 +56,6 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.caseComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.testListWorker = new System.ComponentModel.BackgroundWorker();
-            this.statusButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -206,6 +206,16 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStrip2.Size = new System.Drawing.Size(26, 25);
             this.toolStrip2.TabIndex = 0;
             // 
+            // statusButton
+            // 
+            this.statusButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.statusButton.Image = ((System.Drawing.Image)(resources.GetObject("statusButton.Image")));
+            this.statusButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.statusButton.Name = "statusButton";
+            this.statusButton.Size = new System.Drawing.Size(23, 22);
+            this.statusButton.Text = "toolStripButton1";
+            this.statusButton.Click += new System.EventHandler(this.runTests_Click);
+            // 
             // statusLabel
             // 
             this.statusLabel.Name = "statusLabel";
@@ -227,7 +237,7 @@ namespace BubbleCloudorg.VisualNunit
             this.caseComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(598, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(631, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // runTestsButton
@@ -290,16 +300,6 @@ namespace BubbleCloudorg.VisualNunit
             // 
             this.testListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testListWorker_DoWork);
             this.testListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testListWorker_RunWorkerCompleted);
-            // 
-            // statusButton
-            // 
-            this.statusButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.statusButton.Image = ((System.Drawing.Image)(resources.GetObject("statusButton.Image")));
-            this.statusButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.statusButton.Name = "statusButton";
-            this.statusButton.Size = new System.Drawing.Size(23, 22);
-            this.statusButton.Text = "toolStripButton1";
-            this.statusButton.Click += new System.EventHandler(this.runTests_Click);
             // 
             // NuniView
             // 

@@ -20,7 +20,7 @@ namespace VisualNunitTests
 
             Assert.AreEqual(8, runnerClient.TestCases.Count);
 
-            runnerClient.Dispose();
+            runnerClient.Disconnect();
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace VisualNunitTests
             runnerClient.RunTest(testInformation);
 
             Assert.AreEqual("True",testInformation.Success);
-            runnerClient.Dispose();
+            runnerClient.Disconnect();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace VisualNunitTests
 
             Assert.AreEqual("False", testInformation.Success);
             Assert.AreEqual("Failure: System.Exception : Test Exception",testInformation.FailureMessage);
-            runnerClient.Dispose();
+            runnerClient.Disconnect();
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace VisualNunitTests
 
             Assert.AreEqual("False", testInformation.Success);
             Assert.AreEqual("Failure: Test Assert", testInformation.FailureMessage);
-            runnerClient.Dispose();
+            runnerClient.Disconnect();
         }
     }
 }

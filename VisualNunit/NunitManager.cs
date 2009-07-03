@@ -29,7 +29,7 @@ namespace BubbleCloudorg.VisualNunit
                 RunnerInformation runnerInformation = testRunners[assemblyPath];
                 try
                 {
-                    runnerInformation.Client.Dispose();
+                    runnerInformation.Client.Disconnect();
                 }
                 catch (Exception)
                 {
@@ -146,12 +146,21 @@ namespace BubbleCloudorg.VisualNunit
                         localProcess.Detach(false);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 Trace.TraceError("Error detaching process from debugger: " + ex.ToString());
             }
+        }
+
+        public static void AbortTestCase(TestInformation testInformation)
+        {
+            if (!testRunners.ContainsKey(testInformation.AssemblyPath))
+            {
+                return;
+            }
+            testInformation.Stop = true;
+            ListTestCases(testInformation.AssemblyPath);
         }
 
     }
