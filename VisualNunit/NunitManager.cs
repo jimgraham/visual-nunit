@@ -117,6 +117,48 @@ namespace BubbleCloudorg.VisualNunit
         }
 
         /// <summary>
+        /// Prepares development environment for test case running.
+        /// This has to be executed from UI thread.
+        /// </summary>
+        /// <param name="testInformation"></param>
+        public static void PreRunTestCase(TestInformation testInformation)
+        {
+            testInformation.Stop = false;
+
+            try
+            {
+
+                if (testInformation.Debug)
+                {
+                    if (!testRunners.ContainsKey(testInformation.AssemblyPath))
+                    {
+                        return;
+                    }
+
+                    RunnerInformation runnerInformation = testRunners[testInformation.AssemblyPath];
+
+                    // Attaching the NunitRunner process to debugger.
+                    DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
+
+                    foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
+                    {
+                        if (localProcess.ProcessID == runnerInformation.Process.Id)
+                        {
+                            int processId = runnerInformation.Process.Id;
+                            string localProcessName = localProcess.Name;
+                            localProcess.Attach();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error attaching process to debugger: " + ex.ToString());
+            }
+
+        }
+
+        /// <summary>
         /// Runs a single test case in separate NunitRunner process synchronously.
         /// </summary>
         /// <param name="testInformation">Information identifying the test case and containing place holders for result information.</param>
@@ -130,34 +172,6 @@ namespace BubbleCloudorg.VisualNunit
 
             RunnerInformation runnerInformation = testRunners[testInformation.AssemblyPath];
 
-            testInformation.Stop = false;
-
-            System.Diagnostics.Process process = runnerInformation.Process;
-
-            // Binding the NunitRunner process to debugger.
-            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-
-            try
-            {
-                if (testInformation.Debug)
-                {
-                    foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
-                    {
-                        if (localProcess.ProcessID == process.Id)
-                        {
-                            int processId = process.Id;
-                            string localProcessName = localProcess.Name;
-                            localProcess.Attach();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError("Error attaching process to debugger: " + ex.ToString());
-            }
-
-
             try
             {
                 runnerInformation.Client.RunTest(testInformation);
@@ -167,13 +181,35 @@ namespace BubbleCloudorg.VisualNunit
                 Trace.TraceError("Error running test:" + e.ToString());
             }
 
+        }
+
+        /// <summary>
+        /// Recovers development environment from test case running.
+        /// This has to be executed from UI thread.
+        /// </summary>
+        /// <param name="testInformation"></param>
+        public static void PostRunTestCase(TestInformation testInformation)
+        {
             try
             {
-                foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
+                if (testInformation.Debug)
                 {
-                    if (localProcess.ProcessID == process.Id)
+                    if (!testRunners.ContainsKey(testInformation.AssemblyPath))
                     {
-                        localProcess.Detach(false);
+                        return;
+                    }
+
+                    RunnerInformation runnerInformation = testRunners[testInformation.AssemblyPath];
+
+                    // Detaching the NunitRunner process from debugger.
+                    DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
+
+                    foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
+                    {
+                        if (localProcess.ProcessID == runnerInformation.Process.Id)
+                        {
+                            localProcess.Detach(true);
+                        }
                     }
                 }
             }
@@ -181,6 +217,7 @@ namespace BubbleCloudorg.VisualNunit
             {
                 Trace.TraceError("Error detaching process from debugger: " + ex.ToString());
             }
+
         }
 
         public static void AbortTestCase(TestInformation testInformation)

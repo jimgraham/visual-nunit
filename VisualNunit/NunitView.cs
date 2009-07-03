@@ -426,6 +426,7 @@ namespace BubbleCloudorg.VisualNunit
                     currentTest = testsToRun.Dequeue();
                     runTestsButton.Text = "Stop";
                     runTestsButton.Image = stopIcon;
+                    NunitManager.PreRunTestCase(currentTest);
                     testRunWorker.RunWorkerAsync();
                 }
             }
@@ -449,6 +450,7 @@ namespace BubbleCloudorg.VisualNunit
                     testsToRunStartCount = 1;
                     runTestsButton.Text = "Stop";
                     runTestsButton.Image = stopIcon;
+                    NunitManager.PreRunTestCase(currentTest);
                     testRunWorker.RunWorkerAsync();
                 }
             }
@@ -479,6 +481,8 @@ namespace BubbleCloudorg.VisualNunit
 
         private void testRunWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
+            NunitManager.PostRunTestCase(currentTest);
+
             {
                 DataRow dataRow = currentTest.DataRow;
                 dataRow["Success"] = currentTest.Success;
@@ -489,6 +493,7 @@ namespace BubbleCloudorg.VisualNunit
             if (testsToRun.Count > 0)
             {
                 currentTest = testsToRun.Dequeue();
+                NunitManager.PreRunTestCase(currentTest);
                 testRunWorker.RunWorkerAsync();
             }
             else
