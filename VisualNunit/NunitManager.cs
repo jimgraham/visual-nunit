@@ -93,28 +93,22 @@ namespace BubbleCloudorg.VisualNunit
         /// <param name="debug">Set to true to enable debug mode.</param>
         public static void RunTestCase(TestInformation testInformation)
         {
+            if (!testRunners.ContainsKey(testInformation.AssemblyPath))
+            {
+                return;
+            }
+
+            RunnerInformation runnerInformation = testRunners[testInformation.AssemblyPath];
+
+            testInformation.Stop = false;
+
+            System.Diagnostics.Process process = runnerInformation.Process;
+
+            // Binding the NunitRunner process to debugger.
+            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
             try
             {
-                testInformation.Stop = false;
-                // Parse the directory and file information from path.
-                string directory = Path.GetDirectoryName(testInformation.AssemblyPath).ToString();
-                string fileName = Path.GetFileName(testInformation.AssemblyPath);
-
-                // Starting a new NunitRunner process.
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
-                startInfo.WorkingDirectory = directory;
-                startInfo.Arguments = "run " + fileName;
-                startInfo.RedirectStandardInput = true;
-                startInfo.RedirectStandardOutput = true;
-                startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;
-                System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
-
-                // Binding the NunitRunner process to debugger.
-                DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-
                 if (testInformation.Debug)
                 {
                     foreach (EnvDTE.Process localProcess in dte.Debugger.LocalProcesses)
@@ -127,144 +121,39 @@ namespace BubbleCloudorg.VisualNunit
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error attaching process to debugger: " + ex.ToString());
+            }
 
-                // Requesting the NunitRunner process to start executing the test.
-                process.StandardInput.WriteLine(testInformation.TestName);
 
-                // Monitoring for debug stop and reading standard output as long as 
-                // the NunitRunner process is alive.
-                string line = null;
-                string resultXmlString = "";
-                bool resultXmlStarted = false;
-                while (!process.HasExited)
+            try
+            {
+                runnerInformation.Client.RunTest(testInformation);
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Error running test:" + e.ToString());
+            }
+
+            try
+            {
+                foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
                 {
-                    if (testInformation.Debug)
+                    if (localProcess.ProcessID == process.Id)
                     {
-                        bool isProcessStillDebugged = false;
-                        foreach (EnvDTE.Process localProcess in dte.Debugger.DebuggedProcesses)
-                        {
-                            if (localProcess.ProcessID == process.Id)
-                            {
-                                isProcessStillDebugged = true;
-                            }
-                        }
-                        if (!isProcessStillDebugged)
-                        {
-                            process.Kill();
-                            testInformation.Success = "Aborted";
-                            testInformation.FailureMessage = "User aborted.";
-                            testInformation.Time = "";
-                            return;
-                        }
-                    }
-
-                    if (testInformation.Stop)
-                    {
-                        process.Kill();
-                        testInformation.Success = "Aborted";
-                        testInformation.FailureMessage = "User aborted.";
-                        testInformation.Time = "";
-                        return;
-                    }
-
-                    if (!process.StandardOutput.EndOfStream)
-                    {
-                        line = process.StandardOutput.ReadLine();
-                        if (line == "beginning-of-test-result-xml")
-                        {
-                            resultXmlStarted = true;
-                        }
-                        else
-                        {
-                            if (!resultXmlStarted)
-                            {
-                                Trace.WriteLine(line);
-                            }
-                            else
-                            {
-                                resultXmlString += line;
-                            }
-                        }
-                    }
-
-                    System.Threading.Thread.Sleep(1);
-                }
-
-                // Reading rest of the standard output from NunitRunner process.
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    line = process.StandardOutput.ReadLine();
-                    if (line == "beginning-of-test-result-xml")
-                    {
-                        resultXmlStarted = true;
-                    }
-                    else
-                    {
-                        if (!resultXmlStarted)
-                        {
-                            Trace.WriteLine(line);
-                        }
-                        else
-                        {
-                            resultXmlString += line;
-                        }
+                        localProcess.Detach(false);
                     }
                 }
-
-                // Parsing a result XML received from NunitRunner standard output.
-                XmlDocument result = new XmlDocument();
-                result.LoadXml(resultXmlString);
-
-                // Filling in the TestInformation from result.
-                XmlNode caseNode=result.GetElementsByTagName("test-case").Item(0);                
-                foreach(XmlAttribute attribute in caseNode.Attributes)
-                {
-                    if (attribute.Name == "time")
-                    {
-                        testInformation.Time = attribute.Value;
-                    }
-                    if (attribute.Name == "success")
-                    {
-                        testInformation.Success = attribute.Value;
-                        if ("True".Equals(testInformation.Success))
-                        {
-                            testInformation.FailureMessage = "Success";
-                        }
-                        else
-                        {
-                            testInformation.FailureMessage = "Failure: ";
-                        }
-                    }
-                }
-
-                testInformation.FailureStackTrace = "";
-                foreach (XmlNode failureNode in caseNode.ChildNodes)
-                {
-                    if (failureNode.LocalName == "failure")
-                    {
-                        foreach (XmlNode informationNode in failureNode)
-                        {
-                            if (informationNode.LocalName == "message")
-                            {
-                                testInformation.FailureMessage += informationNode.InnerText;
-                                Trace.WriteLine(testInformation.TestName + " " + testInformation.FailureMessage);
-                            }
-                            if (informationNode.LocalName == "stack-trace")
-                            {
-                                testInformation.FailureStackTrace = informationNode.InnerText;
-                                Trace.WriteLine(testInformation.FailureStackTrace);
-                            }
-                        }
-                    }
-                }
-
 
             }
             catch (Exception ex)
             {
-                Trace.TraceError(ex.ToString());
+                Trace.TraceError("Error detaching process from debugger: " + ex.ToString());
             }
         }
 
     }
+
 }

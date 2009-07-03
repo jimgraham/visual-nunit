@@ -28,14 +28,9 @@ namespace VisualNunitLogic
 
         private byte[] readBuffer = new byte[65344];
 
-        public bool IsConnected
-        {
-            get
-            {
-                return pipe.IsConnected;
-            }
-        }
-
+        /// <summary>
+        /// True if server thread is alive.
+        /// </summary>
         public bool IsAlive
         {
             get

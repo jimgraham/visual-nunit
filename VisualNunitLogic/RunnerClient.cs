@@ -21,7 +21,7 @@ namespace VisualNunitLogic
         {
             this.pipeName = "VisualNunitRunner-" + serverProcess.Id;
             this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.None);
-            this.pipe.Connect(2000);
+            this.pipe.Connect(5000);
             this.pipe.ReadMode = PipeTransmissionMode.Message;
 
             string testCaseNames = "";
