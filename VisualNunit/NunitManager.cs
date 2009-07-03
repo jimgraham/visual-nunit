@@ -16,6 +16,28 @@ namespace BubbleCloudorg.VisualNunit
     {
         private static IDictionary<string, RunnerInformation> testRunners = new Dictionary<string, RunnerInformation>();
 
+        public static void StopRunners()
+        {
+            foreach (RunnerInformation runnerInformation in testRunners.Values)
+            {
+                try
+                {
+                    runnerInformation.Client.Disconnect();
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    runnerInformation.Process.Kill();
+                }
+                catch (Exception)
+                {
+                }
+            }
+            testRunners.Clear();
+        }
+
         /// <summary>
         /// Synchronously lists test case full names from an assembly with separate NunitRunner process.
         /// </summary>
@@ -23,6 +45,7 @@ namespace BubbleCloudorg.VisualNunit
         /// <returns></returns>
         public static IList<string> ListTestCases(string assemblyPath)
         {
+
             // If runner already exists then shutdown the existing runner.
             if (testRunners.ContainsKey(assemblyPath))
             {
@@ -74,7 +97,14 @@ namespace BubbleCloudorg.VisualNunit
                 runnerInformation.Process = System.Diagnostics.Process.Start(startInfo);
                 runnerInformation.Client = new RunnerClient(runnerInformation.Process);
 
-                testRunners.Add(assemblyPath, runnerInformation);
+                if (runnerInformation.Client.TestCases.Count > 0)
+                {
+                    testRunners.Add(assemblyPath, runnerInformation);
+                }
+                else
+                {
+                    runnerInformation.Client.Disconnect();
+                }
 
                 return runnerInformation.Client.TestCases;
             }

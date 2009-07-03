@@ -39,14 +39,24 @@ namespace VisualNunitLogic
             }
         }
 
+        public RunnerServer(string assemblyName)
+        {
+            ConstructRunnerServer("VisualNunitRunner", assemblyName);
+        }
+
+        public RunnerServer(string pipePrefix, string assemblyName)
+        {
+            ConstructRunnerServer(pipePrefix, assemblyName);
+        }
+
         /// <summary>
         /// Constructs pipe, waits for client connection and writes list of test names.
         /// </summary>
         /// <param name="assemblyName"></param>
-        public RunnerServer(string assemblyName)
+        public void ConstructRunnerServer(string pipePrefix,string assemblyName)
         {
             this.assemblyName = assemblyName;
-            this.pipeName="VisualNunitRunner-"+Process.GetCurrentProcess().Id;
+            this.pipeName=pipePrefix+"-"+Process.GetCurrentProcess().Id;
 
             pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.None);
             thread = new Thread(Run);

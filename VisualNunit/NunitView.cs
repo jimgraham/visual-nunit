@@ -179,6 +179,11 @@ namespace BubbleCloudorg.VisualNunit
 
                         String assemblyPath = localPath + outputPath + outputFileName;
 
+                        if (!assemblyPath.EndsWith(".dll"))
+                        {
+                            continue;
+                        }
+
                         if (File.Exists(assemblyPath))
                         {
                             ProjectInformation projectInformation=new ProjectInformation();
@@ -601,6 +606,7 @@ namespace BubbleCloudorg.VisualNunit
 
         public int UpdateSolution_Begin(ref int pfCancelUpdate)
         {
+            NunitManager.StopRunners();
             return VSConstants.S_OK;
         }
 

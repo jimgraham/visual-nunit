@@ -15,8 +15,8 @@ namespace VisualNunitTests
         [Test]
         public void TestListingTests()
         {
-            RunnerServer runnerServer = new RunnerServer("VisualNunitTests.dll");
-            RunnerClient runnerClient = new RunnerClient(Process.GetCurrentProcess());
+            RunnerServer runnerServer = new RunnerServer("TestVisualNunitRunner", "VisualNunitTests.dll");
+            RunnerClient runnerClient = new RunnerClient("TestVisualNunitRunner", Process.GetCurrentProcess());
 
             Assert.AreEqual(8, runnerClient.TestCases.Count);
 
@@ -26,8 +26,8 @@ namespace VisualNunitTests
         [Test]
         public void TestRunningSuccessTest()
         {
-            RunnerServer runnerServer = new RunnerServer("VisualNunitTests.dll");
-            RunnerClient runnerClient = new RunnerClient(Process.GetCurrentProcess());
+            RunnerServer runnerServer = new RunnerServer("TestVisualNunitRunner", "VisualNunitTests.dll");
+            RunnerClient runnerClient = new RunnerClient("TestVisualNunitRunner", Process.GetCurrentProcess());
 
             TestInformation testInformation = new TestInformation();
             testInformation.TestName = "VisualNunitTests.ExampleTestOne.TestOneSuccess";
@@ -41,8 +41,8 @@ namespace VisualNunitTests
         [Test]
         public void TestRunningExceptionTest()
         {
-            RunnerServer runnerServer = new RunnerServer("VisualNunitTests.dll");
-            RunnerClient runnerClient = new RunnerClient(Process.GetCurrentProcess());
+            RunnerServer runnerServer = new RunnerServer("TestVisualNunitRunner", "VisualNunitTests.dll");
+            RunnerClient runnerClient = new RunnerClient("TestVisualNunitRunner", Process.GetCurrentProcess());
 
             TestInformation testInformation = new TestInformation();
             testInformation.TestName = "VisualNunitTests.ExampleTestOne.TestOneException";
@@ -57,8 +57,8 @@ namespace VisualNunitTests
         [Test]
         public void TestRunningAssertTest()
         {
-            RunnerServer runnerServer = new RunnerServer("VisualNunitTests.dll");
-            RunnerClient runnerClient = new RunnerClient(Process.GetCurrentProcess());
+            RunnerServer runnerServer = new RunnerServer("TestVisualNunitRunner", "VisualNunitTests.dll");
+            RunnerClient runnerClient = new RunnerClient("TestVisualNunitRunner", Process.GetCurrentProcess());
 
             TestInformation testInformation = new TestInformation();
             testInformation.TestName = "VisualNunitTests.ExampleTestOne.TestOneAssert";

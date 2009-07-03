@@ -19,7 +19,17 @@ namespace VisualNunitLogic
 
         public RunnerClient(Process serverProcess)
         {
-            this.pipeName = "VisualNunitRunner-" + serverProcess.Id;
+            ConstructRunnerClient("VisualNunitRunner", serverProcess);
+        }
+
+        public RunnerClient(String pipePrefix, Process serverProcess)
+        {
+            ConstructRunnerClient(pipePrefix, serverProcess);
+        }
+
+        public void ConstructRunnerClient(String pipePrefix,Process serverProcess)
+        {
+            this.pipeName = pipePrefix +"-"+ serverProcess.Id;
             this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
             this.pipe.Connect(5000);
             this.pipe.ReadMode = PipeTransmissionMode.Message;
@@ -36,7 +46,7 @@ namespace VisualNunitLogic
             }
 
             string[] testCaseNameArray = testCaseNames.Split('\n');
-            for(int i=1;i<testCaseNameArray.Length;i++)
+            for (int i = 1; i < testCaseNameArray.Length; i++)
             {
                 TestCases.Add(testCaseNameArray[i]);
             }
