@@ -79,7 +79,7 @@ namespace VisualNunitLogic
             {
 
                 testInformation.Success = "Aborted";
-                testInformation.FailureMessage = "User aborted.";
+                testInformation.FailureMessage = "Aborted";
                 testInformation.Time = "";
 
             }
