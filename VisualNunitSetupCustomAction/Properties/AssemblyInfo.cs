@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VisualNunitSetupCustomAction")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Visual Nunit Setup Custom Action")]
+[assembly: AssemblyDescription("NUnit integration for Visual Studio 2008.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("VisualNunitSetupCustomAction")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCompany("Bubble Cloud")]
+[assembly: AssemblyProduct("Visual Nunit")]
+[assembly: AssemblyCopyright("Apache 2.0")]
+[assembly: AssemblyTrademark("Visual Nunit")]
+[assembly: AssemblyCulture("")]  
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
