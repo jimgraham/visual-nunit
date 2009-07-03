@@ -69,6 +69,7 @@
     <Compile Include="RunnerClient.cs" />
     <Compile Include="RunnerServer.cs" />
     <Compile Include="TestBuilder.cs" />
+    <Compile Include="TestInformation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
