@@ -11,6 +11,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VisualNunitSetup", "VisualN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualNunitSetupCustomAction", "VisualNunitSetupCustomAction\VisualNunitSetupCustomAction.csproj", "{13B129B2-0CEA-4686-88AB-CA6B66A93BAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualNunitLogic", "VisualNunitLogic\VisualNunitLogic.csproj", "{76F8F92E-E45A-458F-88D2-6F0D55616A13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{13B129B2-0CEA-4686-88AB-CA6B66A93BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B129B2-0CEA-4686-88AB-CA6B66A93BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13B129B2-0CEA-4686-88AB-CA6B66A93BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

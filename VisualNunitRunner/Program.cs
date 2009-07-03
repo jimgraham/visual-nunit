@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using NUnit.Core.Builders;
 using NUnit.Core.Filters;
+using VisualNunitLogic;
 
 namespace VisualNunitRunner
 {

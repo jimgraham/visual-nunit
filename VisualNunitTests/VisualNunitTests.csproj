@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core.interfaces, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\VisualNunit\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.0.9122, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VisualNunit\lib\nunit.framework.dll</HintPath>
@@ -52,11 +56,12 @@
     <Compile Include="ExampleTestTwo.cs" />
     <Compile Include="ExampleTestOne.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunnerClientServerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VisualNunitRunner\VisualNunitRunner.csproj">
-      <Project>{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}</Project>
-      <Name>VisualNunitRunner</Name>
+    <ProjectReference Include="..\VisualNunitLogic\VisualNunitLogic.csproj">
+      <Project>{76F8F92E-E45A-458F-88D2-6F0D55616A13}</Project>
+      <Name>VisualNunitLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

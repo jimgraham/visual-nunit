@@ -5,9 +5,9 @@ using System.Text;
 using System.Diagnostics;
 using System.IO.Pipes;
 
-namespace VisualNunitRunner
+namespace VisualNunitLogic
 {
-    public class RunnerClient
+    public class RunnerClient : IDisposable
     {
         private string pipeName;
         private NamedPipeClientStream pipe;
@@ -40,10 +40,13 @@ namespace VisualNunitRunner
             {
                 TestCases.Add(testCaseName);
             }
-
         }
 
-
+        public void Dispose()
+        {
+            pipe.Dispose();
+            pipe = null;
+        }
 
     }
 }

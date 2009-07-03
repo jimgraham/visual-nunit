@@ -5,7 +5,7 @@ using System.Reflection;
 using NUnit.Core.Extensibility;
 using NUnit.Core;
 
-namespace VisualNunitRunner
+namespace VisualNunitLogic
 {
     /// <summary>
     /// Class that builds a TestSuite from an assembly
