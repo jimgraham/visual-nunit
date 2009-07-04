@@ -584,6 +584,15 @@ namespace BubbleCloudorg.VisualNunit
 
         public int OnAfterCloseSolution(object pUnkReserved)
         {
+            projectComboBox.Items.Clear();
+            projectComboBox.SelectedItem = null;
+            projectComboBox.Text = null;
+            namespaceComboBox.Items.Clear();
+            namespaceComboBox.SelectedItem = null;
+            namespaceComboBox.Text = null;
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
             RefreshView();
             return VSConstants.S_OK;
         }
@@ -608,7 +617,6 @@ namespace BubbleCloudorg.VisualNunit
 
         public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
         {
-            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Project unload: {0}", pRealHierarchy.ToString()));
             return VSConstants.S_OK;
         }
 
@@ -656,6 +664,15 @@ namespace BubbleCloudorg.VisualNunit
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
+            projectComboBox.Items.Clear();
+            projectComboBox.SelectedItem = null;
+            projectComboBox.Text = null;
+            namespaceComboBox.Items.Clear();
+            namespaceComboBox.SelectedItem = null;
+            namespaceComboBox.Text = null;
+            caseComboBox.Items.Clear();
+            caseComboBox.SelectedItem = null;
+            caseComboBox.Text = null;
             RefreshView();
             return VSConstants.S_OK;
         }
