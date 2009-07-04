@@ -12,38 +12,22 @@ using VisualNunitLogic;
 
 namespace BubbleCloudorg.VisualNunit
 {
+
+    /// <summary>
+    /// Singleton managing access to nunit runner processes. 
+    /// Offers methods for starting runners, stopping runners, 
+    /// running tests and aborting tests.
+    /// </summary>
     public static class NunitManager
     {
         private static IDictionary<string, RunnerInformation> testRunners = new Dictionary<string, RunnerInformation>();
 
-        public static void StopRunners()
-        {
-            foreach (RunnerInformation runnerInformation in testRunners.Values)
-            {
-                try
-                {
-                    runnerInformation.Client.Disconnect();
-                }
-                catch (Exception)
-                {
-                }
-                try
-                {
-                    runnerInformation.Process.Kill();
-                }
-                catch (Exception)
-                {
-                }
-            }
-            testRunners.Clear();
-        }
-
         /// <summary>
-        /// Synchronously lists test case full names from an assembly with separate NunitRunner process.
+        /// Starts or restarts runner process and lists test cases it hosts.
         /// </summary>
         /// <param name="assemblyPath">Path to assembly to list test cases from.</param>
         /// <returns></returns>
-        public static IList<string> ListTestCases(string assemblyPath)
+        public static IList<string> StartRunner(string assemblyPath)
         {
 
             // If runner already exists then shutdown the existing runner.
@@ -114,6 +98,31 @@ namespace BubbleCloudorg.VisualNunit
                 return new List<string>();
             }
 
+        }
+
+        /// <summary>
+        /// Stops runner processes build events can update dlls.
+        /// </summary>
+        public static void StopRunners()
+        {
+            foreach (RunnerInformation runnerInformation in testRunners.Values)
+            {
+                try
+                {
+                    runnerInformation.Client.Disconnect();
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
+                    runnerInformation.Process.Kill();
+                }
+                catch (Exception)
+                {
+                }
+            }
+            testRunners.Clear();
         }
 
         /// <summary>
@@ -220,6 +229,10 @@ namespace BubbleCloudorg.VisualNunit
 
         }
 
+        /// <summary>
+        /// Aborts execution of test case by restarting the test runner process.
+        /// </summary>
+        /// <param name="testInformation"></param>
         public static void AbortTestCase(TestInformation testInformation)
         {
             if (!testRunners.ContainsKey(testInformation.AssemblyPath))
@@ -227,7 +240,7 @@ namespace BubbleCloudorg.VisualNunit
                 return;
             }
             testInformation.Stop = true;
-            ListTestCases(testInformation.AssemblyPath);
+            StartRunner(testInformation.AssemblyPath);
         }
 
     }

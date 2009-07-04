@@ -214,7 +214,7 @@ namespace BubbleCloudorg.VisualNunit
         {
             try
             {
-                loadedTestCases = NunitManager.ListTestCases(currentlyLoadingProject.AssemblyPath);
+                loadedTestCases = NunitManager.StartRunner(currentlyLoadingProject.AssemblyPath);
             }
             catch (Exception ex)
             {
