@@ -340,22 +340,22 @@ namespace BubbleCloudorg.VisualNunit
         {
             DataRow dataRow = ((DataRowView)dataGridView1.Rows[e.RowIndex].DataBoundItem).Row;
             DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells["Success"];
-            TestState success = (TestState)dataRow["Success"];
-            if (TestState.Success.Equals(success))
+            TestState testStaet = (TestState)dataRow["Success"];
+            if (TestState.Success.Equals(testStaet))
             {
                 if (cell.Value != successIcon)
                 {
                     cell.Value = successIcon;
                 }
             }
-            else if (TestState.Failure.Equals(success))
+            else if (TestState.Failure.Equals(testStaet))
             {
                 if (cell.Value != failureIcon)
                 {
                     cell.Value = failureIcon;
                 }
             }
-            else if (TestState.Aborted.Equals(success))
+            else if (TestState.Aborted.Equals(testStaet))
             {
                 if (cell.Value != abortedIcon)
                 {
@@ -544,15 +544,16 @@ namespace BubbleCloudorg.VisualNunit
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
-                    if(TestState.Success.Equals(dataRow["Success"]))
+                    TestState testState = (TestState)dataRow["Success"];
+                    if (TestState.Success.Equals(testState))
                     {
                         successes++;
                     }
-                    else if (TestState.Failure.Equals(dataRow["Success"]))
+                    else if (TestState.Failure.Equals(testState))
                     {
                         failures++;
                     }
-                    else if (TestState.Aborted.Equals(dataRow["Success"]))
+                    else if (TestState.Aborted.Equals(testState))
                     {
                         aborts++;
                     }
