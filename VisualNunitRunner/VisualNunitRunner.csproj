@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunnerListener.cs" />
+    <Compile Include="ConsoleTestRunListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VisualNunitLogic\VisualNunitLogic.csproj">

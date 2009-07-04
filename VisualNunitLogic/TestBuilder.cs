@@ -8,7 +8,7 @@ using NUnit.Core;
 namespace VisualNunitLogic
 {
     /// <summary>
-    /// Class that builds a TestSuite from an assembly
+    /// Class that builds a TestSuite from an assembly. This is modified version of AssemblyTestBuilder from Nunit core.
     /// </summary>
     public class TestBuilder
     {

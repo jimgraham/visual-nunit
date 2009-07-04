@@ -237,7 +237,7 @@ namespace BubbleCloudorg.VisualNunit
             this.caseComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(631, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(639, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // runTestsButton
@@ -287,8 +287,8 @@ namespace BubbleCloudorg.VisualNunit
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(32, 22);
-            this.toolStripLabel3.Text = "Case";
+            this.toolStripLabel3.Size = new System.Drawing.Size(42, 22);
+            this.toolStripLabel3.Text = "Fixture";
             // 
             // caseComboBox
             // 

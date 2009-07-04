@@ -9,7 +9,10 @@ using System.IO;
 
 namespace VisualNunitRunner
 {
-    public class RunnerListener : EventListener
+    /// <summary>
+    /// Skeletal implementation of event listener for console test execution.
+    /// </summary>
+    public class ConsoleTestRunListener : EventListener
     {
         #region EventListener Members
 
@@ -35,15 +38,6 @@ namespace VisualNunitRunner
 
         public void TestFinished(TestResult result)
         {
-            if (result.StackTrace != null && result.StackTrace.Length > 0)
-            {
-                Trace.TraceError(result.StackTrace);
-            }
-            Console.WriteLine("beginning-of-test-result-xml");
-            StringBuilder builder = new StringBuilder();
-            new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
-            Console.WriteLine(builder.ToString());
-            System.Environment.Exit(0);
         }
 
         public void TestOutput(TestOutput testOutput)

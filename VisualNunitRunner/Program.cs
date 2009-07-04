@@ -13,6 +13,10 @@ using System.Threading;
 
 namespace VisualNunitRunner
 {
+    /// <summary>
+    /// Test runner process which can run either in interactive command line mode or
+    /// named pipe based service mode to be used with visual studio. 
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -21,9 +25,6 @@ namespace VisualNunitRunner
             {
                 CoreExtensions.Host.InitializeService();
 
-                ConsoleTraceListener consoleListener = new ConsoleTraceListener();
-                Trace.Listeners.Add(consoleListener);
-
                 string assemblyName = "";
                 if (args.Length == 2)
                 {
@@ -31,32 +32,39 @@ namespace VisualNunitRunner
                 }
                 else
                 {
-                    Console.WriteLine("usage: VisualNunitRunner.exe [run|list] file");
+                    Console.WriteLine("usage: VisualNunitRunner.exe [run|list|serve] file");
                     return;
                 }
 
                 if (args.Length == 2 && args[0] == "run")
                 {
+                    // Run tests according to console input.
+                    ConsoleTraceListener consoleListener = new ConsoleTraceListener();
+                    Trace.Listeners.Add(consoleListener);
 
-                    RunnerListener runnerListener = new RunnerListener();
+                    ConsoleTestRunListener runnerListener = new ConsoleTestRunListener();
                     SimpleNameFilter testFilter = new SimpleNameFilter();
                     testFilter.Add(Console.ReadLine());
 
                     TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
                     TestResult result = testSuite.Run(runnerListener, testFilter);
 
-                }
-                if (args.Length == 2 && args[0] == "serve")
-                {
-                    RunnerServer runnerServer = new RunnerServer(assemblyName);
-                    while(runnerServer.IsAlive)
+                    if (result.StackTrace != null && result.StackTrace.Length > 0)
                     {
-                        Thread.Sleep(10);
+                        Trace.TraceError(result.StackTrace);
                     }
-                    System.Environment.Exit(0);
+
+                    Console.WriteLine("beginning-of-test-result-xml");
+                    StringBuilder builder = new StringBuilder();
+                    new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
+                    Console.WriteLine(builder.ToString());
                 }
                 else if (args.Length == 2 && args[0] == "list")
                 {
+                    // List tests to console output.
+                    ConsoleTraceListener consoleListener = new ConsoleTraceListener();
+                    Trace.Listeners.Add(consoleListener);
+
                     TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
                     Queue<ITest> testQueue = new Queue<ITest>();
                     testQueue.Enqueue(testSuite);
@@ -75,6 +83,16 @@ namespace VisualNunitRunner
                             Console.WriteLine(test.TestName.FullName);
                         }
                     }
+                }
+                else if (args.Length == 2 && args[0] == "serve")
+                {
+                    // Run in service mode to serve visual studio via named pipes.
+                    RunnerServer runnerServer = new RunnerServer(assemblyName);
+                    while (runnerServer.IsAlive)
+                    {
+                        Thread.Sleep(10);
+                    }
+                    System.Environment.Exit(0);
                 }
             }
             catch (Exception e)

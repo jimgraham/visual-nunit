@@ -16,20 +16,32 @@ namespace VisualNunitLogic
     /// <summary>
     /// Server test runner class allowing for running multiple tests 
     /// in the same process using named pipe for communication with the 
-    /// visual studio process.
+    /// RunnerClient.
     /// </summary>
     public class RunnerServer : EventListener
     {
-        private string assemblyName;
-        private string pipeName;
-
-        private NamedPipeServerStream pipe;
-        private Thread thread;
-
-        private byte[] readBuffer = new byte[65344];
-
         /// <summary>
-        /// True if server thread is alive.
+        /// Name of the assembly dll containing tests for this runner.
+        /// </summary>
+        private string assemblyName;
+        /// <summary>
+        /// Name of the pipe used to communicate with RunnerClient.
+        /// </summary>
+        private string pipeName;
+        /// <summary>
+        /// Named pipe used to communicate with RunnerClient.
+        /// </summary>
+        private NamedPipeServerStream pipe;
+        /// <summary>
+        /// Server thread which signals with RunnerClient and executes tests.
+        /// </summary>
+        private Thread thread;
+        /// <summary>
+        /// Read buffer used when reading from named pipe.
+        /// </summary>
+        private byte[] readBuffer = new byte[65344];
+        /// <summary>
+        /// Whether server thread is alive.
         /// </summary>
         public bool IsAlive
         {
@@ -39,28 +51,40 @@ namespace VisualNunitLogic
             }
         }
 
+        /// <summary>
+        /// Constructs runner server with default pipe prefix for given assembly dll.
+        /// </summary>
+        /// <param name="assemblyName">Name of the assembly dll containing tests.</param>
         public RunnerServer(string assemblyName)
         {
             ConstructRunnerServer("VisualNunitRunner", assemblyName);
         }
 
+        /// <summary>
+        /// Constructs runner server with custom pipe prefix for given assembly dll.
+        /// </summary>
+        /// <param name="pipePrefix">Custom pipe name prefix.</param>
+        /// <param name="assemblyName">The name of the assembly dll containing tests.</param>
         public RunnerServer(string pipePrefix, string assemblyName)
         {
             ConstructRunnerServer(pipePrefix, assemblyName);
         }
 
         /// <summary>
-        /// Constructs pipe, waits for client connection and writes list of test names.
+        /// Construction logic shared by constructors.
         /// </summary>
-        /// <param name="assemblyName"></param>
-        public void ConstructRunnerServer(string pipePrefix,string assemblyName)
+        /// <param name="pipePrefix">Custom pipe name prefix.</param>
+        /// <param name="assemblyName">The name of the assembly dll containing tests.</param>
+        public void ConstructRunnerServer(string pipePrefix, string assemblyName)
         {
             this.assemblyName = assemblyName;
             this.pipeName=pipePrefix+"-"+Process.GetCurrentProcess().Id;
 
+            // Construction of pipe and server thread.
             pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.None);
             thread = new Thread(Run);
 
+            // Starting server execution in separate thread.
             thread.Start();
         }
 
@@ -86,6 +110,7 @@ namespace VisualNunitLogic
                 }
             }
 
+            // Release pipe resources.
             pipe.Dispose();
         }
 
@@ -94,7 +119,10 @@ namespace VisualNunitLogic
         /// </summary>
         private void ListTests()
         {
+            // Build test suite from the given assembly.
             TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
+            
+            // Recursively browse tests and concatenate full test names to string in separate lines. 
             Queue<ITest> testQueue = new Queue<ITest>();
             testQueue.Enqueue(testSuite);
             String testNames = "Tests:";
@@ -117,28 +145,33 @@ namespace VisualNunitLogic
                     testNames += test.TestName.FullName;
                 }
             }
+
+            // Write test names to the pipe.
             byte[] testNameBytes = Encoding.UTF8.GetBytes(testNames);
             pipe.Write(testNameBytes, 0, testNameBytes.Length);
             pipe.Flush();
         }
 
         /// <summary>
-        /// Runs the requested test and writes result to pipe.
+        /// Runs the requested test and return result XML.
         /// </summary>
         /// <param name="testName"></param>
         /// <returns>Result XML document</returns> 
         private string RunTest(string testName)
         {
+            // Execute the give test.
             SimpleNameFilter testFilter = new SimpleNameFilter();
             testFilter.Add(testName);
             TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
             TestResult result = testSuite.Run(this, testFilter);
 
+            // Trace error stack trace.
             if (result.StackTrace != null && result.StackTrace.Length > 0)
             {
                 Trace.TraceError(result.StackTrace);
             }
 
+            // Serialize result to XML.
             StringBuilder builder = new StringBuilder();
             new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
 
