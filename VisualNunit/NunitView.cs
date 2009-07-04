@@ -395,6 +395,9 @@ namespace BubbleCloudorg.VisualNunit
         {
             if (currentTest == null)
             {
+                statusButton.Image = emptyIcon;
+                statusLabel.Text = "";
+
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -402,6 +405,15 @@ namespace BubbleCloudorg.VisualNunit
                         DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
                         TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
                         testInformation.Debug = false;
+
+                        testInformation.Success = "";
+                        testInformation.FailureMessage = "";
+                        testInformation.FailureStackTrace = "";
+                        testInformation.Time = "";
+                        dataRow["Success"] = testInformation.Success;
+                        dataRow["Time"] = testInformation.Time;
+                        dataRow["Message"] = testInformation.FailureMessage;
+
                         testsToRun.Enqueue(testInformation);
                     }
                 }
@@ -417,6 +429,15 @@ namespace BubbleCloudorg.VisualNunit
                     {
                         TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
                         testInformation.Debug = false;
+
+                        testInformation.Success = "";
+                        testInformation.FailureMessage = "";
+                        testInformation.FailureStackTrace = "";
+                        testInformation.Time = "";
+                        dataRow["Success"] = testInformation.Success;
+                        dataRow["Time"] = testInformation.Time;
+                        dataRow["Message"] = testInformation.FailureMessage;
+
                         testsToRun.Enqueue(testInformation);
                     }
                 }
@@ -444,8 +465,20 @@ namespace BubbleCloudorg.VisualNunit
             {
                 if (currentTest == null)
                 {
-                    DataRow row = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
-                    currentTest = (TestInformation)row["TestInformation"];
+                    statusButton.Image = emptyIcon;
+                    statusLabel.Text = "";
+
+                    DataRow dataRow = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
+                    currentTest = (TestInformation)dataRow["TestInformation"];
+
+                    currentTest.Success = "";
+                    currentTest.FailureMessage = "";
+                    currentTest.FailureStackTrace = "";
+                    currentTest.Time = "";
+                    dataRow["Success"] = currentTest.Success;
+                    dataRow["Time"] = currentTest.Time;
+                    dataRow["Message"] = currentTest.FailureMessage;
+
                     currentTest.Debug = true;
                     testsToRunStartCount = 1;
                     runTestsButton.Text = "Stop";
