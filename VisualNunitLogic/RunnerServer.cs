@@ -99,15 +99,22 @@ namespace VisualNunitLogic
             // List the unit tests available to the pipe as single message.
             ListTests();
 
-            while (pipe.IsConnected)
+            try
             {
-                // Read pipe for tests to run. Blocks until test name is received or client is disconnected.
-                string testName = ReadTestName();
-                if (testName != null)
+                while (pipe.IsConnected)
                 {
-                    string result=RunTest(testName);
-                    WriteTestResult(result);
+                    // Read pipe for tests to run. Blocks until test name is received or client is disconnected.
+                    string testName = ReadTestName();
+                    if (testName != null)
+                    {
+                        string result = RunTest(testName);
+                        WriteTestResult(result);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Exception in RunnerServer main loop:"+e);
             }
 
             // Release pipe resources.
