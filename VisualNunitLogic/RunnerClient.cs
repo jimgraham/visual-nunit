@@ -133,7 +133,7 @@ namespace VisualNunitLogic
                 // Filling in abort information.
                 testInformation.TestState = TestState.Aborted;
                 testInformation.FailureMessage = "Aborted";
-                testInformation.Time = "";
+                testInformation.Time = TimeSpan.Zero;
             }
             else
             {
@@ -147,7 +147,7 @@ namespace VisualNunitLogic
                 {
                     if (attribute.Name == "time")
                     {
-                        testInformation.Time = attribute.Value;
+                        testInformation.Time = TimeSpan.FromSeconds(Double.Parse(attribute.Value));
                     }
                     if (attribute.Name == "success")
                     {

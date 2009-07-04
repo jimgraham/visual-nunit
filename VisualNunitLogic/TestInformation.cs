@@ -22,7 +22,7 @@ namespace VisualNunitLogic
         /// <summary>
         /// Last execution time.
         /// </summary>
-        public string Time;
+        public TimeSpan Time;
         /// <summary>
         /// Test state.
         /// </summary>

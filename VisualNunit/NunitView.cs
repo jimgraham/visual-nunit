@@ -280,7 +280,7 @@ namespace BubbleCloudorg.VisualNunit
                                         testNamespace,
                                         caseName,
                                         testName,
-                                        testInformation.Time,
+                                        "",
                                         testInformation.FailureMessage,
                                         testInformation
                                     });
@@ -409,9 +409,9 @@ namespace BubbleCloudorg.VisualNunit
                         testInformation.TestState = TestState.None;
                         testInformation.FailureMessage = "";
                         testInformation.FailureStackTrace = "";
-                        testInformation.Time = "";
+                        testInformation.Time = TimeSpan.Zero;
                         dataRow["Success"] = testInformation.TestState;
-                        dataRow["Time"] = testInformation.Time;
+                        dataRow["Time"] = "";
                         dataRow["Message"] = testInformation.FailureMessage;
 
                         testsToRun.Enqueue(testInformation);
@@ -433,9 +433,9 @@ namespace BubbleCloudorg.VisualNunit
                         testInformation.TestState = TestState.None;
                         testInformation.FailureMessage = "";
                         testInformation.FailureStackTrace = "";
-                        testInformation.Time = "";
+                        testInformation.Time = TimeSpan.Zero;
                         dataRow["Success"] = testInformation.TestState;
-                        dataRow["Time"] = testInformation.Time;
+                        dataRow["Time"] = "";
                         dataRow["Message"] = testInformation.FailureMessage;
 
                         testsToRun.Enqueue(testInformation);
@@ -474,9 +474,9 @@ namespace BubbleCloudorg.VisualNunit
                     currentTest.TestState = TestState.None;
                     currentTest.FailureMessage = "";
                     currentTest.FailureStackTrace = "";
-                    currentTest.Time = "";
+                    currentTest.Time = TimeSpan.Zero;
                     dataRow["Success"] = currentTest.TestState;
-                    dataRow["Time"] = currentTest.Time;
+                    dataRow["Time"] = "";
                     dataRow["Message"] = currentTest.FailureMessage;
 
                     currentTest.Debug = true;
@@ -519,7 +519,7 @@ namespace BubbleCloudorg.VisualNunit
             {
                 DataRow dataRow = currentTest.DataRow;
                 dataRow["Success"] = currentTest.TestState;
-                dataRow["Time"] = currentTest.Time;
+                dataRow["Time"] = currentTest.Time.TotalSeconds.ToString();
                 dataRow["Message"] = currentTest.FailureMessage;
             }
 
