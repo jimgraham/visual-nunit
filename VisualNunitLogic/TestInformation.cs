@@ -24,9 +24,9 @@ namespace VisualNunitLogic
         /// </summary>
         public string Time;
         /// <summary>
-        /// Test success state.
+        /// Test state.
         /// </summary>
-        public string Success;
+        public TestState TestState;
         /// <summary>
         /// Test failure message.
         /// </summary>

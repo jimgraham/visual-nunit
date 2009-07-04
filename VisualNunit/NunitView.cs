@@ -106,7 +106,7 @@ namespace BubbleCloudorg.VisualNunit
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
             DataTable table = new DataTable();
-            table.Columns.Add(new DataColumn("Success", typeof(string)));
+            table.Columns.Add(new DataColumn("Success", typeof(TestState)));
             table.Columns.Add(new DataColumn("Namespace", typeof(string)));
             table.Columns.Add(new DataColumn("Case", typeof(string)));
             table.Columns.Add(new DataColumn("Test", typeof(string)));
@@ -276,7 +276,7 @@ namespace BubbleCloudorg.VisualNunit
 
 
                     DataRow row = dataTable.Rows.Add(new Object[] {
-                                        "", 
+                                        TestState.None, 
                                         testNamespace,
                                         caseName,
                                         testName,
@@ -340,22 +340,22 @@ namespace BubbleCloudorg.VisualNunit
         {
             DataRow dataRow = ((DataRowView)dataGridView1.Rows[e.RowIndex].DataBoundItem).Row;
             DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells["Success"];
-            string success = (string)dataRow["Success"];
-            if ("True".Equals(success))
+            TestState success = (TestState)dataRow["Success"];
+            if (TestState.Success.Equals(success))
             {
                 if (cell.Value != successIcon)
                 {
                     cell.Value = successIcon;
                 }
             }
-            else if ("False".Equals(success))
+            else if (TestState.Failure.Equals(success))
             {
                 if (cell.Value != failureIcon)
                 {
                     cell.Value = failureIcon;
                 }
             }
-            else if ("Aborted".Equals(success))
+            else if (TestState.Aborted.Equals(success))
             {
                 if (cell.Value != abortedIcon)
                 {
@@ -406,11 +406,11 @@ namespace BubbleCloudorg.VisualNunit
                         TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
                         testInformation.Debug = false;
 
-                        testInformation.Success = "";
+                        testInformation.TestState = TestState.None;
                         testInformation.FailureMessage = "";
                         testInformation.FailureStackTrace = "";
                         testInformation.Time = "";
-                        dataRow["Success"] = testInformation.Success;
+                        dataRow["Success"] = testInformation.TestState;
                         dataRow["Time"] = testInformation.Time;
                         dataRow["Message"] = testInformation.FailureMessage;
 
@@ -430,11 +430,11 @@ namespace BubbleCloudorg.VisualNunit
                         TestInformation testInformation = (TestInformation)dataRow["TestInformation"];
                         testInformation.Debug = false;
 
-                        testInformation.Success = "";
+                        testInformation.TestState = TestState.None;
                         testInformation.FailureMessage = "";
                         testInformation.FailureStackTrace = "";
                         testInformation.Time = "";
-                        dataRow["Success"] = testInformation.Success;
+                        dataRow["Success"] = testInformation.TestState;
                         dataRow["Time"] = testInformation.Time;
                         dataRow["Message"] = testInformation.FailureMessage;
 
@@ -471,11 +471,11 @@ namespace BubbleCloudorg.VisualNunit
                     DataRow dataRow = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
                     currentTest = (TestInformation)dataRow["TestInformation"];
 
-                    currentTest.Success = "";
+                    currentTest.TestState = TestState.None;
                     currentTest.FailureMessage = "";
                     currentTest.FailureStackTrace = "";
                     currentTest.Time = "";
-                    dataRow["Success"] = currentTest.Success;
+                    dataRow["Success"] = currentTest.TestState;
                     dataRow["Time"] = currentTest.Time;
                     dataRow["Message"] = currentTest.FailureMessage;
 
@@ -518,7 +518,7 @@ namespace BubbleCloudorg.VisualNunit
 
             {
                 DataRow dataRow = currentTest.DataRow;
-                dataRow["Success"] = currentTest.Success;
+                dataRow["Success"] = currentTest.TestState;
                 dataRow["Time"] = currentTest.Time;
                 dataRow["Message"] = currentTest.FailureMessage;
             }
@@ -544,15 +544,15 @@ namespace BubbleCloudorg.VisualNunit
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
-                    if("True".Equals(dataRow["Success"]))
+                    if(TestState.Success.Equals(dataRow["Success"]))
                     {
                         successes++;
                     }
-                    else if("False".Equals(dataRow["Success"]))
+                    else if (TestState.Failure.Equals(dataRow["Success"]))
                     {
                         failures++;
                     }
-                    else if("Aborted".Equals(dataRow["Success"]))
+                    else if (TestState.Aborted.Equals(dataRow["Success"]))
                     {
                         aborts++;
                     }

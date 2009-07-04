@@ -131,7 +131,7 @@ namespace VisualNunitLogic
             if (testInformation.Stop)
             {
                 // Filling in abort information.
-                testInformation.Success = "Aborted";
+                testInformation.TestState = TestState.Aborted;
                 testInformation.FailureMessage = "Aborted";
                 testInformation.Time = "";
             }
@@ -151,13 +151,14 @@ namespace VisualNunitLogic
                     }
                     if (attribute.Name == "success")
                     {
-                        testInformation.Success = attribute.Value;
-                        if ("True".Equals(testInformation.Success))
+                        if ("True".Equals(attribute.Value))
                         {
+                            testInformation.TestState = TestState.Success;
                             testInformation.FailureMessage = "Success";
                         }
                         else
                         {
+                            testInformation.TestState = TestState.Failure;
                             testInformation.FailureMessage = "Failure: ";
                         }
                     }
