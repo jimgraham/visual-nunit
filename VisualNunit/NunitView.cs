@@ -664,15 +664,6 @@ namespace BubbleCloudorg.VisualNunit
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
-            projectComboBox.Items.Clear();
-            projectComboBox.SelectedItem = null;
-            projectComboBox.Text = null;
-            namespaceComboBox.Items.Clear();
-            namespaceComboBox.SelectedItem = null;
-            namespaceComboBox.Text = null;
-            caseComboBox.Items.Clear();
-            caseComboBox.SelectedItem = null;
-            caseComboBox.Text = null;
             RefreshView();
             return VSConstants.S_OK;
         }
