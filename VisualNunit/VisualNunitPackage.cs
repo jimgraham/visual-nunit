@@ -99,11 +99,11 @@ namespace BubbleCloudorg.VisualNunit
             if ( null != mcs )
             {
                 // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(GuidList.guidVisualNunitCmdSet, (int)PkgCmdIDList.cmdidDebugNunitTests);
+                CommandID menuCommandID = new CommandID(GuidList.guidVisualNunitCmdSet, (int)VisualNunitConstants.DebugUnitTestsCommandId);
                 MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
                 mcs.AddCommand( menuItem );
                 // Create the command for the tool window
-                CommandID toolwndCommandID = new CommandID(GuidList.guidVisualNunitCmdSet, (int)PkgCmdIDList.cmdidNUnitView);
+                CommandID toolwndCommandID = new CommandID(GuidList.guidVisualNunitCmdSet, (int)VisualNunitConstants.OpenNunitViewCommandId);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
             }

@@ -76,7 +76,7 @@
     </Compile>
     <Compile Include="VisualNunitPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
+    <Compile Include="VisualNunitConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NunitView.resx">
@@ -116,9 +116,10 @@
     <EmbeddedResource Include="Icons\Empty.png" />
     <Content Include="Icons\IconLicense.txt" />
     <EmbeddedResource Include="Icons\Stop.png" />
-    <Content Include="Readme.txt" />
+    <Content Include="Docs\CreatingSetup.txt" />
     <Content Include="Resources\Images_32bit.png" />
     <Content Include="Resources\Package.ico" />
+    <None Include="Docs\VisualNunit.reg" />
     <None Include="Resources\runTestsButton.Image.png" />
   </ItemGroup>
   <ItemGroup>
