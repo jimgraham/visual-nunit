@@ -5,6 +5,9 @@ using System.Text;
 
 namespace VisualNunitLogic
 {
+    /// <summary>
+    /// Enumeration values for Test.
+    /// </summary>
     public enum TestState
     {
         None,
