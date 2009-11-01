@@ -128,15 +128,36 @@
     <None Include="Resources\Images_24bit.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="VisualNunit64x64.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VisualNunit_2010_Beta_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="VisualNunit_License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="[Content_Types].xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <EmbeddedResource Include="Icons\Aborted.png" />
-    <EmbeddedResource Include="Icons\Debug.png" />
+    <EmbeddedResource Include="Icons\Debug.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Icons\Empty.png" />
     <EmbeddedResource Include="Icons\Failure.png" />
     <Content Include="Icons\IconLicense.txt" />
     <EmbeddedResource Include="Icons\Run.png" />
     <EmbeddedResource Include="Icons\Stop.png" />
     <EmbeddedResource Include="Icons\Success.png" />
-    <Content Include="Resources\Package.ico" />
+    <Content Include="Resources\Package.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="WindowsFormsIntegration.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +176,7 @@
       <Name>VisualNunitRunner</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <!--
     To specify a different registry root to register your package, uncomment the TargetRegistryRoot

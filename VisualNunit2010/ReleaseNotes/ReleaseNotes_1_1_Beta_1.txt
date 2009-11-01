@@ -1,0 +1,9 @@
+VISUAL NUNIT 2010 1.1 Beta 1 RELEASE NOTES
+
+Changes
+
+- Repackaged visual nunit for Beta 1
+
+Known Issues
+
+- .NET 4.0 projects are not supported.
