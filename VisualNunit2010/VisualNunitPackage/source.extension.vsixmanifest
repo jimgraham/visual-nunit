@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vsix Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="aae34e95-05a0-4514-83ac-38db6ff3a34f">
+    <Name>Visual Nunit</Name>
+    <Author>BubbleCloud.com</Author>
+    <Version>1.0</Version>
+    <Description>Visual Nunit is an integration package that enables running of Nunit tests in Visual Studio.</Description>
+    <Locale>1033</Locale>
+    <InstalledByMsi>false</InstalledByMsi>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
+  </Identifier>
+  <References />
+  <Content>
+    <VsPackage>|VisualNunitPackage;PkgdefProjectOutputGroup|</VsPackage>
+  </Content>
+</Vsix>

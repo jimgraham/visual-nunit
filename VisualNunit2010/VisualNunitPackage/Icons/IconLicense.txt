@@ -1,0 +1,2 @@
+﻿Author :	Everaldo Coelho
+License:	GNU Lesser General Public License

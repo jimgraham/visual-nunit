@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualNunitPackage", "VisualNunitPackage\VisualNunitPackage.csproj", "{488C709F-28C2-487A-8C9F-39C118CB8344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualNunitLogic", "VisualNunitLogic\VisualNunitLogic.csproj", "{76F8F92E-E45A-458F-88D2-6F0D55616A13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualNunitRunner", "VisualNunitRunner\VisualNunitRunner.csproj", "{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{488C709F-28C2-487A-8C9F-39C118CB8344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{488C709F-28C2-487A-8C9F-39C118CB8344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{488C709F-28C2-487A-8C9F-39C118CB8344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{488C709F-28C2-487A-8C9F-39C118CB8344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F8F92E-E45A-458F-88D2-6F0D55616A13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCD1005F-A460-4D2B-A9BE-5BCF8BB5752E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
