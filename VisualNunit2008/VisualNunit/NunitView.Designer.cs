@@ -71,6 +71,7 @@ namespace BubbleCloudorg.VisualNunit
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -88,7 +89,7 @@ namespace BubbleCloudorg.VisualNunit
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 20;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(686, 438);
+            this.dataGridView1.Size = new System.Drawing.Size(684, 436);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
@@ -179,12 +180,12 @@ namespace BubbleCloudorg.VisualNunit
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(686, 438);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(684, 436);
             this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(686, 488);
+            this.toolStripContainer1.Size = new System.Drawing.Size(684, 486);
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -237,7 +238,7 @@ namespace BubbleCloudorg.VisualNunit
             this.caseComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(639, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(608, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // runTestsButton
@@ -304,9 +305,10 @@ namespace BubbleCloudorg.VisualNunit
             // NuniView
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "NuniView";
-            this.Size = new System.Drawing.Size(686, 488);
+            this.Size = new System.Drawing.Size(684, 486);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();

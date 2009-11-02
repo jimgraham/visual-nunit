@@ -126,37 +126,47 @@ namespace VisualNunitLogic
         /// </summary>
         private void ListTests()
         {
-            // Build test suite from the given assembly.
-            TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
-            
-            // Recursively browse tests and concatenate full test names to string in separate lines. 
-            Queue<ITest> testQueue = new Queue<ITest>();
-            testQueue.Enqueue(testSuite);
-            String testNames = "Tests:";
-            while (testQueue.Count > 0)
+            try
             {
-                ITest test = testQueue.Dequeue();
-                if (test.Tests != null)
-                {
-                    foreach (ITest childTest in test.Tests)
-                    {
-                        testQueue.Enqueue(childTest);
-                    }
-                }
-                else
-                {
-                    if (testNames.Length > 0)
-                    {
-                        testNames += "\n";
-                    }
-                    testNames += test.TestName.FullName;
-                }
-            }
+                // Build test suite from the given assembly.
+                TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
 
-            // Write test names to the pipe.
-            byte[] testNameBytes = Encoding.UTF8.GetBytes(testNames);
-            pipe.Write(testNameBytes, 0, testNameBytes.Length);
-            pipe.Flush();
+                // Recursively browse tests and concatenate full test names to string in separate lines. 
+                Queue<ITest> testQueue = new Queue<ITest>();
+                testQueue.Enqueue(testSuite);
+                String testNames = "Tests:";
+                while (testQueue.Count > 0)
+                {
+                    ITest test = testQueue.Dequeue();
+                    if (test.Tests != null)
+                    {
+                        foreach (ITest childTest in test.Tests)
+                        {
+                            testQueue.Enqueue(childTest);
+                        }
+                    }
+                    else
+                    {
+                        if (testNames.Length > 0)
+                        {
+                            testNames += "\n";
+                        }
+                        testNames += test.TestName.FullName;
+                    }
+                }
+
+                // Write test names to the pipe.
+                byte[] testNameBytes = Encoding.UTF8.GetBytes(testNames);
+                pipe.Write(testNameBytes, 0, testNameBytes.Length);
+                pipe.Flush();
+            }
+            catch (Exception)
+            {
+                // Write empty test names to the pipe.
+                byte[] testNameBytes = Encoding.UTF8.GetBytes("Tests:");
+                pipe.Write(testNameBytes, 0, testNameBytes.Length);
+                pipe.Flush();
+            }
         }
 
         /// <summary>

@@ -131,6 +131,6 @@
     <value>Can not create tool window.</value>
   </data>
   <data name="ToolWindowTitle" xml:space="preserve">
-    <value>NUnit View</value>
+    <value>Visual Nunit 1.0.1 (Any CPU)</value>
   </data>
 </root>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Xml;
+using System.Threading;
 
 namespace VisualNunitLogic
 {
@@ -27,10 +28,13 @@ namespace VisualNunitLogic
         /// </summary>
         private byte[] readBuffer = new byte[65344];
         /// <summary>
+        /// The platform decimal delimiter.
+        /// </summary>
+        private string DecimalDelimiter;
+        /// <summary>
         /// List of test cases hosted by the test runner process.
         /// </summary>
         public IList<string> TestCases = new List<string>();
-
         /// <summary>
         /// Constructs new runner client with default pipe name prefix.
         /// </summary>
@@ -57,6 +61,9 @@ namespace VisualNunitLogic
         /// <param name="serverProcess"></param>
         private void ConstructRunnerClient(String pipePrefix,Process serverProcess)
         {
+            // Find system decimal delimiter:
+            DecimalDelimiter = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
             // Configuring the named pipe for communication with RunnerServer.
             this.pipeName = pipePrefix +"-"+ serverProcess.Id;
             this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
@@ -147,7 +154,7 @@ namespace VisualNunitLogic
                 {
                     if (attribute.Name == "time")
                     {
-                        testInformation.Time = TimeSpan.FromSeconds(Double.Parse(attribute.Value));
+                        testInformation.Time = TimeSpan.FromSeconds(Double.Parse(attribute.Value.Replace(".",DecimalDelimiter)));
                     }
                     if (attribute.Name == "success")
                     {

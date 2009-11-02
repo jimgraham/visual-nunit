@@ -12,4 +12,14 @@
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe</StartProgram>
+    <StartArguments>/noVSIP /ranu /rootsuffix Exp</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe</StartProgram>
+    <StartArguments>/ranu /rootsuffix Exp</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>
