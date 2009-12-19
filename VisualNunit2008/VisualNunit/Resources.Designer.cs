@@ -70,7 +70,7 @@ namespace BubbleCloudorg.VisualNunit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visual Nunit 1.0.1 (Any CPU).
+        ///   Looks up a localized string similar to Visual Nunit 1.0.2 (Any CPU).
         /// </summary>
         internal static string ToolWindowTitle {
             get {

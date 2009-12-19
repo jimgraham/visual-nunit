@@ -32,6 +32,7 @@ namespace BubbleCloudorg.VisualNunit
         private Bitmap runIcon = null;
         private Bitmap debugIcon = null;
         private Bitmap stopIcon = null;
+        private Bitmap homeIcon = null;
 
         public NuniView()
         {
@@ -43,12 +44,14 @@ namespace BubbleCloudorg.VisualNunit
             runIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Run.png"));
             debugIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Debug.png"));
             stopIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Stop.png"));
+            homeIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Home.png"));
 
             InitializeComponent();
 
             dataGridView1.AutoGenerateColumns = false;
 
             runTestsButton.Image = runIcon;
+            homeButton.Image = homeIcon;
             statusButton.Image = emptyIcon;
 
             uint cookie;
@@ -713,6 +716,11 @@ namespace BubbleCloudorg.VisualNunit
         }
 
         #endregion
+
+        private void homeButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.bubblecloud.org/visualnunit");
+        }
 
     }
 }

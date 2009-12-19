@@ -30,6 +30,7 @@ namespace BubbleCloudorg.VisualNunit
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NuniView));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Debug = new System.Windows.Forms.DataGridViewImageColumn();
@@ -56,6 +57,8 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.caseComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.testListWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.homeButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -71,8 +74,16 @@ namespace BubbleCloudorg.VisualNunit
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.DarkRed;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Debug,
@@ -84,10 +95,13 @@ namespace BubbleCloudorg.VisualNunit
             this.Message,
             this.Stacktrace});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.GridColor = System.Drawing.Color.White;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView1.RowHeadersWidth = 20;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(684, 436);
             this.dataGridView1.TabIndex = 2;
@@ -174,7 +188,9 @@ namespace BubbleCloudorg.VisualNunit
             // 
             // toolStripContainer1.BottomToolStripPanel
             // 
+            this.toolStripContainer1.BottomToolStripPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.toolStrip2);
+            this.toolStripContainer1.BottomToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.toolStripContainer1.BottomToolStripPanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             // 
             // toolStripContainer1.ContentPanel
@@ -191,7 +207,7 @@ namespace BubbleCloudorg.VisualNunit
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
             // toolStrip2
@@ -214,7 +230,7 @@ namespace BubbleCloudorg.VisualNunit
             this.statusButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.statusButton.Name = "statusButton";
             this.statusButton.Size = new System.Drawing.Size(23, 22);
-            this.statusButton.Text = "toolStripButton1";
+            this.statusButton.Text = "Run Tests";
             this.statusButton.Click += new System.EventHandler(this.runTests_Click);
             // 
             // statusLabel
@@ -224,11 +240,15 @@ namespace BubbleCloudorg.VisualNunit
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AllowMerge = false;
+            this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runTestsButton,
             this.progressBar1,
+            this.toolStripSeparator2,
+            this.homeButton,
             this.toolStripSeparator1,
             this.toolStripLabel1,
             this.projectComboBox,
@@ -238,7 +258,8 @@ namespace BubbleCloudorg.VisualNunit
             this.caseComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(608, 25);
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStrip1.Size = new System.Drawing.Size(670, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // runTestsButton
@@ -248,7 +269,7 @@ namespace BubbleCloudorg.VisualNunit
             this.runTestsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.runTestsButton.Name = "runTestsButton";
             this.runTestsButton.Size = new System.Drawing.Size(23, 22);
-            this.runTestsButton.Text = "toolStripButton1";
+            this.runTestsButton.Text = "Run Tests";
             this.runTestsButton.Click += new System.EventHandler(this.runTests_Click);
             // 
             // progressBar1
@@ -302,8 +323,24 @@ namespace BubbleCloudorg.VisualNunit
             this.testListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testListWorker_DoWork);
             this.testListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testListWorker_RunWorkerCompleted);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // homeButton
+            // 
+            this.homeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.homeButton.Image = ((System.Drawing.Image)(resources.GetObject("homeButton.Image")));
+            this.homeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.homeButton.Name = "homeButton";
+            this.homeButton.Size = new System.Drawing.Size(23, 22);
+            this.homeButton.Text = "Home Page";
+            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
+            // 
             // NuniView
             // 
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.toolStripContainer1);
@@ -351,6 +388,8 @@ namespace BubbleCloudorg.VisualNunit
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripLabel statusLabel;
         private System.Windows.Forms.ToolStripButton statusButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton homeButton;
 
     }
 }
