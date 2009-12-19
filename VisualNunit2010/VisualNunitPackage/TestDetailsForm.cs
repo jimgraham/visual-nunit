@@ -19,7 +19,7 @@ namespace BubbleCloudorg.VisualNunit
 
         public void SetTestInformation(TestInformation testInformation)
         {
-            this.textBox1.Text = testInformation.FailureStackTrace;
+            this.textBox1.Text = testInformation.FailureMessage + "\r\n\r\nStack Trace:\r\n" + testInformation.FailureStackTrace;
         }
     }
 }

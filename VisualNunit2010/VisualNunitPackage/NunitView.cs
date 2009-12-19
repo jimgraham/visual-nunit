@@ -22,6 +22,9 @@ namespace BubbleCloudorg.VisualNunit
     /// </summary>
     public partial class NuniView : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
     {
+        // These GUIDs come from http://msdn.microsoft.com/en-us/library/hb23x61k%28VS.80%29.aspx.
+        private const string SolutionFolderKind = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
+
         private Bitmap successIcon = null;
         private Bitmap failureIcon = null;
         private Bitmap abortedIcon = null;
@@ -29,6 +32,7 @@ namespace BubbleCloudorg.VisualNunit
         private Bitmap runIcon = null;
         private Bitmap debugIcon = null;
         private Bitmap stopIcon = null;
+        private Bitmap homeIcon = null;
 
         public NuniView()
         {
@@ -40,12 +44,14 @@ namespace BubbleCloudorg.VisualNunit
             runIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Run.png"));
             debugIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Debug.png"));
             stopIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Stop.png"));
+            homeIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Home.png"));
 
             InitializeComponent();
 
             dataGridView1.AutoGenerateColumns = false;
 
             runTestsButton.Image = runIcon;
+            homeButton.Image = homeIcon; 
             statusButton.Image = emptyIcon;
 
             uint cookie;
@@ -96,6 +102,10 @@ namespace BubbleCloudorg.VisualNunit
 
         public void RefreshView()
         {
+            runTestsButton.Image = runIcon;
+            homeButton.Image = homeIcon;
+            statusButton.Image = emptyIcon;
+
             if (!dataGridView1.Visible)
             {
                 return;
@@ -114,99 +124,135 @@ namespace BubbleCloudorg.VisualNunit
             table.Columns.Add(new DataColumn("Message", typeof(string)));
             table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
 
-            foreach (Project project in dte.Solution.Projects)
+            foreach (Project project in dte.Solution)
             {
-                try
-                {
-
-                    if (project.ConfigurationManager == null)
-                    {
-                        continue;
-                    }
-                    Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
-
-
-                    if (configuration.IsBuildable)
-                    {
-
-                        String localPath = "";
-                        String outputPath = "";
-                        String outputFileName = "";
-
-                        foreach (Property property in project.Properties)
-                        {
-                            try
-                            {
-                                if ("LocalPath".Equals(property.Name))
-                                {
-                                    localPath = (string)property.Value;
-                                }
-                                if ("OutputFileName".Equals(property.Name))
-                                {
-                                    outputFileName = (string)property.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Trace.WriteLine(ex);
-                            }
-                        }
-
-                        foreach (Property property in configuration.Properties)
-                        {
-                            try
-                            {
-                                if ("OutputPath".Equals(property.Name))
-                                {
-                                    outputPath = (string)property.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Trace.WriteLine(ex);
-                            }
-                        }
-
-                        if (!projectComboBox.Items.Contains(project.Name))
-                        {
-                            projectComboBox.Items.Add(project.Name);
-                        }
-
-                        if (projectComboBox.SelectedIndex != -1 && !project.Name.Equals(projectComboBox.SelectedItem))
-                        {
-                            continue;
-                        }
-
-                        String assemblyPath = localPath + outputPath + outputFileName;
-
-                        if (!assemblyPath.EndsWith(".dll"))
-                        {
-                            continue;
-                        }
-
-                        if (File.Exists(assemblyPath))
-                        {
-                            ProjectInformation projectInformation=new ProjectInformation();
-                            projectInformation.Name=project.Name;
-                            projectInformation.AssemblyPath=assemblyPath;
-                            projectsToLoad.Enqueue(projectInformation);                           
-                        }
-
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError("Error refreshing NUnit view: " + ex.ToString());
-                }
+                AddProject(project);
             }
 
             dataGridView1.DataSource = table;
 
-            if (projectsToLoad.Count > 0&&!testListWorker.IsBusy)
+            if ((projectsToLoad.Count > 0) && !testListWorker.IsBusy)
             {
                 currentlyLoadingProject = projectsToLoad.Dequeue();
                 testListWorker.RunWorkerAsync();
+            }
+        }
+
+        private void AddFolder(Project project)
+        {
+            foreach (var item in project.ProjectItems)
+            {
+                ProjectItem projectItem = item as ProjectItem;
+                Project innerProject = item as Project;
+
+                if (innerProject != null)
+                {
+                    if (project.Kind.ToUpperInvariant().Equals(SolutionFolderKind))
+                    {
+                        AddFolder(project);
+                    }
+                    else
+                    {
+                        AddProject(innerProject);
+                    }
+                }
+                else if (projectItem != null)
+                {
+                    Project subProject = projectItem.SubProject as Project;
+                    if (subProject != null)
+                    {
+                        AddProject(subProject);
+                    }
+                }
+            }
+        }
+
+        private void AddProject(Project project)
+        {
+            try
+            {
+                if (project.Kind.ToUpperInvariant().Equals(SolutionFolderKind))
+                {
+                    AddFolder(project);
+                }
+
+                if (project.ConfigurationManager == null)
+                {
+                    return;
+                }
+                Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
+                if (configuration.IsBuildable)
+                {
+
+                    String localPath = "";
+                    String outputPath = "";
+                    String outputFileName = "";
+
+                    foreach (Property property in project.Properties)
+                    {
+                        try
+                        {
+                            if ("LocalPath".Equals(property.Name))
+                            {
+                                localPath = (string)property.Value;
+                            }
+                            if ("OutputFileName".Equals(property.Name))
+                            {
+                                outputFileName = (string)property.Value;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine(ex);
+                        }
+                    }
+
+                    foreach (Property property in configuration.Properties)
+                    {
+                        try
+                        {
+                            if ("OutputPath".Equals(property.Name))
+                            {
+                                outputPath = (string)property.Value;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine(ex);
+                        }
+                    }
+
+                    if (!projectComboBox.Items.Contains(project.Name))
+                    {
+                        projectComboBox.Items.Add(project.Name);
+                    }
+
+                    if (projectComboBox.SelectedIndex != -1 && !project.Name.Equals(projectComboBox.SelectedItem))
+                    {
+                        return;
+                    }
+
+                    String assemblyPath = localPath + outputPath + outputFileName;
+
+                    if (!assemblyPath.EndsWith(".dll"))
+                    {
+                        return;
+                    }
+
+                    if (File.Exists(assemblyPath))
+                    {
+                        ProjectInformation projectInformation = new ProjectInformation();
+                        projectInformation.Name = project.Name;
+                        projectInformation.AssemblyPath = assemblyPath;
+                        projectsToLoad.Enqueue(projectInformation);
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error refreshing NUnit view: " + ex.ToString());
             }
         }
 
@@ -339,6 +385,7 @@ namespace BubbleCloudorg.VisualNunit
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             DataRow dataRow = ((DataRowView)dataGridView1.Rows[e.RowIndex].DataBoundItem).Row;
+            dataGridView1.Rows[e.RowIndex].Cells["Debug"].Value = debugIcon;
             DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells["Success"];
             TestState testStaet = (TestState)dataRow["Success"];
             if (TestState.Success.Equals(testStaet))
@@ -674,6 +721,11 @@ namespace BubbleCloudorg.VisualNunit
         }
 
         #endregion
+
+        private void homeButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.bubblecloud.org/visualnunit");
+        }
 
     }
 }

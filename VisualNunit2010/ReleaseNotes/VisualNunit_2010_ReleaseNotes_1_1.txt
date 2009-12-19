@@ -1,0 +1,11 @@
+VISUAL NUNIT 2010 1.1 RELEASE NOTES
+
+Changes
+
+- Added .NET 4.0 support.
+- Updated to NUnit 2.5.3.
+- Merged improved project loading from VisualNunit 2008.
+- Added home page button.
+- Added failure message to stack trace window.
+- Improved icon handling to work around problems of icons becoming invalid.
+- Simplified look and feel.

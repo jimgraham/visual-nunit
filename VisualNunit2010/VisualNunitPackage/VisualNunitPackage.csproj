@@ -128,6 +128,7 @@
     <None Include="Resources\Images_24bit.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Icons\Home.png" />
     <Content Include="VisualNunit64x64.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
