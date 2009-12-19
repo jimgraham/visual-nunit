@@ -16,7 +16,6 @@
         <Edition>VSTS</Edition>
         <Edition>VSTD</Edition>
         <Edition>Pro</Edition>
-        <Edition>Express_All</Edition>
       </VisualStudio>
     </SupportedProducts>
     <SupportedFrameworkRuntimeEdition MinVersion="3.0" MaxVersion="4.0" />
