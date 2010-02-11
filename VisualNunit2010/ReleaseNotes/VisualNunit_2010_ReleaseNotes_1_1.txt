@@ -1,11 +1,8 @@
-VISUAL NUNIT 2010 1.1 RELEASE NOTES
-
-Changes
-
-- Added .NET 4.0 support.
-- Updated to NUnit 2.5.3.
-- Merged improved project loading from VisualNunit 2008.
-- Added home page button.
-- Added failure message to stack trace window.
-- Improved icon handling to work around problems of icons becoming invalid.
-- Simplified look and feel.
+Easy and fast NUnit test execution from Visual Studio
+Visual Studio 2008 support
+Visual Studio 2010 support
+NET 2.0, 3.0, 3.5 and 4.0 support
+Test debugging
+Test execution progress, time and summary
+Stack trace view
+Test filtering based on project, namespace and fixture
