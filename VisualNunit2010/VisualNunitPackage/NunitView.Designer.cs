@@ -48,6 +48,8 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.runTestsButton = new System.Windows.Forms.ToolStripButton();
             this.progressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.homeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.projectComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -56,8 +58,6 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.caseComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.testListWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.homeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -248,7 +248,7 @@ namespace BubbleCloudorg.VisualNunit
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(637, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(670, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // runTestsButton
@@ -265,6 +265,22 @@ namespace BubbleCloudorg.VisualNunit
             // 
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(50, 22);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // homeButton
+            // 
+            this.homeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.homeButton.Image = ((System.Drawing.Image)(resources.GetObject("homeButton.Image")));
+            this.homeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.homeButton.Name = "homeButton";
+            this.homeButton.Size = new System.Drawing.Size(23, 22);
+            this.homeButton.Text = "View Home Page";
+            this.homeButton.ToolTipText = "View Support Page";
+            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -311,21 +327,6 @@ namespace BubbleCloudorg.VisualNunit
             // 
             this.testListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.testListWorker_DoWork);
             this.testListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.testListWorker_RunWorkerCompleted);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // homeButton
-            // 
-            this.homeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.homeButton.Image = ((System.Drawing.Image)(resources.GetObject("homeButton.Image")));
-            this.homeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.homeButton.Name = "homeButton";
-            this.homeButton.Size = new System.Drawing.Size(23, 22);
-            this.homeButton.Text = "View Home Page";
-            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
             // NuniView
             // 

@@ -62,7 +62,7 @@ namespace BubbleCloudorg.VisualNunit
                 return this.control;
             }
 
-            protected set
+            set
             {
                 base.Content = value;
             }

@@ -13,8 +13,8 @@
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>
       <VisualStudio Version="10.0">
-        <Edition>VSTS</Edition>
-        <Edition>VSTD</Edition>
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
         <Edition>Pro</Edition>
       </VisualStudio>
     </SupportedProducts>
@@ -22,6 +22,6 @@
   </Identifier>
   <References />
   <Content>
-    <VsPackage>|VisualNunitPackage;PkgdefProjectOutputGroup|</VsPackage>
+    <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
   </Content>
 </Vsix>

@@ -1,0 +1,8 @@
+VISUAL NUNIT 2010 1.2 RELEASE NOTES
+
+Changes
+
+- Repackaged visual nunit for Visual Studio 2010 RC 1
+- Changed home page icon to support page icon.
+
+Known Issues
