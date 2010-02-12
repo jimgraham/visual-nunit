@@ -114,12 +114,14 @@
     <EmbeddedResource Include="Icons\Run.png" />
     <EmbeddedResource Include="Icons\Success.png" />
     <EmbeddedResource Include="Icons\Empty.png" />
+    <Content Include="Documents\VisualNunit_2008_1_0_3_ReleaseNotes.txt" />
     <Content Include="Documents\VisualNunit_1_0_2_ReleaseNotes.txt" />
     <Content Include="Documents\VisualNunit_1_0_1_ReleaseNotes.txt" />
     <EmbeddedResource Include="Icons\Home.png" />
     <Content Include="Icons\IconLicense.txt" />
     <EmbeddedResource Include="Icons\Stop.png" />
     <Content Include="Documents\CreatingSetup.txt" />
+    <EmbeddedResource Include="Icons\Support.png" />
     <Content Include="Resources\Images_32bit.png" />
     <Content Include="Resources\Package.ico" />
     <None Include="Documents\VisualNunit.reg" />
