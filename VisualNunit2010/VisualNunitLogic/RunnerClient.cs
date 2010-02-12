@@ -66,7 +66,7 @@ namespace VisualNunitLogic
 
             // Configuring the named pipe for communication with RunnerServer.
             this.pipeName = pipePrefix +"-"+ serverProcess.Id;
-            this.pipe = new NamedPipeClientStream("localhost", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
+            this.pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
             this.pipe.Connect(5000);
             this.pipe.ReadMode = PipeTransmissionMode.Message;
 

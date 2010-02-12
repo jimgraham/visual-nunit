@@ -5,4 +5,8 @@ Changes
 - Repackaged visual nunit for Visual Studio 2010 RC 1
 - Changed home page icon to support page icon.
 
+Fixes
+
+- FIXED: Does not work on XP - ID: 2817997
+
 Known Issues
