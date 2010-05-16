@@ -542,6 +542,21 @@ namespace BubbleCloudorg.VisualNunit
             }
         }
 
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            TestDetailsForm testDetailsForm = new TestDetailsForm();
+            DataRow row = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
+            TestInformation testInformation = (TestInformation)row["TestInformation"];
+            testDetailsForm.SetTestInformation(testInformation);
+            testDetailsForm.ShowDialog();
+        }
+
         private void testRunWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             testRunWorker.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count) / (testsToRunStartCount + 1));
@@ -728,6 +743,7 @@ namespace BubbleCloudorg.VisualNunit
         {
 
         }
+
 
     }
 }
