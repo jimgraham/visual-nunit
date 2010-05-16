@@ -124,8 +124,9 @@ namespace BubbleCloudorg.VisualNunit
             table.Columns.Add(new DataColumn("Message", typeof(string)));
             table.Columns.Add(new DataColumn("TestInformation", typeof(TestInformation)));
 
-            foreach (Project project in dte.Solution)
+            for (int i = 1; i <= dte.Solution.Count; i++)
             {
+                Project project = dte.Solution.Item(i);
                 AddProject(project);
             }
 
@@ -491,8 +492,7 @@ namespace BubbleCloudorg.VisualNunit
                 if (testsToRun.Count > 0)
                 {
                     testsToRunStartCount = testsToRun.Count;
-                    currentTest = testsToRun.Dequeue();
-                    runTestsButton.Text = "Stop";
+                    currentTest = testsToRun.Dequeue();                   
                     runTestsButton.Image = stopIcon;
                     NunitManager.PreRunTestCase(currentTest);
                     testRunWorker.RunWorkerAsync();
@@ -528,7 +528,6 @@ namespace BubbleCloudorg.VisualNunit
 
                     currentTest.Debug = true;
                     testsToRunStartCount = 1;
-                    runTestsButton.Text = "Stop";
                     runTestsButton.Image = stopIcon;
                     NunitManager.PreRunTestCase(currentTest);
                     testRunWorker.RunWorkerAsync();
@@ -579,7 +578,6 @@ namespace BubbleCloudorg.VisualNunit
             else
             {
                 currentTest = null;
-                runTestsButton.Text = "Run";
                 runTestsButton.Image = runIcon;
 
                 int successes=0;
@@ -725,6 +723,11 @@ namespace BubbleCloudorg.VisualNunit
         private void homeButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.bubblecloud.org/visualnunit");
+        }
+
+        private void NuniView_Load(object sender, EventArgs e)
+        {
+
         }
 
     }
