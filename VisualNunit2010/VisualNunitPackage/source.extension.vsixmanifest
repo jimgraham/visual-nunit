@@ -3,7 +3,7 @@
   <Identifier Id="VisualNunit.BubbleCloud.aae34e95-05a0-4514-83ac-38db6ff3a34f">
     <Name>Visual Nunit 2010</Name>
     <Author>Tommi Laukkanen / BubbleCloud.org</Author>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <Description xml:space="preserve">Visual Nunit is an integration package that enables running of Nunit tests in Visual Studio.</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>http://www.bubblecloud.org/visualnunit</MoreInfoUrl>

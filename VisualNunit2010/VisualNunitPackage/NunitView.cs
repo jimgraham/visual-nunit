@@ -235,7 +235,7 @@ namespace BubbleCloudorg.VisualNunit
 
                     String assemblyPath = localPath + outputPath + outputFileName;
 
-                    if (!assemblyPath.EndsWith(".dll"))
+                    if (!assemblyPath.EndsWith(".dll") && !assemblyPath.EndsWith(".exe")) 
                     {
                         return;
                     }
@@ -380,7 +380,6 @@ namespace BubbleCloudorg.VisualNunit
 
         private void dataGridView1_VisibleChanged(object sender, EventArgs e)
         {
-            Trace.WriteLine("Visible changed.");
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
