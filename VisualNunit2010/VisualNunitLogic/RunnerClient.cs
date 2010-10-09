@@ -195,6 +195,16 @@ namespace VisualNunitLogic
                             }
                         }
                     }
+                    if (failureNode.LocalName == "reason")
+                    {
+                        foreach (XmlNode informationNode in failureNode)
+                        {
+                            if (informationNode.LocalName == "message")
+                            {
+                                testInformation.FailureMessage += informationNode.InnerText;
+                            }
+                        }
+                    }
                 }
 
 
