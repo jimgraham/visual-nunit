@@ -24,5 +24,10 @@ namespace VisualNunitTests
         {
             Assert.Fail("Test Assert");
         }
+
+        [Test, Explicit]
+        public void TestOneExplicit()
+        {
+        }
     }
 }

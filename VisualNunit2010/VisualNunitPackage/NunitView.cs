@@ -455,6 +455,7 @@ namespace BubbleCloudorg.VisualNunit
 
         #region Test Runs
 
+        private bool explicitRun = false;
         private Queue<TestInformation> testsToRun = new Queue<TestInformation>();
         private TestInformation currentTest = null;
         private int testsToRunStartCount = 1;
@@ -468,6 +469,7 @@ namespace BubbleCloudorg.VisualNunit
 
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
+                    explicitRun = false;
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         DataRow dataRow = ((DataRowView)row.DataBoundItem).Row;
@@ -487,6 +489,7 @@ namespace BubbleCloudorg.VisualNunit
                 }
                 else
                 {
+                    explicitRun = true;
                     List<DataRow> dataRows=new List<DataRow>();
                     foreach (DataGridViewRow row in dataGridView1.SelectedRows)
                     {
@@ -536,6 +539,7 @@ namespace BubbleCloudorg.VisualNunit
                     statusLabel.Text = "";
 
                     DataRow dataRow = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
+                    explicitRun = true;
                     currentTest = (TestInformation)dataRow["TestInformation"];
 
                     currentTest.TestState = TestState.None;
@@ -585,7 +589,7 @@ namespace BubbleCloudorg.VisualNunit
         {
             testRunWorker.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count) / (testsToRunStartCount + 1));
 
-            NunitManager.RunTestCase(currentTest);
+            NunitManager.RunTestCase(currentTest,explicitRun);
 
             testRunWorker.ReportProgress(100 * (testsToRunStartCount - testsToRun.Count + 1) / (testsToRunStartCount + 1));
 

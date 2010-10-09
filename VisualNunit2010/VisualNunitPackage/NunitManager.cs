@@ -172,7 +172,7 @@ namespace BubbleCloudorg.VisualNunit
         /// </summary>
         /// <param name="testInformation">Information identifying the test case and containing place holders for result information.</param>
         /// <param name="debug">Set to true to enable debug mode.</param>
-        public static void RunTestCase(TestInformation testInformation)
+        public static void RunTestCase(TestInformation testInformation,bool explicitRun)
         {
             if (!testRunners.ContainsKey(testInformation.AssemblyPath))
             {
@@ -183,7 +183,7 @@ namespace BubbleCloudorg.VisualNunit
 
             try
             {
-                runnerInformation.Client.RunTest(testInformation);
+                runnerInformation.Client.RunTest(testInformation, explicitRun);
             }
             catch (Exception e)
             {

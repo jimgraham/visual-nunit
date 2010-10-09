@@ -106,10 +106,16 @@ namespace VisualNunitLogic
         /// Signals RunnerServer to execute the test and fills in test result to test information object.
         /// </summary>
         /// <param name="testInformation">The test to be executed.</param>
-        public void RunTest(TestInformation testInformation)
+        public void RunTest(TestInformation testInformation, bool explicitRun)
         {
             // Signal the test execution.
-            byte[] testNameBytes = Encoding.UTF8.GetBytes(testInformation.TestName);
+            String testName = testInformation.TestName;
+            if (explicitRun)
+            {
+                testName += "!";
+            }
+
+            byte[] testNameBytes = Encoding.UTF8.GetBytes(testName);
             pipe.Write(testNameBytes, 0, testNameBytes.Length);
             pipe.Flush();
 

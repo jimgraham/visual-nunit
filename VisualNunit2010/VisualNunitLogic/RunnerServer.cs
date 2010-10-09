@@ -107,11 +107,14 @@ namespace VisualNunitLogic
                     string testName = ReadTestName();
                     if (testName != null)
                     {
-                        string result = RunTest(testName);
-                        if (result != null)
+                        bool explicitRun = false;
+                        if (testName.EndsWith("!"))
                         {
-                            WriteTestResult(result);
+                            explicitRun = true;
+                            testName = testName.Substring(0, testName.Length - 1);
                         }
+                        string result = RunTest(testName, explicitRun);
+                        WriteTestResult(result);
                     }
                 }
             }
@@ -177,7 +180,7 @@ namespace VisualNunitLogic
         /// </summary>
         /// <param name="testName"></param>
         /// <returns>Result XML document</returns> 
-        private string RunTest(string testName)
+        private string RunTest(string testName, bool explicitRun)
         {
             // Execute the give test.
             SimpleNameFilter testFilter = new SimpleNameFilter();
@@ -205,14 +208,16 @@ namespace VisualNunitLogic
                 {
                     if (test.TestName.FullName.Equals(testName))
                     {
-                        result = ((Test)test).Run(this, null);
+                        if (!explicitRun && test.RunState == RunState.Explicit)
+                        {
+                            result = new TestResult(test.TestName);
+                        }
+                        else
+                        {
+                            result = ((Test)test).Run(this, null);
+                        }
                     }
                 }
-            }
-
-            if (result == null)
-            {
-                return null;
             }
 
             // Trace error stack trace.
