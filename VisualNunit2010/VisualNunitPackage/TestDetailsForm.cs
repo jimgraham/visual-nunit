@@ -29,37 +29,40 @@ namespace BubbleCloudorg.VisualNunit
             table.Columns.Add("Method", typeof(String));
             table.Columns.Add("Row", typeof(String));
 
-            StringReader reader=new StringReader(testInformation.FailureStackTrace);
-
-            string line;
-            while ((line=reader.ReadLine())!=null)
+            if (testInformation.FailureStackTrace != null)
             {
-                if (line.StartsWith("at "))
+                StringReader reader = new StringReader(testInformation.FailureStackTrace);
+
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.Contains(" in "))
+                    if (line.StartsWith("at "))
                     {
-                        int methodStartIndex = 3;
-                        int methodEndIndex = line.LastIndexOf(" in ");
-                        int fileStartIndex = line.LastIndexOf(" in ") + 4;
-                        int fileEndIndex = line.LastIndexOf(":line ");
-                        int rowStartIndex = line.LastIndexOf(":line ") + 5;
-                        int rowEndIndex = line.Length;
-                        String method = line.Substring(methodStartIndex, methodEndIndex - methodStartIndex);
-                        String file = line.Substring(fileStartIndex, fileEndIndex - fileStartIndex);
-                        String row = line.Substring(rowStartIndex, rowEndIndex - rowStartIndex);
-                        table.Rows.Add(file, method, row);
+                        if (line.Contains(" in "))
+                        {
+                            int methodStartIndex = 3;
+                            int methodEndIndex = line.LastIndexOf(" in ");
+                            int fileStartIndex = line.LastIndexOf(" in ") + 4;
+                            int fileEndIndex = line.LastIndexOf(":line ");
+                            int rowStartIndex = line.LastIndexOf(":line ") + 5;
+                            int rowEndIndex = line.Length;
+                            String method = line.Substring(methodStartIndex, methodEndIndex - methodStartIndex);
+                            String file = line.Substring(fileStartIndex, fileEndIndex - fileStartIndex);
+                            String row = line.Substring(rowStartIndex, rowEndIndex - rowStartIndex);
+                            table.Rows.Add(file, method, row);
+                        }
+                        else
+                        {
+                            int methodStartIndex = 3;
+                            int methodEndIndex = line.Length;
+                            String method = line.Substring(methodStartIndex, methodEndIndex - methodStartIndex);
+                            table.Rows.Add(null, method, null);
+                        }
                     }
                     else
                     {
-                        int methodStartIndex = 3;
-                        int methodEndIndex = line.Length;
-                        String method = line.Substring(methodStartIndex, methodEndIndex - methodStartIndex);
-                        table.Rows.Add(null, method, null);
+                        break;
                     }
-                }
-                else
-                {
-                    break;
                 }
             }
 
@@ -94,7 +97,8 @@ namespace BubbleCloudorg.VisualNunit
             {
                 Close();
                 DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-                dte.ItemOperations.OpenFile((String)dataRow["File"]);
+                String fileName = (String)dataRow["File"];
+                dte.ItemOperations.OpenFile(fileName);
                 TextSelection selection = (TextSelection)dte.ActiveDocument.Selection;
                 selection.GotoLine(Convert.ToInt16(dataRow["Row"]), true);
             }

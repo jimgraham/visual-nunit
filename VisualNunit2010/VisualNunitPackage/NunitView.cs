@@ -33,6 +33,8 @@ namespace BubbleCloudorg.VisualNunit
         private Bitmap debugIcon = null;
         private Bitmap stopIcon = null;
         private Bitmap homeIcon = null;
+        private ToolTip toolTip = null;
+
 
         public NuniView()
         {
@@ -50,8 +52,18 @@ namespace BubbleCloudorg.VisualNunit
 
             dataGridView1.AutoGenerateColumns = false;
 
+            toolTip = new ToolTip();
+            toolTip.AutoPopDelay = 5000;
+            toolTip.InitialDelay = 1000;
+            toolTip.ReshowDelay = 500;
+            toolTip.ShowAlways = true;
+
             runTestsButton.Image = runIcon;
-            homeButton.Image = homeIcon; 
+            toolTip.SetToolTip(runTestsButton, "Run All or Selected Tests");
+
+            homeButton.Image = homeIcon;
+            toolTip.SetToolTip(homeButton, "View Support Page");
+
             statusButton.Image = emptyIcon;
 
             uint cookie;
@@ -422,6 +434,7 @@ namespace BubbleCloudorg.VisualNunit
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             dataGridView1.Rows[e.RowIndex].Cells["Debug"].Value = debugIcon;
+            dataGridView1.Rows[e.RowIndex].Cells["Debug"].ToolTipText = "Debug Test";
             dataGridView1.Rows[e.RowIndex].Cells["Success"].Value = emptyIcon;
         }
 
@@ -550,11 +563,14 @@ namespace BubbleCloudorg.VisualNunit
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            TestDetailsForm testDetailsForm = new TestDetailsForm();
-            DataRow row = ((DataRowView)dataGridView1.CurrentRow.DataBoundItem).Row;
-            TestInformation testInformation = (TestInformation)row["TestInformation"];
-            testDetailsForm.SetTestInformation(testInformation);
-            testDetailsForm.ShowDialog();
+            if (e.RowIndex != -1)
+            {
+                TestDetailsForm testDetailsForm = new TestDetailsForm();
+                DataRow row = ((DataRowView)dataGridView1.Rows[e.RowIndex].DataBoundItem).Row;
+                TestInformation testInformation = (TestInformation)row["TestInformation"];
+                testDetailsForm.SetTestInformation(testInformation);
+                testDetailsForm.ShowDialog();
+            }
         }
 
         private void testRunWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -632,7 +648,7 @@ namespace BubbleCloudorg.VisualNunit
                     statusButton.Image=failureIcon;
                 }
 
-                statusLabel.Text="Total tests run: "+(successes+failures)+" Failures: "+failures+" "+(successes+failures!=0?"("+(100*failures/(successes+failures))+"%)":"");
+                statusLabel.Text="Total tests run: "+(successes+failures)+" - Failures: "+failures+" "+(successes+failures!=0?"("+(100*failures/(successes+failures))+"%)":"");
 
             }
         }
