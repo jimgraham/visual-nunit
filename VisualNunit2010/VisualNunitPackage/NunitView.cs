@@ -288,11 +288,19 @@ namespace BubbleCloudorg.VisualNunit
 
             if (loadedTestCases != null)
             {
-                foreach (string testCase in loadedTestCases)
+                foreach (string testCaseFullName in loadedTestCases)
                 {
                     TestInformation testInformation = new TestInformation();
                     testInformation.AssemblyPath = assemblyPath;
-                    testInformation.TestName = testCase;
+                    testInformation.TestName = testCaseFullName;
+
+                    String testCase = testCaseFullName;
+                    String testCaseParametrization = "";
+                    if (testCaseFullName.Contains("("))
+                    {
+                        testCase = testCaseFullName.Substring(0, testCaseFullName.IndexOf("("));
+                        testCaseParametrization = testCaseFullName.Substring(testCaseFullName.IndexOf("("));
+                    }
 
                     string[] nameParts = testCase.Split('.');
 
@@ -302,15 +310,15 @@ namespace BubbleCloudorg.VisualNunit
 
                     if (nameParts.Length > 2)
                     {
-                        testName = nameParts[nameParts.Length - 1];
+                        testNamespace = testCase.Substring(0, testCase.Length - (nameParts[nameParts.Length - 2].Length + nameParts[nameParts.Length - 1].Length + 2));
                         caseName = nameParts[nameParts.Length - 2];
-                        testNamespace = testCase.Substring(0, testCase.Length - (caseName.Length + testName.Length + 2));
+                        testName = nameParts[nameParts.Length - 1] + testCaseParametrization;
                     }
                     else
                     {
-                        testName = nameParts[nameParts.Length - 1];
-                        caseName = nameParts[nameParts.Length - 2];
                         testNamespace = "";
+                        caseName = nameParts[nameParts.Length - 2];
+                        testName = nameParts[nameParts.Length - 1] + testCaseParametrization;
                     }
 
                     if (namespaceComboBox.SelectedIndex != -1 && !testNamespace.Equals(namespaceComboBox.SelectedItem))

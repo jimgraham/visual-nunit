@@ -108,7 +108,10 @@ namespace VisualNunitLogic
                     if (testName != null)
                     {
                         string result = RunTest(testName);
-                        WriteTestResult(result);
+                        if (result != null)
+                        {
+                            WriteTestResult(result);
+                        }
                     }
                 }
             }
@@ -178,9 +181,39 @@ namespace VisualNunitLogic
         {
             // Execute the give test.
             SimpleNameFilter testFilter = new SimpleNameFilter();
+            
             testFilter.Add(testName);
+
             TestSuite testSuite = new TestBuilder().Build(assemblyName, true);
-            TestResult result = testSuite.Run(this, testFilter);
+            //TestResult result = testSuite.Run(this, testFilter);
+
+            TestResult result = null;
+            Queue<ITest> testQueue = new Queue<ITest>();
+            testQueue.Enqueue(testSuite);
+            while (testQueue.Count > 0)
+            {
+                ITest test = testQueue.Dequeue();
+
+                if (test.Tests != null)
+                {
+                    foreach (ITest childTest in test.Tests)
+                    {
+                        testQueue.Enqueue(childTest);
+                    }
+                }
+                else
+                {
+                    if (test.TestName.FullName.Equals(testName))
+                    {
+                        result = ((Test)test).Run(this, null);
+                    }
+                }
+            }
+
+            if (result == null)
+            {
+                return null;
+            }
 
             // Trace error stack trace.
             if (result.StackTrace != null && result.StackTrace.Length > 0)
