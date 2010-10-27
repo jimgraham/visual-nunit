@@ -68,6 +68,8 @@ namespace BubbleCloudorg.VisualNunit
                 string fileName = Path.GetFileName(assemblyPath);
 
                 // Starting a new NunitRunner process.
+
+                // determine what item 
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
                 startInfo.WorkingDirectory = directory;
@@ -79,6 +81,8 @@ namespace BubbleCloudorg.VisualNunit
 
                 RunnerInformation runnerInformation = new RunnerInformation();
                 runnerInformation.Process = System.Diagnostics.Process.Start(startInfo);
+
+                // determine which mode we are in
                 runnerInformation.Client = new RunnerClient(runnerInformation.Process);
 
                 if (runnerInformation.Client.TestCases.Count > 0)

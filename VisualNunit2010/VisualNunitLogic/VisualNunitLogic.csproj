@@ -32,7 +32,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>VisualNunit.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>VisualNunitPackage.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VisualNunit.pfx" />
+    <None Include="VisualNunitPackage.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
