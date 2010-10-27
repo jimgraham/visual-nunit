@@ -23,7 +23,5 @@
   <References />
   <Content>
     <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
-    <CustomExtension Type="Executable">VisualNunitRunner-x86.exe</CustomExtension>
-    <CustomExtension Type="Config">VisualNunitRunner-x86.exe.config</CustomExtension>
   </Content>
 </Vsix>

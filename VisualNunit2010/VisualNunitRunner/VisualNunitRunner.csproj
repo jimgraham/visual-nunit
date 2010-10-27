@@ -154,7 +154,7 @@
     <MSBuild Targets="Build" Projects="$(MSBuildProjectFile)" Properties="Configuration=$(Configuration);Platform=%(Platforms.Platform)" StopOnFirstFailure="true" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(ProjectName)-x86$(TargetExt)*" "$(SolutionDir)VisualNunitPackage\$(OutDir)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(ProjectName)-x86$(TargetExt)*" "$(SolutionDir)VisualNunitPackage"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

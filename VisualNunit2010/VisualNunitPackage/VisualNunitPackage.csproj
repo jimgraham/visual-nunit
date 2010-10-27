@@ -114,10 +114,6 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="VisualNunitRunner-x86.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -135,10 +131,6 @@
     <EmbeddedResource Include="Icons\Home.png" />
     <EmbeddedResource Include="Icons\Support.png" />
     <Content Include="VisualNunit64x64.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="VisualNunitRunner-x86.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -169,6 +161,16 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="WindowsFormsIntegration.dll" />
+    <Content Include="VisualNunitRunner-x86.exe">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <IsAssembly>true</IsAssembly>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="VisualNunitRunner-x86.exe.config">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <IsAssembly>true</IsAssembly>
+      <Visible>false</Visible>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MyControl.xaml">
