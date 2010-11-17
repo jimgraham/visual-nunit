@@ -12,6 +12,11 @@ namespace VisualNunitLogic
     public enum PlatformType
     {
         /// <summary>
+        /// Unknown platform
+        /// </summary>
+        Unknown = -1,
+
+        /// <summary>
         /// The "Any CPU" platform.
         /// </summary>
         AnyCPU,
@@ -20,5 +25,10 @@ namespace VisualNunitLogic
         /// The "x86" platform
         /// </summary>
         X86,
+
+        /// <summary>
+        /// The "x64" platform
+        /// </summary>
+        X64,
     }
 }

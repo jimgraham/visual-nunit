@@ -135,7 +135,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <!-- these are the two separate Platforms that we want to build in one batch. -->
   <ItemGroup>

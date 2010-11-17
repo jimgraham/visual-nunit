@@ -9,6 +9,7 @@ using EnvDTE;
 using System.Xml;
 using Microsoft.VisualStudio.Shell;
 using VisualNunitLogic;
+using System.Management;
 
 namespace BubbleCloudorg.VisualNunit
 {
@@ -21,6 +22,17 @@ namespace BubbleCloudorg.VisualNunit
     public static class NunitManager
     {
         private static IDictionary<string, RunnerInformation> testRunners = new Dictionary<string, RunnerInformation>();
+        private static PlatformType _machinePlatform = GetMachinePlatform();
+
+        /// <summary>
+        /// Starts or restarts runner process and lists test cases it hosts.
+        /// </summary>
+        /// <param name="currentlyLoadingProject">The currently loading project.</param>
+        /// <returns></returns>
+        public static IList<string> StartRunner(ProjectInformation currentlyLoadingProject)
+        {
+            return StartRunner(currentlyLoadingProject.AssemblyPath, currentlyLoadingProject.Platform);
+        }
 
         /// <summary>
         /// Starts or restarts runner process and lists test cases it hosts.
@@ -29,7 +41,17 @@ namespace BubbleCloudorg.VisualNunit
         /// <returns></returns>
         public static IList<string> StartRunner(string assemblyPath)
         {
+            return StartRunner(assemblyPath, PlatformType.AnyCPU);
+        }
 
+        /// <summary>
+        /// Starts or restarts runner process and lists test cases it hosts.
+        /// </summary>
+        /// <param name="assemblyPath">Path to assembly to list test cases from.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static IList<string> StartRunner(string assemblyPath, PlatformType type)
+        {
             // If runner already exists then shutdown the existing runner.
             if (testRunners.ContainsKey(assemblyPath))
             {
@@ -71,7 +93,9 @@ namespace BubbleCloudorg.VisualNunit
 
                 // determine what item 
                 ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString() + "\\VisualNunitRunner.exe";
+                startInfo.FileName = Path.Combine(
+                    Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString(),
+                    GetNunitRunner(type));
                 startInfo.WorkingDirectory = directory;
                 startInfo.Arguments = "serve " + fileName;
                 startInfo.RedirectStandardOutput = false;
@@ -102,6 +126,59 @@ namespace BubbleCloudorg.VisualNunit
                 return new List<string>();
             }
 
+        }
+
+        /// <summary>
+        /// Gets the name of the VisualNunitRunner process based on the platform type,
+        /// and the current machine type
+        /// </summary>
+        /// <param name="platformType">the <see cref="PlatformType"/> of the Test project that is to be run</param>
+        /// <returns>the name of the executable that should run the test project</returns>
+        private static string GetNunitRunner(PlatformType platformType)
+        {
+            if (_machinePlatform == PlatformType.X64 && platformType == PlatformType.X86)
+            {
+                return "VisualNunitRunner-x86.exe";
+            }
+            // Can one compile x64 on an x86 machine?
+
+            return "VisualNunitRunner.exe";
+        }
+
+        /// <summary>
+        /// Determines the platform of the machine
+        /// </summary>
+        /// <returns></returns>
+        private static PlatformType GetMachinePlatform()
+        {
+            PlatformType type = PlatformType.Unknown;
+            try
+            {
+                using (ManagementClass mc = new ManagementClass("Win32_Processor"))
+                {
+                    foreach (ManagementObject mo in mc.GetInstances())
+                    {
+                        string width = mo.Properties["AddressWidth"].Value.ToString();
+                        switch (width)
+                        {
+                            case "64":
+                                type = PlatformType.X64;
+                                break;
+                            case "32":
+                                type = PlatformType.X86;
+                                break;
+                            default:
+                             break;
+                        }
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                // do nothing
+            }
+            return type;
         }
 
         /// <summary>
@@ -246,7 +323,6 @@ namespace BubbleCloudorg.VisualNunit
             testInformation.Stop = true;
             StartRunner(testInformation.AssemblyPath);
         }
-
     }
 
 }
