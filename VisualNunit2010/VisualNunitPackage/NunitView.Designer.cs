@@ -1,6 +1,6 @@
 namespace BubbleCloudorg.VisualNunit
 {
-    partial class NuniView
+    partial class NunitView
     {
         /// <summary> 
         /// Required designer variable.

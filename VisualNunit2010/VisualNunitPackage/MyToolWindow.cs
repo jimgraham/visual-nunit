@@ -46,7 +46,7 @@ namespace BubbleCloudorg.VisualNunit
             this.BitmapResourceID = 301;
             this.BitmapIndex = 1;
             WindowsFormsHost host = new WindowsFormsHost();
-            host.Child = new NuniView();
+            host.Child = new NunitView();
             control = host;
         }
 

@@ -20,7 +20,7 @@ namespace BubbleCloudorg.VisualNunit
     /// <summary>
     /// Summary description for MyControl.
     /// </summary>
-    public partial class NuniView : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
+    public partial class NunitView : UserControl, IVsSolutionEvents, IVsUpdateSolutionEvents
     {
         // These GUIDs come from http://msdn.microsoft.com/en-us/library/hb23x61k%28VS.80%29.aspx.
         private const string SolutionFolderKind = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
@@ -36,7 +36,7 @@ namespace BubbleCloudorg.VisualNunit
         private ToolTip toolTip = null;
 
 
-        public NuniView()
+        public NunitView()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             emptyIcon = new Bitmap(assembly.GetManifestResourceStream("BubbleCloudorg.VisualNunit.Icons.Empty.png"));
@@ -196,7 +196,6 @@ namespace BubbleCloudorg.VisualNunit
                 Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
                 if (configuration.IsBuildable)
                 {
-
                     String localPath = "";
                     String outputPath = "";
                     String outputFileName = "";
@@ -254,7 +253,7 @@ namespace BubbleCloudorg.VisualNunit
 
                     if (File.Exists(assemblyPath))
                     {
-                        ProjectInformation projectInformation = new ProjectInformation();
+                        ProjectInformation projectInformation = new ProjectInformation(configuration.PlatformName);
                         projectInformation.Name = project.Name;
                         projectInformation.AssemblyPath = assemblyPath;
                         projectsToLoad.Enqueue(projectInformation);
